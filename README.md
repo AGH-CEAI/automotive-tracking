@@ -5,7 +5,6 @@ This code performs object detection and tracking on automotive video data.
 ## Prerequisites
 
 Recommended environment can be installed on Unix systems via:
-- Python:
   ```bash
   # install Miniconda
   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -18,7 +17,7 @@ Recommended environment can be installed on Unix systems via:
   conda activate automotive
   pip install ultralytics opencv-python cap_from_youtube
   ```
-- Julia:
+<!-- - Julia:
   ```bash
   curl -fsSL https://install.julialang.org | sh
   juliaup add 1.6.7 # version 1.6.7 is recommended, since there are compatibility issues with OpenCV.jl for newer Julia versions
@@ -28,7 +27,7 @@ Recommended environment can be installed on Unix systems via:
   Then, in the opened Julia REPL:
   ```julia
   ] add OpenCV, CUDA, ObjectDetector, FileIO, ImageIO, VideoIO,
-  ```
+  ``` -->
 
 The video files must be first downloaded before running the code. This can be done using:
 - the bash script:
