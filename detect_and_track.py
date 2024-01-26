@@ -8,31 +8,53 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 from collections import defaultdict
+from cap_from_youtube import cap_from_youtube
+import argparse
+import os
 
-# Load an official or custom model
-model = YOLO('../models/yolov8n.pt')  # Load an official Detect model
-# model = YOLO('yolov8n-seg.pt')  # Load an official Segment model
-# model = YOLO('yolov8n-pose.pt')  # Load an official Pose model
-# model = YOLO('path/to/best.pt')  # Load a custom trained model
 
+# first we handle to arguments passed to the script:
+parser = argparse.ArgumentParser(
+    prog='python detect_and_track.py',
+    description='This code detects objects in a specified video, identifies them and tracks their trajectories',
+    epilog='To manually stop the processing, press "q"'
+)
+parser.add_argument('video_filename', type=str, nargs=1, action='store',
+                    help='Video file to be processed. It can be either a local path or a YouTube URL.')
+parser.add_argument('--max-frames', dest='max_frames',
+                    default=0, type=int,
+                    help='maximal number of frames to be processed')
+parser.add_argument('--every-nth', dest='every_nth',
+                    default=0, type=int,
+                    help='saves every nth frame to a .jpg')
+
+args = parser.parse_args()
+print(args)
+
+
+# Load the model
+print('loading the YOLO model ...')
+model = YOLO('models/yolov8n.pt')
 
 # Open the video file
-# fname="highway_drone_footage"
-# fname="apollo15_10_1_1st"
-fname="cars"
-# cap = cv2.VideoCapture("../videos/cars_n_palms.mp4")
-cap = cv2.VideoCapture("../videos/"+fname+".mp4")
-# cap = cv2.VideoCapture("https://youtu.be/40xZVEFVBuE?si=sYF-8V0nWvB4ztto")
+if "youtu" in args.video_filename:
+    print("Opening a video from YouTube ... ")
+    fname="from_yt"
+    cap = cap_from_youtube(args.video_filename, '720p')
+else:
+    print("Opening a local video file ... ")
+    path=''.join(args.video_filename)
+    fname=os.path.split(path)[-1]
+    cap = cv2.VideoCapture(path)
 
-# Store the track history
+
+# Initialize empty track history
 track_history = defaultdict(lambda: [])
 
 
-# Below VideoWriter object will create a frame of above defined The output  
-# is stored in 'output.mp4' file. 
-output_video = cv2.VideoWriter("../output/"+fname+"_output.mp4",  
-                        #  cv2.VideoWriter_fourcc(*'XVID'), # writer object
-                         cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),
+# Define the output file
+output_video = cv2.VideoWriter("output/processed_"+fname,  
+                         cv2.VideoWriter_fourcc(*'mp4v'), # writer object
                          int(cap.get(cv2.CAP_PROP_FPS)), # FPS
                          (852,480)) # frame size
 
@@ -46,7 +68,7 @@ while cap.isOpened():
     if success:
 
         # print(frame.shape)
-        frame = cv2.resize(frame, dsize=(852,480))# reshape to 480, 852
+        frame = cv2.resize(frame, dsize=(852,480)) # reshape to 480, 852
         # print(frame.shape)
 
         # Run YOLOv8 tracking on the frame, persisting tracks between frames
@@ -78,16 +100,12 @@ while cap.isOpened():
         output_video.write(annotated_frame)
 
         # save every n-th frame as jpg
-        if i % 100 == 0:
+        if i % args.every_nth == 0:
             print('saving 15-th frame ...')
-            cv2.imwrite("../output/frame%d.jpg" % i, annotated_frame)     # save frame as JPEG file 
+            cv2.imwrite("output/frame_%d.jpg" % i, annotated_frame)     # save frame as JPEG file  
 
-        # if i==100:
-        #     print("ok, that's enough ...")
-        #     break
-
-        # Break the loop if 'q' is pressed
-        if cv2.waitKey(1) & 0xFF == ord("q"):
+        if (i==args.max_frames) & (args.max_frames>0):
+            print("ok, that's enough ...")
             break
     else:
         print("failed to read the frame :<")
@@ -98,3 +116,5 @@ while cap.isOpened():
 cap.release()
 output_video.release()
 cv2.destroyAllWindows()
+
+print("Finished processing the file!")
