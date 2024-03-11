@@ -13,9 +13,9 @@ Recommended environment can be installed on Unix systems via:
   conda list # Verify the installaton
 
   # create separate environment and install necessary packages:
-  conda create -n automotive python=3.11.7 numpy moviepy
+  conda create -n automotive python=3.11.7 numpy
   conda activate automotive
-  pip install ultralytics opencv-python cap_from_youtube
+  pip install ultralytics opencv-python cap_from_youtube moviepy
   ```
 <!-- - Julia:
   ```bash
