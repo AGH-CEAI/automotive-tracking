@@ -42,9 +42,9 @@ The video files must be first downloaded before running the code. This can be do
 
 ## How to run
 
-The object detection and tracking can be run from the terminal:
+The object detection and tracking with YOLO can be run from the terminal:
 ```bash
-python detect_and_track.py videos/video_filename.mp4 --arg1
+python src/detect_and_track_YOLO.py videos/video_filename.mp4 --arg1
 ```
 
-or by using the jupyter notebooks provided in `examples/`
+or by using the notebook: `examples/detect_and_track_YOLO.ipynb`
