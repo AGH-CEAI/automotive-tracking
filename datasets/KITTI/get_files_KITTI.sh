@@ -5,8 +5,8 @@
 # (https://www.cvlibs.net/datasets/kitti/eval_tracking.php)        #
 # -----------------------------------------------------------------#
 
-cout "downloading KITTI object tracking dataset ..."
-§
+echo "downloading KITTI object tracking dataset ..."
+
 wget --show-progress \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_image_2.zip \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_image_3.zip \
@@ -18,4 +18,4 @@ wget --show-progress \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_det_2_regionlets.zip \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_tracking.zip \
 
-cout "done!"
+echo "done!"
