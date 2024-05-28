@@ -17,13 +17,13 @@ import shlex
 # Read the arguments:
 parser = argparse.ArgumentParser()
 parser.add_argument("user_email",
-                    help="email associated with a registered account at https://www.nuscenes.org/")
+                    help="email associated with a registered account at https://www.nuscenes.org/ It it highly advised to pass it inside '', e.g. 'myemail@abc.com', to avoid problems with escape characters!")
 parser.add_argument("user_password",
-                    help="password associated with a registered account at https://www.nuscenes.org/")
+                    help="password associated with a registered account at https://www.nuscenes.org/ It it highly advised to pass it inside '', e.g. 'myVERYsafePaSSw0rD', to avoid problems with escape characters!")
 args = parser.parse_args()
 print('Trying to download the nuScenes dataset ...')
-print('your email: ',shlex.quote(args.user_email))
-print('your password: ',shlex.quote(args.user_password),'\n')
+print('your email: ',args.user_email)
+print('your password: ',args.user_password,'\n')
 
 
 output_dir = "" # just save here
