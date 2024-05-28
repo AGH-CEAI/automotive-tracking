@@ -21,8 +21,8 @@ parser.add_argument("user_password",
                     help="password associated with a registered account at https://www.nuscenes.org/")
 args = parser.parse_args()
 print('Trying to download the nuScenes dataset ...')
-print('your email: ',args.user_email)
-print('your password: ',args.user_password,'\n')
+print('your email: ',str(args.user_email))
+print('your password: ',str(args.user_password),'\n')
 
 
 output_dir = "" # just save here
