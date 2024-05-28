@@ -12,7 +12,7 @@ case $1 in
   *"help"*)
     echo """
     Usage:
-      --help        prints this help
+      --help        prints help
       -challenges   downloads only the challenge files
       -longterm     downloads the long-term data
       -roundabouts  downloads the data from roundabouts
@@ -104,7 +104,17 @@ case $1 in
     ;;
 
   *)
-    echo >&2 "Invalid option: $@"; exit 1;;
+    echo >&2 "Invalid option: $@";
+    echo """
+    Usage:
+      --help        prints help
+      -challenges   downloads only the challenge files
+      -longterm     downloads the long-term data
+      -roundabouts  downloads the data from roundabouts
+      -all          downloads everything
+    """;
+    exit 1;
+    ;;
     
 esac
 
