@@ -12,6 +12,7 @@ import tarfile
 import gzip
 import json
 import argparse
+import shlex
 
 # Read the arguments:
 parser = argparse.ArgumentParser()
@@ -21,8 +22,8 @@ parser.add_argument("user_password",
                     help="password associated with a registered account at https://www.nuscenes.org/")
 args = parser.parse_args()
 print('Trying to download the nuScenes dataset ...')
-print('your email: ',str(args.user_email).decode('string_escape'))
-print('your password: ',str(args.user_password).decode('string_escape'),'\n')
+print('your email: ',shlex.quote(args.user_email))
+print('your password: ',shlex.quote(args.user_password),'\n')
 
 
 output_dir = "" # just save here
