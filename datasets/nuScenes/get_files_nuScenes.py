@@ -12,16 +12,14 @@ import tarfile
 import gzip
 import json
 import argparse
-import string
 
 # Read the arguments:
 parser = argparse.ArgumentParser()
-parser.add_argument("user_email", type=string, 
+parser.add_argument("user_email",
                     help="email associated with a registered account at https://www.nuscenes.org/")
-parser.add_argument("user_password", type=string,
+parser.add_argument("user_password",
                     help="password associated with a registered account at https://www.nuscenes.org/")
 args = parser.parse_args()
-print(args.echo)
 
 
 output_dir = "" # just save here
