@@ -105,7 +105,7 @@ case $1 in
 
   *)
     echo >&2 "Invalid option: $@"; exit 1;;
-    ;;
+    
 esac
 
 
