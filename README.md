@@ -4,6 +4,10 @@ This code performs object detection and tracking on automotive video data.
 
 ## Prerequisites
 
+To be able to perform object detection and tracking, one must first prepare the environment and the data.
+
+### Setting up the environment
+
 Recommended environment can be installed on Unix systems via:
   ```bash
   # install Miniconda
@@ -17,30 +21,17 @@ Recommended environment can be installed on Unix systems via:
   conda activate automotive
   pip install ultralytics opencv-python cap_from_youtube moviepy jupyter
   ```
-<!-- - Julia:
-  ```bash
-  curl -fsSL https://install.julialang.org | sh
-  juliaup add 1.6.7 # version 1.6.7 is recommended, since there are compatibility issues with OpenCV.jl for newer Julia versions
-  juliaup default 1.6.7
-  julia
-  ```
-  Then, in the opened Julia REPL:
-  ```julia
-  ] add OpenCV, CUDA, ObjectDetector, FileIO, ImageIO, VideoIO,
-  ``` -->
 
-The video files must be first downloaded before running the code. This can be done using:
-- the bash script:
-  ```bash
-  bash get_files.sh
-  ```
-- or the python script:
-  ```bash
-  python get_files.py
-  ```
+### Obtaining the data
+
+If just playing with YOLO model, it is enough to find a YouTube url or a local video/image file of interest and use it with `/src/detect_and_track_YOLO.py` or `examples/detect_and_track_YOLO.ipynb`.
+
+To get the large automotive datasets with object annotations etc., one can use the download scripts, provided in their respective subdirectories in `datasets/`.
 
 
 ## How to run
+
+### Simple YOLO
 
 The object detection and tracking with YOLO can be run from the terminal:
 ```bash
@@ -48,3 +39,8 @@ python src/detect_and_track_YOLO.py videos/video_filename.mp4 --arg1
 ```
 
 or by using the notebook: `examples/detect_and_track_YOLO.ipynb`
+
+### QUBO
+
+This has not been implemented yet.
+
