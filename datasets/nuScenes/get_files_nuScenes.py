@@ -20,13 +20,15 @@ parser.add_argument("user_email",
                     help="email associated with a registered account at https://www.nuscenes.org/ It it highly advised to pass it inside '', e.g. 'myemail@abc.com', to avoid problems with escape characters!")
 parser.add_argument("user_password",
                     help="password associated with a registered account at https://www.nuscenes.org/ It it highly advised to pass it inside '', e.g. 'myVERYsafePaSSw0rD', to avoid problems with escape characters!")
+parser.add_argument("output_dir",
+                    help="directory to which the files should be saved")
 args = parser.parse_args()
 print('Trying to download the nuScenes dataset ...')
 print('your email: ',args.user_email)
 print('your password: ',args.user_password,'\n')
 
 
-output_dir = "" # just save here
+output_dir = args.output_dir # just save here
 region = 'asia' # 'us' or 'asia'
 
 

@@ -7,6 +7,8 @@
 
 echo "downloading KITTI object tracking dataset ..."
 
+cd ../
+
 wget --show-progress \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_image_2.zip \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_image_3.zip \
@@ -16,6 +18,6 @@ wget --show-progress \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_label_2.zip \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_det_2_lsvm.zip \
   https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_det_2_regionlets.zip \
-  https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_tracking.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_tracking.zip -P $1 \
 
 echo "done!"

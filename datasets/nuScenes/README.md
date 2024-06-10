@@ -1,4 +1,4 @@
-# WARNING!
+# NuScenes
 
 The dataset is large (395GB), hence the download may take considerable time. It is advisable to run the script with `nohup` and putting the args inside `''` (to avoid potential problems with escape characters):
 
