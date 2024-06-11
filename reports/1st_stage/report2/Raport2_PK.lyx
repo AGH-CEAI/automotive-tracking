@@ -1,0 +1,689 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass mwart
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Raport końcowy z wykonanych prac w ramach umowy poz.
+ 1/01/689/2024
+\end_layout
+
+\begin_layout Author
+Piotr Kalaczyński
+\end_layout
+
+\begin_layout Section*
+Szczegółowy wykaz obowiązków:
+\end_layout
+
+\begin_layout Enumerate
+Zebranie obrazów z przejazdów pojazdów mechanicznych
+\end_layout
+
+\begin_layout Enumerate
+Detekcja obiektów w pozyskanych danych
+\end_layout
+
+\begin_layout Enumerate
+Wyznaczanie trajektorii dla poruszających się obiektów
+\end_layout
+
+\begin_layout Enumerate
+Porównanie problemu ze śledzeniem cząstek w detektorach
+\end_layout
+
+\begin_layout Enumerate
+Opracowanie raportu
+\end_layout
+
+\begin_layout Section
+Dokumentacja:
+\end_layout
+
+\begin_layout Standard
+Cały kod rozwijany w ramach wyznaczonych zadań przechowywany jest w formie
+ otwartej w oficjalnym repozytorium CDSI: 
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub/AGH-CEAI/automotive-tracking"
+target "https://github.com/AGH-CEAI/automotive-tracking"
+literal "false"
+
+\end_inset
+
+.
+ Dokumentacja zawarta jest w pliku 
+\begin_inset CommandInset href
+LatexCommand href
+name "README.md"
+target "https://github.com/AGH-CEAI/automotive-tracking/blob/main/README.md"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Postęp prac:
+\end_layout
+
+\begin_layout Standard
+Zrealizowane zostały wszystkie wyznaczone zadania, w szczególności w stosunku
+ do raportu częściowego uzupełnione zostało porównanie problemu ze śledzeniem
+ cząstek w detektorach.
+\end_layout
+
+\begin_layout Subsection
+Identyfikacja przypadków problematycznych dla śledzenia trajektorii
+\end_layout
+
+\begin_layout Standard
+Zostały zidentyfikowane przykłady przypadków sprawiających problemy przy
+ śledzeniu trajektorii.
+ Problem za każdym razem polega na utracie ciągłości identyfikacji w wyniku
+ przecięcia trajektorii: obiekt traci swój oryginalny ID i zostaje mu po
+ ponownym wykryciu przypisany nowy.
+ Widać to dobrze na przykładzie zaprezentowanym na Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Przykładowe-klatki"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Podobny problem może występować kiedy obiekt np.
+ zniknie na chwilę w tunelu itd.
+ Rozwiązaniem może być zastosowanie modelu z pamięcią długoterminową (zapamiętuj
+ącego obiekt i szukającego go dalej w obrazie), np.
+ 
+\begin_inset CommandInset href
+LatexCommand href
+name "arxiv/2307.15700"
+target "https://arxiv.org/abs/2307.15700"
+literal "false"
+
+\end_inset
+
+ czy 
+\begin_inset CommandInset href
+LatexCommand href
+name "mdpi/2227-7080/12/2/15"
+target "https://www.mdpi.com/2227-7080/12/2/15"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename from_yt_5_frame_200.jpg
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sytuacja przed przecięciem trajektorii.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename from_yt_5_frame_700.jpg
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Sytuacja po przecięciu trajektorii.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowe klatki z nagrania zawierającego problematyczne (tj.
+ przecinające się) trajektorie.
+ Źródło: 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/dDE3d6mEfn8?si=SvHtUaRAlNVa9mLO"
+target "youtu.be/dDE3d6mEfn8?si=SvHtUaRAlNVa9mLO"
+literal "false"
+
+\end_inset
+
+.
+ Człowiek prowadzący rower najpierw ma ID 41, a potem 148, identyfikacja
+ obiektu jako osoba jest cały czas poprawna, ale nie udaje się zachować
+ ciągłości.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Przykładowe-klatki"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Porównanie problemów śledzenia trajektorii pojazdów i cząstek w detektorach
+\end_layout
+
+\begin_layout Standard
+Problemy śledzenia pojazdów i cząstek elementarnych są w pewien sposób tożsame,
+ ponieważ w obu przypadkach mamy do czynienia z trajektorią.
+ Znaczne różnice tkwią jednak w szczegółach i specyfice tego, jakich trajektorii
+ można się spodziewać.
+ Krótkie podsumowanie różnic pomiędzy śledzeniem pojazdów i cząstek elementarnyc
+h zawarte jest w Tab.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Krótkie-podsumowanie-różnic"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Krótkie podsumowanie różnic pomiędzy śledzeniem trajektorii pojazdów i cząstek
+ elementarnych.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Krótkie-podsumowanie-różnic"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="3cm">
+<column alignment="center" valignment="top" width="6cm">
+<column alignment="center" valignment="top" width="6cm">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pojazdy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cząstki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+format danych
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+klatki filmu: ciągły szereg czasowy obrazów RGB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+zależnie od detektora, dane mogą być w formie przebiegów czasowych fotopowielacz
+y, lub już zdyskretyzowanych tzw.
+ hit-ów (przypadków, kiedy napięcie przekroczyło zadany próg)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+spodziewany kształt
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pojedyncza trajektoria, możliwy bardzo nieregularny kształt, zwłaszcza w
+ przypadku ludzi i jednośladóW
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+możliwe rozgałęziające się trajektorie w przypadku oddziaływań lub rozpadów.
+ Linie proste lub okręgi/spirale, w zależności od braku lub obecności pola
+ magnetycznego w detektorze.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+zasłanianie się nazwajem obiektów
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tak
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+nie (sumowanie sygnałów)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rekonstrukcja wielu obiektów jednocześnie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+relatywnie prosta
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+zazwyczaj bardzo trudna ze względu na rozproszenie detektorów i w zasadzie
+ niemożliwa dla pojedynczej klatki
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+próbkowanie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+standardowo raczej nie więcej niż 60 HZ (60 FPS), ponieważ ludzkie oko nie
+ rozróżnia powyżej tej wartości
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+~kHz dla detektorów bazujących na fotopowielaczach, ~MHz przy użyciu SiPM-ów,
+ ogólnie raczej wyższe próbkowanie
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+W przypadku obrazów wideo z pojazdami czy ludźmi, detekcja obiektów dla
+ pojedynczej klatki jest jak najbardziej możliwa, co było prezentowane w
+ tym i poprzednim raporcie.
+ Identyfikacja cząstki elementarnej po pojedynczej klatce z detektora (rozumiane
+j jako stan detektora w danym momencie) może już nie być możliwa, a przynajmniej
+ być dużo bardziej wymagająca.
+ Wynika to z faktu, że identyfikacja cząstek jest w dużej mierze nierozerwalnie
+ związana z rekonstrukcją ich torów ruchu oraz powiązanych z nimi strat
+ energii 
+\begin_inset Formula $\frac{dE}{dx}$
+\end_inset
+
+.
+ Dodatkowym utrudnieniem jest występowanie tła pomiarowego np.
+ naturalnej radioaktywności, bioluminescencji (w przypadku detektorów ANTARES,
+ czy KM3NeT-u i innych morskich), czy szumu samej elektroniki.
+ Takie tło na pojedynczej klatce może wyglądać tak samo jak nadlatująca
+ cząstka, zresztą w pierwszych dwóch przypadkach naprawdę nią jest.
+ Przykładowo, takim tłem może być sygnał od fotonów o energiach 
+\begin_inset Formula $\sim1\,$
+\end_inset
+
+MeV, powstających w rozpadach 
+\begin_inset Formula $^{40}K$
+\end_inset
+
+.
+ Dopiero ślad skorelowany pomiędzy klatkami będzie świadczył, że przeleciała
+ tam wysokoenergetyczna (dla wspomnianych już wodnych teleskopów neutrinowych,
+ 
+\begin_inset Formula $E>\mathsf{GeV}$
+\end_inset
+
+) cząstka.
+ Zadanie identyfikacji cząstki z pojedynczej klatki z detektora wydaje się
+ nie oferować możliwości uzyskania kwantowej przewagi.
+\end_layout
+
+\begin_layout Standard
+Miejscem, gdzie potencjalnie algorytmy kwantowe mogłyby mieć przewagę jest
+ za to rekonstrukcja wielu torów jednocześnie.
+ O ile dla obiektów makroskopowych typu pojazdy mechaniczne jest ona względnie
+ trywialna, o tyle dla cząstek elementarnych pozostaje wyzwaniem, szczególnie
+ w przypadku rzadziej zinstrumentowanych detektorów.
+ Podejście kwantowe próbowano zastosować między innymi do rekonstrukcji
+ torów cząstek w LHC: 
+\begin_inset CommandInset href
+LatexCommand href
+name "LHCb"
+target "https://iopscience.iop.org/article/10.1088/1748-0221/18/11/P11028"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "arXiv:2402.14718v1"
+target "https://arxiv.org/abs/2402.14718v1"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "LUXE"
+target "https://link.springer.com/article/10.1007/s41781-023-00109-6"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "springer/10.1007/s41781-019-0032-5"
+target "https://link.springer.com/article/10.1007/s41781-019-0032-5"
+literal "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "springer/10.1007/s42484-021-00054-w"
+target "https://link.springer.com/article/10.1007/s42484-021-00054-w"
+literal "false"
+
+\end_inset
+
+.
+ Testowane podejście opierało się na opisaniu problemu jako quadratic unconstrai
+ned binary optimization (QUBO), które może być rozwiązane na wyżarzaczu
+ kwantowym (lub klasycznym komputerze symulującym taki wyżarzacz).
+ Wspólnym mianownikiem we wszystkich wspomnianych przypadkach była na ten
+ moment niewystarczająca dostępna kwantowa moc obliczeniowa, t.j.
+ aby opisać pełny zadany problem potrzeba komputera kwantowego z 
+\begin_inset Formula $\sim10^{4}-10^{5}$
+\end_inset
+
+qubitów (1 qubit na 1 hit w detektorze).
+ To ograniczenie skutkowało niemożliwością pełnej oceny skuteczności zaproponowa
+nej metody.
+ Pewnym krokiem w kierunku lepszej testowalności mogłoby być użycie danych
+ z detektorów rzadziej zinstrumentowanych niż LHC, np.
+ z teleskopu neutrinowego znajdującego się na biegunie południowym: IceCube.
+ Dobór przykładu jest tu nieprzypadkowy, ponieważ jest publicznie dostępny
+ zbiór danych z wyzwania na platformie Kaggle: 
+\begin_inset CommandInset href
+LatexCommand href
+target "kaggle/icecube-neutrinos-in-deep-ice/data"
+literal "false"
+
+\end_inset
+
+, w którym zadaniem było właśnie wyznaczanie kierunku (a więc trajektorii)
+ dla neutrin.
+ Dla tych danych jest więc wiele wyników z którymi można się porównywać,
+ a także powinny one być przyjaźniejsze mniejszym architekturom kwantowych
+ wyżarzaczy, ponieważ maksymalna liczba jednoczesnych hit-ów dla IceCube-a
+ to 5160 (łączna liczba fotopowielaczy w detektorze).
+\end_layout
+
+\end_body
+\end_document

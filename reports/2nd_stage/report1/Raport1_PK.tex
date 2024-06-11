@@ -1,0 +1,533 @@
+%% LyX 2.3.7 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[polish]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[latin2]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm,headheight=2cm,headsep=2cm,footskip=2cm}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stackrel}
+\usepackage{graphicx}
+\usepackage[unicode=true]
+ {hyperref}
+\usepackage[style=numeric-comp,sorting=none,giveninits=true]{biblatex}
+\addbibresource{AGH.bib}
+\begin{document}
+\title{Raport czê¶ciowy z wykonanych prac w ramach umowy poz. 1/04/689/2024}
+\author{Piotr Kalaczyñski}
+\date{~}
+\maketitle
+
+\part*{Szczegó³owy wykaz obowi±zków:}
+\begin{enumerate}
+\item Zgromadzenie danych z przejazdów pojazdów mechanicznych zawieraj±cych
+przes³aniaj±ce siê obiekty, pochodz±cych z wielu ¼róde³
+\item Przegl±d modeli energetycznych mog±cych s³u¿yæ do rozwi±zywania problemu
+¶ledzenia trajektorii
+\item Wygenerowanie trajektorii na podstawie zgromadzonych danych
+\item Opracowanie raportu
+\end{enumerate}
+
+\part*{Dokumentacja:}
+
+Ca³y kod rozwijany w ramach wyznaczonych zadañ przechowywany jest
+w formie otwartej w repozytorium \href{https://github.com/AGH-CEAI/automotive-tracking}{GitHub/AGH-CEAI/automotive-tracking}.
+Dokumentacja zawarta jest w pliku \href{https://github.com/pkalaczynski/automotive-tracking/blob/main/README.md}{README.md}.
+
+\part*{Postêp prac:}
+
+Dotychczas wykonane zosta³y nastêpuj±ce zadania:
+
+\section{Zgromadzenie danych z przejazdów pojazdów mechanicznych zawieraj±cych
+przes³aniaj±ce siê obiekty, pochodz±cych z wielu ¼róde³\label{chap:Zbiory-danych}}
+
+Zbiory danych zosta³y pozyskane z publicznie dostêpnych zasobów, w
+wiêkszo¶ci powi±zanych z konkretnymi publikacjami. Z uwagi na ograniczon±
+dostêpn± przestrzeñ dyskow±, nie ka¿dy zbiór danych mo¿e byæ na sta³e
+przechowywany na serwerze tatooine. Dla ka¿dego ze szczegó³owiej opisanych
+zosta³ jednak przygotowany skrypt pobieraj±cy, zlokalizowany w \href{https://github.com/AGH-CEAI/automotive-tracking/datasets}{GitHub/AGH-CEAI/automotive-tracking/datasets/[nazwa-zbioru-danych]/}.
+
+\subsection{KITTI}
+\begin{itemize}
+\item Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH):
+\\
+/home/piokal/datasets/KITTI
+\item Ca³kowity rozmiar po kompresji: 64GB
+\item Powi±zane publikacje: \cite{kitti-Geiger2012CVPR,kitti-Luiten2020IJCV}
+\item Wykorzystywane czujniki:
+\begin{itemize}
+\item 1 System nawigacji inercyjnej (GPS/IMU): OXTS RT 3003
+\item 1 Lidar (skaner laserowy): Velodyne HDL-64E
+\item 2 kamery nagrywaj±ce w skali szaro¶ci cameras, 1.4 Mpix: Point Grey
+Flea 2 (FL2-14S3M-C)
+\item 2 kamery nagrywaj±ce w kolorze, 1.4 Mpix: Point Grey Flea 2 (FL2-14S3C-C)
+\end{itemize}
+\end{itemize}
+
+\subsection{EU Long-term Dataset with Multiple Sensors for Autonomous Driving}
+\begin{itemize}
+\item Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH):
+\\
+/home/piokal/datasets/EU\_longerm
+\item Ca³kowity rozmiar wybranego podzbioru po kompresji: 94 GB
+\item Powi±zana publikacja \cite{yan_eu_2020}
+\item Wykorzystywane czujniki:
+\begin{itemize}
+\item Dwie kamery stereo:
+\begin{itemize}
+\item Bumblebee XB3 obrócona do przodu pojazdu, zamontowana na przodzie
+dachu.
+\item Bumblebee2 obrócona do ty³u pojazdu, zamontowana z ty³u dachu.
+\end{itemize}
+\item Dwa lidary Velodyne HDL-32E, zamontowane obok siebie na froncie dachu
+samochodu.
+\item Dwie kamery przemys³owe Pixelink PL-B742F z soczewkami typi ,,rybie
+oko'' Fujinon FE185C086HA-1, zainstalowane na ¶rodku dachu i zwrócone
+w kierunku boków samochodu.
+\item Lidar ibeo LUX 4L wbudowany w przedni zderzak blisko osi samochodu.
+\item Radar Continental ARS 308 zamocowany obok lidara ibeo LUX.
+\item Dalmierz laserowy (lidar 2D) SICK LMS100-10000, zamontowany na boku
+przedniego zderzaka i zwrócony w kierunku drogi.
+\item Nawigacja Magellan ProFlex 500 GNSS zamontowana wewn±trz samochodu,
+z dwiema antenami na dachu.
+\item Akcelerometr Xsens MTi-28A53G25 IMU zamontowany wewn±trz pojazdu.
+\end{itemize}
+\end{itemize}
+Zbiór danych zawiera miêdzy innymi szereg wyselekcjonowanych ,,wyzwañ'',
+które zosta³y umieszczone w podfolderze challenges. Zawieraj± one
+warunki drogowe potencjalnie utrudniaj±ce identyfikacjê obiektów:
+objazd z powodu robót drogowych, ronda, ¶nieg, nieprzepisow± jazdê
+innych kierowców, go³êbie na drodze, policjê, strefê wspólnego ruchu
+pieszych i pojazdów, czy zwê¿enia pasów ruchu.
+
+
+\subsection{nuScenes}
+\begin{itemize}
+\item Ca³kowity rozmiar po kompresji: 395GB (zbyt du¿o aby przechowywaæ
+na sta³e)
+\item Powi±zana publikacja \cite{nuscenes2019}
+\item Wykorzystywane czujniki:
+\begin{itemize}
+\item 6 kamer nagrywaj±cych w kolorze
+\item 1 obracaj±cy siê lidar
+\item 5 radarów
+\item system GPS
+\item system IMU
+\item system AHRS
+\end{itemize}
+\end{itemize}
+
+\subsection{Inne}
+
+Zidentyfikowanych zosta³o kilka dalszych potencjalnie interesuj±cych
+zbiorów danych, ale nie zosta³y pobrane na serwer tatooine ze wzglêdu
+na ograniczon± dostêpn± przestrzeñ dyskow±:
+\begin{itemize}
+\item KAIST \cite{KAIST}
+\item IDD \cite{IDD_indian_dataset}
+\item A2D2 \cite{A2D2_Audi_dataset}
+\item BDD100K \cite{BDD100K}
+\item Cityscapes \cite{Cityscapes}
+\item Leddar PixSet \cite{PixSet}
+\item PandaSet \cite{PandaSet}
+\item Waymo \cite{Waymo_dataset}
+\end{itemize}
+
+\section{Przegl±d modeli mog±cych s³u¿yæ do rozwi±zywania problemu ¶ledzenia
+trajektorii}
+
+Jest szereg modeli energetycznych, które mog± byæ stosowane do rozwi±zywania
+problemu ¶ledzenia trajektorii wielu obiektów (Multiple Object Tracking;
+MOT). Mo¿na je stosowaæ zarówno w klasycznych algorytmach optymalizacyjnych,
+jak i w charakterze Hamiltonianów u¿ywanych przy wyrzarzaniu kwantowym.
+Podstawowa procedura polega na zmapowaniu danego modelu do QUBO (quadratic
+unconstrained binary optimization), czyli problemu optymalizacyjnego:
+
+\begin{equation}
+f_{\mathsf{obj}}(x,Q)=x^{T}\cdot Q\cdot x=\stackrel[i=1]{n}{\sum}\stackrel[j=1]{n}{\sum}Q_{ij}x_{i}x_{j},
+\end{equation}
+gdzie $x$ to wektor zmiennych binarnych z warto¶ciami $x_{i}\in\left\{ 0,1\right\} $,
+$f_{\mathsf{obj}}$ to funkcja celu, a $Q$ to macierz trójk±tna,
+zawieraj±ca wagi dla ka¿dej pary indeksów $i,j$. Celem optymalizacji
+jest znalezienie ekstremum $x_{\mathsf{extr}}$ funkcji $f_{\mathsf{obj}}$.
+
+\subsection{Model Isinga}
+
+Model Isinga powsta³ aby opisaæ zachowanie materia³ów ferromagnetycznych.
+Opisuje on uk³ad spinów $S_{i}$ mog±cych przyjmowaæ jedynie 2 warto¶ci:
+-1 lub +1, równomiernie rozmieszczonych na dwuwymiarowej siatce. Energiê
+ca³ego uk³adu opisuje nastêpuj±cy hamiltonian:
+
+\begin{equation}
+H=-\frac{1}{2}\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}S_{i}S_{j}-\underset{i}{\sum}h_{i}S_{i},\label{eq:Ising}
+\end{equation}
+gdzie $i$, $j$ s± indeksami wêz³ów, a $\left\langle i,j\right\rangle $
+oznacza, ¿e jedynie s±siaduj±ce wêz³y s± brane pod uwagê i ka¿dy jest
+liczony jedynie raz. Parametr $J_{ij}$ okre¶la si³ê oddzia³ywania
+miêdzy spinami w danym wê¼le $ij$, a $h_{i}$ -- oddzia³ywanie zewnêtrznego
+pola magnetycznego z indywidualnym spinem $i$.
+
+\subsubsection{Sformu³owanie jako QUBO}
+
+Mapowanie modelu Isinga do QUBO jest raczej trywialne, poniewa¿ relacja
+pomiêdzy spinami, a zmienn± $x$ to:
+
+\begin{equation}
+x_{i}=\frac{1+S_{i}}{2},
+\end{equation}
+
+\begin{equation}
+S_{i}=2x_{i}-1,
+\end{equation}
+co wynika z potrzeby przesuniêcia bazy z $\left\{ -1,1\right\} $
+do $\left\{ 0,1\right\} $. Wyra¿enia kwadratowe w $f_{\mathsf{obj}}(x,Q)$
+bêd± odpowiada³y pierwszemu cz³onowi hamiltonianu w Równaniu \ref{eq:Ising},
+a liniowe --- drugiemu. Funkcja $f_{\mathsf{obj}}(x,Q)$ bêdzie w
+takim wypadku mia³a postaæ:
+\begin{flushleft}
+\begin{multline}
+\begin{aligned}f_{\mathsf{obj}}(x,Q) & =-\frac{1}{2}\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}\left(2x_{i}-1\right)\left(2x_{j}-1\right)-\underset{i}{\sum}h_{i}\left(2x_{i}-1\right)=...\\
+ & =\underset{\left\langle i,j\right\rangle }{\sum}\left(-4J_{ij}x_{i}x_{j}\right)-\underset{j}{\sum}\left(\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j}\right)x_{j}-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}-\underset{j}{\sum}h_{j}\\
+ & =\stackrel[i=1]{n}{\sum}\stackrel[j=1]{i}{\sum}Q_{ij}x_{i}x_{j}+C_{1}
+\end{aligned}
+\end{multline}
+\par\end{flushleft}
+
+Jako, ¿e przesuniêcie o sta³± nie ma ¿adnego znaczenia przy wyznaczaniu
+ekstremum (w tym przypadku minimum energii), $C_{1}=-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}-\underset{j}{\sum}h_{j}$
+mo¿na ¶mia³o zaniedbaæ i finalnie otrzymujemy
+
+\begin{equation}
+f_{\mathsf{obj}}(x,Q)=\underset{\left\langle i,j\right\rangle }{\sum}\left(-4J_{ij}x_{i}x_{j}\right)-\underset{j}{\sum}\left(\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j}\right)x_{j}=\stackrel[i=1]{n}{\sum}\stackrel[j=1]{i}{\sum}Q_{ij}x_{i}x_{j},\label{eq:Ising_QUBO}
+\end{equation}
+gdzie macierz $Q$ ma postaæ
+
+\begin{equation}
+Q_{ij}=\left\{ \begin{array}{cc}
+-4J_{ij} & \mathsf{dla\,i\neq j}\\
+\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j} & \mathsf{dla\,i=j}
+\end{array}\right..
+\end{equation}
+Z racji bardzo prostego liniowego przekszta³cenia miêdzy $x_{i}$
+a $S_{i}$ mówi siê, ¿e model Isinga jest to¿samy z QUBO.
+
+\subsubsection{Zastosowanie do analizy obrazów}
+
+Problem dopasowania stereo (dopasowania odpowiadaj±cych sobie pixeli
+z dwóch ró¿nych projekcji tego samego obrazu) mo¿na rozwi±zaæ definiuj±c
+funkcjê ,,energii'' analogiczn± do Modelu Isinga, któr± bêdzie mo¿na
+nastêpnie zminimalizowaæ:
+
+\begin{equation}
+f_{\mathsf{stereo}}(l)=\underset{\left\langle p,q\right\rangle \in\mathcal{N}}{\sum}V_{pq}\left(l_{p},l_{q}\right)-\underset{p\in\mathcal{P}}{\sum}D_{p}\left(l_{p}\right),
+\end{equation}
+gdzie etykietowania $l$ mapuj± pixele $p\in\mathcal{P}$ do etykiet
+ze zbioru $\mathcal{L}$, czyli $l:\mathcal{P}\rightarrow\mathcal{L}$,
+$D_{p}$ modeluje koszt przypisania $l_{p}$ do pixela $p$ (i $l_{q}$
+do pixela $q$), $V_{pq}$ modeluje koszt przypisania $l_{p}$ do
+pixela $p$ i $l_{q}$ do pixela $q$, je¶li pixele $p$ i $q$ s±siaduj±
+ze sob±. $\mathcal{N}$ to zbiór s±siaduj±cych par pixeli $\left\langle p,q\right\rangle $
+\cite{cruz-santos_qubo_2018}.
+
+\subsubsection{Pokrewne modele}
+
+Istnieje wiele generalizacji i wariantów modelu Isinga. Przyk³adowo,
+uogólniony model Potts'a dopuszcza dowoln± liczbê stanów spinów: $S_{i}=0,1,...,q$.
+Kolejnymi przyk³adami s± model XY, czy model Heisenberga, jednak nie
+znalaz³y szerokiego zastosowania w ¶ledzeniu trajektorii obiektów.
+
+
+\subsection{Probabilistyczne modele grafowe}
+
+Probabilistyczne modele grafowe (PGM) to rodzina modeli wykorzystuj±cych
+grafy do przedstawienia zale¿no¶ci pomiêdzy zmiennymi. W takich modelach
+wêz³y odpowiadaj± konkretnym zmiennym, a krawêdzie zale¿no¶ciom pomiêdzy
+tymi zmiennymi. Grafy mog± byæ skierowane (zale¿no¶æ miêdzy zmiennymi
+jest jednostronna), lub nieskierowane (zale¿no¶æ obustronna), a tak¿e
+cykliczne (zawieraj±ce zamkniête cykli/pêtli) lub acykliczne (nie
+zawieraj±ce zamkniêtych pêtli).
+
+\subsubsection{Modele Bayesowskie}
+
+Zale¿no¶ci miêdzy zmiennymi s± modelowane przy pomocy twierdzenia
+Bayesa:
+
+\begin{equation}
+P\left(\left.A\right|B\right)=\frac{P\left(\left.B\right|A\right)P\left(A\right)}{P\left(B\right)},
+\end{equation}
+gdzie $A$ i $B$ to zdarzenia i $P\left(B\right)>0$, a $P\left(\left.A\right|B\right)=\frac{P\left(A\cap B\right)}{P\left(B\right)}$
+oznacza prawdopodobieñstwo warunkowe (prawdopodobieñstwo $A$, o ile
+zajdzie $B$). Modele tego typu s± stosowane do problemów MOT \cite{Bayesian_tracking,Bayesian_online_tracking},
+co wiêcej mo¿na je sprowadziæ do problemu QUBO i tym samym rozwi±zaæ
+na wy¿arzaczu kwantowym \cite{bayesian_networs_with_QUBO}. Modele
+Bayesowskie s± te¿ nazywane sieciami Bayesowskimi i bazuj± na reprezentacji
+problemu jako skierowanego grafu acyklicznego. W porównaniu do sprowadzenia
+modelu Isinga do postaci QUBO (Równanie \ref{eq:Ising_QUBO}), przyk³adowe
+sprowadzenie problemu uczenia struktury sieci Bayesowskiej do QUBO
+jest zdecydowanie nietrywialne i przyk³adowo wynik z \cite{bayesian_networs_with_QUBO}
+przedstawia siê nastêpuj±co:
+
+\[
+H(\mathbf{d},\mathbf{y},\mathbf{r})\equiv H_{\text{score}}(\mathbf{d})+H_{\text{max}}(\mathbf{d},\mathbf{y})+H_{\text{cycle}}(\mathbf{d},\mathbf{r}),
+\]
+gdzie
+
+$H_{\text{score}}(\mathbf{d})=\stackrel[i=1]{n}{\sum}\sum_{\substack{J\subset\{1,\cdots,n\}\setminus\{i\}\\
+|J|\leq m
+}
+}\left(w_{i}(J)\prod_{j\in J}d_{ji}\right),$
+
+$H_{\text{max}}(\mathbf{d},\mathbf{y})=\stackrel[i=1]{n}{\sum}\delta_{\text{max}}^{(i)}(m-d_{i}-y_{i})^{2}$,
+
+$H_{\text{cycle}}(\mathbf{d},\mathbf{r})\equiv\sum_{1\leq i<j\leq n}\delta_{\text{consist}}^{(ij)}(d_{ji}r_{ij}+d_{ij}(1-r_{ij}))+\sum_{1\leq i<j\leq n}\delta_{\text{trans}}^{(ijk)}\left(r_{ik}+r_{ij}r_{jk}-r_{ij}r_{ik}-r_{jk}r_{ik}\right)$,
+
+oraz
+
+$w_{i}(J)=\sum_{l=0}^{|J|}(-1)^{|J|-l}\sum_{\substack{K\subset J\\
+|K|=l
+}
+}s_{i}(K)$, 
+
+$\delta_{\text{max}}^{(i)}$, $\delta_{\text{consist}}^{(ij)}$, $\delta_{\text{trans}}^{(ijk)}$
+to wagi kary, bêd±ce wolnymi parametrami w modelu,
+
+$d_{ij}$ --- macierz s±siedztwa: $d_{ij}=1$ je¿eli $X_{i}$ i $X_{j}$
+s± po³±czone krawêdzi± (0 je¶li nie lub $i=j$), 
+
+$r_{ij}=1$ odpowiada kolejno¶ci wierzcho³ków od $i$ do $j$ (a 0
+przeciwnej),
+
+$y_{i}\equiv\sum_{l=1}^{\mu}2^{l-1}y_{il}$ jest lu¼n±\ zmienn± (slack
+variable), zakodowan± przy pomocy $\mu\equiv\left\lceil \log_{2}(m+1)\right\rceil $
+bitów, gdzie $m$ jest maksymaln± liczb± rodziców zmiennej $X_{i}$.
+
+\subsubsection{Losowe Pola Markowa }
+
+Losowe pola Markowa (Markov Random Field; MRF), zwane te¿ sieciami
+Markowa to przyk³ad modeli opartych na ³añcuchu Markowa, wyra¿onych
+w oparciu o nieskierowane modele grafowe. Sieci Markowa mog± byæ cykliczne,
+wiêc s± komplementarne w stosunku do sieci Bayesowskich (tzn. mog±
+opisywaæ zale¿no¶ci, których te pierwsze nie s± w stanie). Podobnie
+jak modele Bayesowskie, MRF mo¿na równie¿ przedstawiæ jako QUBO \cite{MRF_x_QUBO}.
+£añcuch Markowa modeluje rozwój zmiennej losowej w czasie przy za³o¿eniu,
+¿e kolejny stan zale¿y jedynie od obecnego i ,,nie pamiêta'' o wcze¶niejszych.
+Ró¿nic± miêdzy podstawowym ³añcuchem Markowa, a MRF jest ilo¶æ zmiennych
+losowych, dla MRF mo¿e ich byæ wiele. Ponadto, aby losowe pole by³o
+polem Markowa, musi spe³niaæ jedn± z tzw. w³asno¶ci Markowa. Dla danego
+grafu nieskierowanego $G=\left(V,E\right)$, gdzie $V$ to wierzcho³ki
+(vertices), a $E$ krawêdzie (edges), którego wierzcho³kom przypisany
+jest zbiór zmiennych losowych $X=\left(X_{v}\right)_{v\in V}$ mo¿na
+je wyraziæ:
+\begin{itemize}
+\item parowa: dla ka¿dych $\left(i,j\right)\in V$, które nie s± przyleg³e
+oraz $i\neq j$, $X_{i}\perp\!\!\!\perp X_{j}\mid X_{V\smallsetminus\{i,j\}}$
+\\
+(dwie zmienne losowe, których powi±zane wierzcho³ki nie s± s±siadami,
+s± warunkowo niezale¿ne od pozosta³ych zmiennych ),
+\item lokalna: dla ka¿dego $i\in V$ oraz $J\subset V$, nie zawieraj±cego
+ani nie s±siaduj±cego z $i$, $X_{i}\perp\!\!\!\perp X_{J}\mid X_{V\smallsetminus\left(\{i\}\cup J\right)}$\\
+(zmienna losowa jest warunkowo niezale¿na od wszystkich pozosta³ych,
+bior±c pod uwagê jej s±siadów),
+\item globalna: dla ka¿dych $\left(I,J\right)\subset V$, które nie s± przyleg³e
+ani nie zawieraj± elementów wspólnych, $X_{I}\perp\!\!\!\perp X_{J}\mid X_{V\smallsetminus\left(I\cup J\right)}$
+\\
+(ka¿da para podzbiorów zmiennych losowych $X_{I}$, $X_{J}$ jest
+warunkowo niezale¿na je¶li mo¿na wskazaæ podzbiór, który je oddziela
+tak, ¿e ka¿da ¶cie¿ka od wierzcho³ka w $I$ do wierzcho³ka w $J$
+prowadzi przez ten podzbiór).
+\end{itemize}
+Z w³asno¶ci globalnej wynika lokala, a z lokalnej parowa (ale niekoniecznie
+w drug± stronê). 
+
+Na korzy¶æ potencjalnego zastosowania MRF na wy¿arzaczach kwantowych
+przemawia fakt, ¿e oprogrowamowanie Ocean dostarczane przez firmê
+D-Wave Systems zawiera \href{https://docs.ocean.dwavesys.com/en/latest/docs_dnx/reference/algorithms/generated/dwave_networkx.algorithms.markov.markov_network_bqm.html\#dwave_networkx.algorithms.markov.markov_network_bqm}{gotow± implementacjê}
+funkcji tworz±cej QUBO na podstawie sieci Markowa. Tego typu funkcjonalno¶ci
+s± równie¿ np. dostêpne w bibliotekach \href{https://pyqubo.readthedocs.io/en/latest/index.html}{PyQUBO}
+czy \href{https://pyqubo.readthedocs.io/en/latest/index.html}{ToQUBO.jl}.
+
+\subsection{Inne \quotedblbase QUBO-walne\textquotedblright{} modele}
+
+Poza wymienionymi wy¿ej, do formy QUBO sprowadziæ mo¿na miêdzy innymi
+równie¿ np. model regresji liniowej, maszyny wektorów no¶nych (SVM),
+czy algorytm k-¶rednich \cite{ML_models_QUBO_Linear_SVM_k_Means,SVM_QUBO_dWave}.
+Z wymienionych, SVM-y faktycznie maj± zastosowanie do ¶ledzenia obiektów
+\cite{object_recognition_with_SVM,object_detection_with_SVM}.
+
+\subsection{HUBO}
+
+W przypadku gdy bêdziemy chcieli wykorzystaæ wiêcej ni¿ 2 zród³a informacji
+(a w przypadku zbiorów danych w Sekcji \ref{chap:Zbiory-danych} mamy
+ich faktycznie wiêcej), problem mo¿e nie daæ siê sprowadziæ do postaci
+QUBO (lub mo¿e to wymagaæ dodatkowych przekszta³ceñ), poniewa¿ bêdziemy
+mieli wk³ady wy¿szego rzêdu. Takie problemy optymalizacyjne nazywamy
+HUBO (Higher-order Unconstrained Binary Optimization) i równie¿ dla
+nich mo¿liwe jest uzyskanie rozwi±zania na komputerach kwantowych,
+jednak nie na wy¿arzaczach kwantowych \cite{HUBO_solving_algorithm}.
+
+\section{Wygenerowanie trajektorii na podstawie zgromadzonych danych}
+
+Wszystkie rozwa¿ania w tej sekcji przeprowadzone s± na podstawie zbioru
+KITTI, a dok³adniej podzbioru 2011\_09\_26\_drive\_0005 dostêpnego
+pod \href{https://www.cvlibs.net/datasets/kitti/raw_data.php?type=city}{tym linkiem}.
+Wybór by³ podyktowany stosunkowo niewielkim rozmiarem próbki, idealnym
+do testów. Rysunki mo¿na odtworzyæ przy pomocy \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/KITTI_visualise.ipynb}{examples/KITTI\_visualise.ipynb}
+i \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/detect_and_track_YOLO.ipynb}{examples/detect\_and\_track\_YOLO.ipynb}.
+
+\subsection{Format danych}
+
+Pozyskanie danych pochodz±cych z wielu ¼róde³ nie jest problemem,
+jednak ich jednoczesne wykorzystanie do wykrywania obiektów i ¶ledzenia
+ich trajektorii jest nietrywialne. Wynika to w szczególno¶ci ze specyfiki
+samych danych: o ile obrazy z ró¿nych kamer s± spójne je¶li chodzi
+o format danych, to ju¿ np. dane z Lidar-ów zapisywane s± w postaci
+tzw. chmury punktów. Co wiêcej, liczba punktów nie jest sta³a dla
+ka¿dej klatki, co widaæ na Rysunku \ref{fig:liczba_pkt}. Oscyluje
+ona co prawda zazwyczaj ko³o 122500, ale jest to problem dla modeli
+uczenia maszynowego, które preferuj± dostawaæ dane wsadowe zawsze
+w takim samym kszta³cie. Problem ten nie wystêpuje dla danych z kamer,
+poniewa¿ s± one zawsze w wymiarze 375 x 1242 x 3, czyli 465750 pikseli
+z informacj± o kolorze zakodowan± w formacie RGB (przyk³adowa klatka
+z kamery jest pokazana na Rysunku \ref{fig:tylko_1_kamera}). Najprostszym
+rozwi±zaniem z punktu widzenia ³atwo¶ci implementacji w istniej±cym
+ju¿ skrypcie do detekcji i ¶ledzenia obiektów przy pomocy modelu YOLO
+jest dodanie informacji z lidara bezpo¶rednio do obrazu w formie projekcji
+do 2D, co jest pokazane na Rysunku \ref{fig:kamery_z_projekcja_lidaru}.
+Nie wykorzystujemy wtedy pe³nej dostêpnej informacji, poniewa¿ lidar
+zbiera dane 3D (Rysunek \ref{fig:lidar_3d}). Jest to zabieg o tyle
+konieczny, ¿e model YOLO natywnie nie obs³uguje informacji z lidara
+(ani tym bardziej z kamer i lidara jednocze¶nie).
+
+Kolejnym potencjalnym problemem mog³aby byæ ró¿nica w szybko¶ci próbkowania
+(liczbie zapisywanych klatek na sekundê) pomiêdzy kamerami a lidarem.
+Twórcy zbioru danych KITTI zapobiegli na szczê¶cie takiej sytuacji
+poprzez dostosowanie klatkowania kamer do prêdko¶ci, z jak± zbiera
+dane lidar, tj. 10 klatek na sekundê.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=12cm]{KITTI_plots/points_per_frame}\caption{Rozk³ad liczby punktów z pomiaru lidarem. \label{fig:liczba_pkt}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/just_camera}\caption{Obraz z lewej kamery nagrywaj±cej w kolorze (s± po dwie nagrywaj±ce
+czarnobia³y i kolorowy obraz). Warto¶ci na osiach odpowiadaj± indeksom
+pikseli. \label{fig:tylko_1_kamera}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/velodyne_projection_front}\caption{Obraz z kamer z na³o¿on± na niego projekcj± chmur punktów z lidaru.
+Kolor koduje odleg³o¶æ od pojazdu: czerwony to blisko, a niebieski:
+daleko. \label{fig:kamery_z_projekcja_lidaru}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/lidar_top_view}\caption{Wizualizacja danych z lidaru w widoku z góry pojazdu. Obraz przedstawia
+t± sam± klatkê, która zosta³a wykorzystana w Rysunku \ref{fig:kamery_z_projekcja_lidaru}.
+\label{fig:lidar_top}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/3D_lidar}\caption{Wizualizacja danych z lidaru w projekcji 3D. Dla polepszenia czytelno¶ci
+tylko co pi±ty punkt jest rysowany. \label{fig:lidar_3d}}
+\end{figure}
+
+
+\subsection{Etykiety obiektów}
+
+U¿ycie zbioru danych zamiast zwyk³ych nagrañ ma oczywi¶cie przede
+wszystkim ogromn± zaletê w postaci obecno¶ci etykiet danych, na podstawie
+których mo¿na dokonaæ ustandaryzowanej oceny jako¶ci wyników. Pozwala
+to równie¿ na porównanie opublikowanych rezultatów uzyskanych ró¿nymi
+metodami. Tego typu podsumowanie jest zreszt± udostêpnione na samej
+\href{https://www.cvlibs.net/datasets/kitti/eval_tracking.php}{stronie KITTI}.
+Etykiety s± tutaj zrealizowane w postaci trójwymiarowych prostopad³o¶cianów,
+okalaj±cych zidentyfikowane obiekty, co zosta³o pokazane na Rysunkach
+\ref{fig:tylko_1_kamera_with_tracklets} i \ref{fig:lidar_3d_with_tracklets}.
+Nale¿y tutaj zauwa¿yæ, ¿e etykietowanie danych jako takie równie¿
+jest obarczone pewnymi ograniczeniami, co widaæ np. na Rysunku \ref{fig:tylko_1_kamera_with_tracklets},
+gdzie samochód zaparkowany z przodu po lewej stronie nie jest oznaczony.
+Tak wiêc np. wykrycie wiêcej obiektów ni¿ jest etykiet w zbiorze danych
+nie musi oznaczaæ wyniku fa³szywie pozytywnego.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/just_camera_with_tracklets}\caption{Obraz z lewej kamery nagrywaj±cej w kolorze z dodanymi annotacjami
+danych w postaci kolorowych \quotedblbase pude³ek\textquotedblright .
+Kolory s± przypisane do ró¿nych typów obiektów, a nazwy kategorii
+s± równie¿ wypisane ponad obiektami. Warto¶ci na osiach odpowiadaj±
+indeksom pikseli. \label{fig:tylko_1_kamera_with_tracklets}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/3D_lidar_with_tracklets}\caption{Wizualizacja danych z lidaru w projekcji 3D z dodanymi annotacjami
+danych w postaci kolorowych \quotedblbase pude³ek\textquotedblright ,
+gdzie kolory s± przypisane do ró¿nych typów obiektów. \label{fig:lidar_3d_with_tracklets}}
+\end{figure}
+
+
+\subsection{Wstêpne wyniki z YOLO}
+
+Pierwsze podej¶cie do detekcji obiektów zosta³o zrealizowane na samych
+danych z kamer oraz na danych z kamer z na³o¿on± projekcj± danych
+lidarowych. W drugim przypadku nale¿y siê spodziewaæ potencjalnie
+gorszego wyniku, poniewa¿ dostêpne wstêpnie nauczone modele nie by³y
+uczone na tego typu danych, a na samych obrazach z kamer. Do detekcji
+zosta³ u¿yty model YOLO (yolov8n), a jej wyniki s± przedstawione na
+Rysunku \ref{fig:YOLO_detection_only_image}. Jak widaæ na Rysunku
+\ref{fig:YOLO_detection_only_image_with_tracklets}, detekcje modelu
+YOLO pokrywaj± siê z etykietami. Co wiêcej, model wykry³ w pokazanym
+przyk³adzie jeden samochód wiêcej ponad to, co by³o oznaczone. Jednak
+z drugiej strony, nie uda³o mu siê wykryæ oznaczonego rowerzysty.
+Rysunek \ref{fig:YOLO_detection_image_with_lidar_proj} potwierdza
+wcze¶niejsze przypuszczenia o tym jak model bez ¿adnych modyfikacji
+poradzi sobie na obrazie z na³o¿on± projekcj± z lidaru. Jedyny zidentyfikowany
+obiekt to samochód po prawej stronie, a do tego niepoprawnie jako
+³ódka (za co najprawdopodobniej mo¿na winiæ niebieski kolor punktów
+z danych lidarowych. Problem jest tutaj tak naprawdê dwojaki. 
+\begin{enumerate}
+\item Model nie widzia³ wcze¶niej tego typu danych, poniewa¿ by³ wstêpnie
+trenowany na zwyk³ych zdjêciach z kamer. 
+\item Projekcja chmury punktów z lidara na obraz z kamery zwyczajnie zas³ania
+czê¶æ obrazu z kamery, co prowadzi de facto do utraty czê¶ci informacji.
+\end{enumerate}
+Czê¶ciowym rozwi±zaniem drugiego aspektu problemu mo¿e byæ zmiejszenie
+wielko¶ci punktów rysowanych w wyniku projekcji, jednak nadal konieczne
+bêdzie w kolejnych krokach wytrenowanie modelu na nowym rodzaju danych.
+Rysunek \ref{fig:YOLO_detection_image_with_lidar_proj_smaller} demonstruje,
+¿e w rzeczy samej pomniejszenie punktów poprawia wynik: tym razem
+rowerzysta zosta³ poprawnie zidentyfikowany jako osoba. Jest to o
+tyle ciekawe, ¿e nie zosta³ on w ogóle wykryty na Rysunku \ref{fig:YOLO_detection_only_image},
+gdzie u¿yta by³a jedynie informacja z obrazu z kamery, co pokazuje,
+¿e informacja z lidara mo¿e byæ faktycznie komplementarna do obrazu
+z kamer, nawet je¶li wykorzystana w dosyæ naiwny sposób.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_only_camera_frame_115}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+\label{fig:YOLO_detection_only_image}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_only_camera_frame_115_with_tracklets}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO
+z na³o¿onymi etykietami z samego KITTI. \label{fig:YOLO_detection_only_image_with_tracklets}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_camera_with_lidar_proj_frame_115}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+Detekcja zosta³a przeprowadzona na obrazie z kamer z na³o¿on± projekcj±
+chmury punktów z lidaru. \label{fig:YOLO_detection_image_with_lidar_proj}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_camera_with_lidar_proj_frame_115_smaller_points}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+Detekcja zosta³a przeprowadzona na obrazie z kamer z na³o¿on± projekcj±
+chmury punktów z lidaru. Punkty zosta³y narysowane w minimalnym mo¿liwym
+rozmiarze. \label{fig:YOLO_detection_image_with_lidar_proj_smaller}}
+\end{figure}
+
+
+\appendix
+\printbibliography
+
+\end{document}

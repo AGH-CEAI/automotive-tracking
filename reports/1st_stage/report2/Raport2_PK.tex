@@ -1,0 +1,173 @@
+%% LyX 2.3.7 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{mwart}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm,headheight=2cm,headsep=2cm,footskip=2cm}
+\usepackage{babel}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[unicode=true]
+ {hyperref}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\@ifundefined{showcaptionsetup}{}{%
+ \PassOptionsToPackage{caption=false}{subfig}}
+\usepackage{subfig}
+\makeatother
+
+\begin{document}
+\title{Raport ko\'{n}cowy z wykonanych prac w ramach umowy poz. 1/01/689/2024}
+\author{Piotr Kalaczy\'{n}ski}
+\maketitle
+
+\section*{Szczegó\l owy wykaz obowi\k{a}zków:}
+\begin{enumerate}
+\item Zebranie obrazów z przejazdów pojazdów mechanicznych
+\item Detekcja obiektów w pozyskanych danych
+\item Wyznaczanie trajektorii dla poruszaj\k{a}cych si\k{e} obiektów
+\item Porównanie problemu ze \'{s}ledzeniem cz\k{a}stek w detektorach
+\item Opracowanie raportu
+\end{enumerate}
+
+\section{Dokumentacja:}
+
+Ca\l y kod rozwijany w ramach wyznaczonych zada\'{n} przechowywany
+jest w formie otwartej w oficjalnym repozytorium CDSI: \href{https://github.com/AGH-CEAI/automotive-tracking}{GitHub/AGH-CEAI/automotive-tracking}.
+Dokumentacja zawarta jest w pliku \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/README.md}{README.md}.
+
+\section{Post\k{e}p prac:}
+
+Zrealizowane zosta\l y wszystkie wyznaczone zadania, w szczególno\'{s}ci
+w stosunku do raportu cz\k{e}\'{s}ciowego uzupe\l nione zosta\l o
+porównanie problemu ze \'{s}ledzeniem cz\k{a}stek w detektorach.
+
+\subsection{Identyfikacja przypadków problematycznych dla \'{s}ledzenia trajektorii}
+
+Zosta\l y zidentyfikowane przyk\l ady przypadków sprawiaj\k{a}cych
+problemy przy \'{s}ledzeniu trajektorii. Problem za ka\.{z}dym razem
+polega na utracie ci\k{a}g\l o\'{s}ci identyfikacji w wyniku przeci\k{e}cia
+trajektorii: obiekt traci swój oryginalny ID i zostaje mu po ponownym
+wykryciu przypisany nowy. Wida\'{c} to dobrze na przyk\l adzie zaprezentowanym
+na Rys. \ref{fig:Przyk=000142adowe-klatki}. Podobny problem mo\.{z}e
+wyst\k{e}powa\'{c} kiedy obiekt np. zniknie na chwil\k{e} w tunelu
+itd. Rozwi\k{a}zaniem mo\.{z}e by\'{c} zastosowanie modelu z pami\k{e}ci\k{a}
+d\l ugoterminow\k{a} (zapami\k{e}tuj\k{a}cego obiekt i szukaj\k{a}cego
+go dalej w obrazie), np. \href{https://arxiv.org/abs/2307.15700}{arxiv/2307.15700}
+czy \href{https://www.mdpi.com/2227-7080/12/2/15}{mdpi/2227-7080/12/2/15}.
+
+\begin{figure}
+\subfloat[Sytuacja przed przeci\k{e}ciem trajektorii.]{\includegraphics[width=16cm]{from_yt_5_frame_200}}
+
+\subfloat[Sytuacja po przeci\k{e}ciu trajektorii.]{\includegraphics[width=16cm]{from_yt_5_frame_700}}\caption{Przyk\l adowe klatki z nagrania zawieraj\k{a}cego problematyczne (tj.
+przecinaj\k{a}ce si\k{e}) trajektorie. \'{Z}ród\l o: \protect\href{http://youtu.be/dDE3d6mEfn8?si=SvHtUaRAlNVa9mLO}{https://youtu.be/dDE3d6mEfn8?si=SvHtUaRAlNVa9mLO}.
+Cz\l owiek prowadz\k{a}cy rower najpierw ma ID 41, a potem 148, identyfikacja
+obiektu jako osoba jest ca\l y czas poprawna, ale nie udaje si\k{e}
+zachowa\'{c} ci\k{a}g\l o\'{s}ci. \label{fig:Przyk=000142adowe-klatki}}
+
+\end{figure}
+
+
+\subsection{Porównanie problemów \'{s}ledzenia trajektorii pojazdów i cz\k{a}stek
+w detektorach}
+
+Problemy \'{s}ledzenia pojazdów i cz\k{a}stek elementarnych s\k{a}
+w pewien sposób to\.{z}same, poniewa\.{z} w obu przypadkach mamy do
+czynienia z trajektori\k{a}. Znaczne ró\.{z}nice tkwi\k{a} jednak
+w szczegó\l ach i specyfice tego, jakich trajektorii mo\.{z}na si\k{e}
+spodziewa\'{c}. Krótkie podsumowanie ró\.{z}nic pomi\k{e}dzy \'{s}ledzeniem
+pojazdów i cz\k{a}stek elementarnych zawarte jest w Tab. \ref{tab:Kr=0000F3tkie-podsumowanie-r=0000F3=00017Cnic}.
+
+\begin{table}
+\caption{Krótkie podsumowanie ró\.{z}nic pomi\k{e}dzy \'{s}ledzeniem trajektorii
+pojazdów i cz\k{a}stek elementarnych. \label{tab:Kr=0000F3tkie-podsumowanie-r=0000F3=00017Cnic}}
+
+\centering{}%
+\begin{tabular}{|>{\centering}p{3cm}|>{\centering}p{6cm}|>{\centering}p{6cm}|}
+\cline{2-3} \cline{3-3} 
+\multicolumn{1}{>{\centering}p{3cm}|}{} & pojazdy & cz\k{a}stki\tabularnewline
+\hline 
+format danych & klatki filmu: ci\k{a}g\l y szereg czasowy obrazów RGB & zale\.{z}nie od detektora, dane mog\k{a} by\'{c} w formie przebiegów
+czasowych fotopowielaczy, lub ju\.{z} zdyskretyzowanych tzw. hit-ów
+(przypadków, kiedy napi\k{e}cie przekroczy\l o zadany próg)\tabularnewline
+\hline 
+spodziewany kszta\l t & pojedyncza trajektoria, mo\.{z}liwy bardzo nieregularny kszta\l t,
+zw\l aszcza w przypadku ludzi i jedno\'{s}ladóW & mo\.{z}liwe rozga\l \k{e}ziaj\k{a}ce si\k{e} trajektorie w przypadku
+oddzia\l ywa\'{n} lub rozpadów. Linie proste lub okr\k{e}gi/spirale,
+w zale\.{z}no\'{s}ci od braku lub obecno\'{s}ci pola magnetycznego
+w detektorze.\tabularnewline
+\hline 
+zas\l anianie si\k{e} nazwajem obiektów & tak & nie (sumowanie sygna\l ów)\tabularnewline
+\hline 
+rekonstrukcja wielu obiektów jednocze\'{s}nie & relatywnie prosta & zazwyczaj bardzo trudna ze wzgl\k{e}du na rozproszenie detektorów
+i w zasadzie niemo\.{z}liwa dla pojedynczej klatki\tabularnewline
+\hline 
+próbkowanie & standardowo raczej nie wi\k{e}cej ni\.{z} 60 HZ (60 FPS), poniewa\.{z}
+ludzkie oko nie rozró\.{z}nia powy\.{z}ej tej warto\'{s}ci & \textasciitilde kHz dla detektorów bazuj\k{a}cych na fotopowielaczach,
+\textasciitilde MHz przy u\.{z}yciu SiPM-ów, ogólnie raczej wy\.{z}sze
+próbkowanie\tabularnewline
+\hline 
+\end{tabular}
+\end{table}
+
+W przypadku obrazów wideo z pojazdami czy lud\'{z}mi, detekcja obiektów
+dla pojedynczej klatki jest jak najbardziej mo\.{z}liwa, co by\l o
+prezentowane w tym i poprzednim raporcie. Identyfikacja cz\k{a}stki
+elementarnej po pojedynczej klatce z detektora (rozumianej jako stan
+detektora w danym momencie) mo\.{z}e ju\.{z} nie by\'{c} mo\.{z}liwa,
+a przynajmniej by\'{c} du\.{z}o bardziej wymagaj\k{a}ca. Wynika to
+z faktu, \.{z}e identyfikacja cz\k{a}stek jest w du\.{z}ej mierze
+nierozerwalnie zwi\k{a}zana z rekonstrukcj\k{a} ich torów ruchu oraz
+powi\k{a}zanych z nimi strat energii $\frac{dE}{dx}$. Dodatkowym
+utrudnieniem jest wyst\k{e}powanie t\l a pomiarowego np. naturalnej
+radioaktywno\'{s}ci, bioluminescencji (w przypadku detektorów ANTARES,
+czy KM3NeT-u i innych morskich), czy szumu samej elektroniki. Takie
+t\l o na pojedynczej klatce mo\.{z}e wygl\k{a}da\'{c} tak samo jak
+nadlatuj\k{a}ca cz\k{a}stka, zreszt\k{a} w pierwszych dwóch przypadkach
+naprawd\k{e} ni\k{a} jest. Przyk\l adowo, takim t\l em mo\.{z}e by\'{c}
+sygna\l{} od fotonów o energiach $\sim1\,$MeV, powstaj\k{a}cych w
+rozpadach $^{40}K$. Dopiero \'{s}lad skorelowany pomi\k{e}dzy klatkami
+b\k{e}dzie \'{s}wiadczy\l , \.{z}e przelecia\l a tam wysokoenergetyczna
+(dla wspomnianych ju\.{z} wodnych teleskopów neutrinowych, $E>\mathsf{GeV}$)
+cz\k{a}stka. Zadanie identyfikacji cz\k{a}stki z pojedynczej klatki
+z detektora wydaje si\k{e} nie oferowa\'{c} mo\.{z}liwo\'{s}ci uzyskania
+kwantowej przewagi.
+
+Miejscem, gdzie potencjalnie algorytmy kwantowe mog\l yby mie\'{c}
+przewag\k{e} jest za to rekonstrukcja wielu torów jednocze\'{s}nie.
+O ile dla obiektów makroskopowych typu pojazdy mechaniczne jest ona
+wzgl\k{e}dnie trywialna, o tyle dla cz\k{a}stek elementarnych pozostaje
+wyzwaniem, szczególnie w przypadku rzadziej zinstrumentowanych detektorów.
+Podej\'{s}cie kwantowe próbowano zastosowa\'{c} mi\k{e}dzy innymi
+do rekonstrukcji torów cz\k{a}stek w LHC: \href{https://iopscience.iop.org/article/10.1088/1748-0221/18/11/P11028}{LHCb},
+\href{https://arxiv.org/abs/2402.14718v1}{arXiv:2402.14718v1}, \href{https://link.springer.com/article/10.1007/s41781-023-00109-6}{LUXE},
+\href{https://link.springer.com/article/10.1007/s41781-019-0032-5}{springer/10.1007/s41781-019-0032-5},
+\href{https://link.springer.com/article/10.1007/s42484-021-00054-w}{springer/10.1007/s42484-021-00054-w}.
+Testowane podej\'{s}cie opiera\l o si\k{e} na opisaniu problemu jako
+quadratic unconstrained binary optimization (QUBO), które mo\.{z}e
+by\'{c} rozwi\k{a}zane na wy\.{z}arzaczu kwantowym (lub klasycznym
+komputerze symuluj\k{a}cym taki wy\.{z}arzacz). Wspólnym mianownikiem
+we wszystkich wspomnianych przypadkach by\l a na ten moment niewystarczaj\k{a}ca
+dost\k{e}pna kwantowa moc obliczeniowa, t.j. aby opisa\'{c} pe\l ny
+zadany problem potrzeba komputera kwantowego z $\sim10^{4}-10^{5}$qubitów
+(1 qubit na 1 hit w detektorze). To ograniczenie skutkowa\l o niemo\.{z}liwo\'{s}ci\k{a}
+pe\l nej oceny skuteczno\'{s}ci zaproponowanej metody. Pewnym krokiem
+w kierunku lepszej testowalno\'{s}ci mog\l oby by\'{c} u\.{z}ycie
+danych z detektorów rzadziej zinstrumentowanych ni\.{z} LHC, np. z
+teleskopu neutrinowego znajduj\k{a}cego si\k{e} na biegunie po\l udniowym:
+IceCube. Dobór przyk\l adu jest tu nieprzypadkowy, poniewa\.{z} jest
+publicznie dost\k{e}pny zbiór danych z wyzwania na platformie Kaggle:
+\href{http://kaggle/icecube-neutrinos-in-deep-ice/data}{kaggle/icecube-neutrinos-in-deep-ice/data},
+w którym zadaniem by\l o w\l a\'{s}nie wyznaczanie kierunku (a wi\k{e}c
+trajektorii) dla neutrin. Dla tych danych jest wi\k{e}c wiele wyników
+z którymi mo\.{z}na si\k{e} porównywa\'{c}, a tak\.{z}e powinny one
+by\'{c} przyja\'{z}niejsze mniejszym architekturom kwantowych wy\.{z}arzaczy,
+poniewa\.{z} maksymalna liczba jednoczesnych hit-ów dla IceCube-a
+to 5160 (\l \k{a}czna liczba fotopowielaczy w detektorze).
+\end{document}

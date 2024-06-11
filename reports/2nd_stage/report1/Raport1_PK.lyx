@@ -1,0 +1,2215 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children false
+\language polish
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine biblatex
+\cite_engine_type numerical
+\biblio_style plain
+\biblio_options sorting=none,giveninits=true
+\biblatex_bibstyle numeric-comp
+\biblatex_citestyle numeric-comp
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style polish
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Raport częściowy z wykonanych prac w ramach umowy poz.
+ 1/04/689/2024
+\end_layout
+
+\begin_layout Author
+Piotr Kalaczyński
+\end_layout
+
+\begin_layout Date
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part*
+Szczegółowy wykaz obowiązków:
+\end_layout
+
+\begin_layout Enumerate
+Zgromadzenie danych z przejazdów pojazdów mechanicznych zawierających przesłania
+jące się obiekty, pochodzących z wielu źródeł
+\end_layout
+
+\begin_layout Enumerate
+Przegląd modeli energetycznych mogących służyć do rozwiązywania problemu
+ śledzenia trajektorii
+\end_layout
+
+\begin_layout Enumerate
+Wygenerowanie trajektorii na podstawie zgromadzonych danych
+\end_layout
+
+\begin_layout Enumerate
+Opracowanie raportu
+\end_layout
+
+\begin_layout Part*
+Dokumentacja:
+\end_layout
+
+\begin_layout Standard
+Cały kod rozwijany w ramach wyznaczonych zadań przechowywany jest w formie
+ otwartej w repozytorium 
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub/AGH-CEAI/automotive-tracking"
+target "https://github.com/AGH-CEAI/automotive-tracking"
+literal "false"
+
+\end_inset
+
+.
+ Dokumentacja zawarta jest w pliku 
+\begin_inset CommandInset href
+LatexCommand href
+name "README.md"
+target "https://github.com/pkalaczynski/automotive-tracking/blob/main/README.md"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Part*
+Postęp prac:
+\end_layout
+
+\begin_layout Standard
+Dotychczas wykonane zostały następujące zadania:
+\end_layout
+
+\begin_layout Section
+Zgromadzenie danych z przejazdów pojazdów mechanicznych zawierających przesłania
+jące się obiekty, pochodzących z wielu źródeł
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Zbiory-danych"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zbiory danych zostały pozyskane z publicznie dostępnych zasobów, w większości
+ powiązanych z konkretnymi publikacjami.
+ Z uwagi na ograniczoną dostępną przestrzeń dyskową, nie każdy zbiór danych
+ może być na stałe przechowywany na serwerze tatooine.
+ Dla każdego ze szczegółowiej opisanych został jednak przygotowany skrypt
+ pobierający, zlokalizowany w 
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub/AGH-CEAI/automotive-tracking/datasets/[nazwa-zbioru-danych]/"
+target "https://github.com/AGH-CEAI/automotive-tracking/datasets"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+KITTI
+\end_layout
+
+\begin_layout Itemize
+Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH): 
+\begin_inset Newline newline
+\end_inset
+
+/home/piokal/datasets/KITTI
+\end_layout
+
+\begin_layout Itemize
+Całkowity rozmiar po kompresji: 64GB
+\end_layout
+
+\begin_layout Itemize
+Powiązane publikacje: 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kitti-Geiger2012CVPR,kitti-Luiten2020IJCV"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Wykorzystywane czujniki:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+1 System nawigacji inercyjnej (GPS/IMU): OXTS RT 3003
+\end_layout
+
+\begin_layout Itemize
+1 Lidar (skaner laserowy): Velodyne HDL-64E
+\end_layout
+
+\begin_layout Itemize
+2 kamery nagrywające w skali szarości cameras, 1.4 Mpix: Point Grey Flea
+ 2 (FL2-14S3M-C)
+\end_layout
+
+\begin_layout Itemize
+2 kamery nagrywające w kolorze, 1.4 Mpix: Point Grey Flea 2 (FL2-14S3C-C)
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+EU Long-term Dataset with Multiple Sensors for Autonomous Driving
+\end_layout
+
+\begin_layout Itemize
+Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH): 
+\begin_inset Newline newline
+\end_inset
+
+/home/piokal/datasets/EU_longerm
+\end_layout
+
+\begin_layout Itemize
+Całkowity rozmiar wybranego podzbioru po kompresji: 94 GB
+\end_layout
+
+\begin_layout Itemize
+Powiązana publikacja 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yan_eu_2020"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Wykorzystywane czujniki:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Dwie kamery stereo:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Bumblebee XB3 obrócona do przodu pojazdu, zamontowana na przodzie dachu.
+\end_layout
+
+\begin_layout Itemize
+Bumblebee2 obrócona do tyłu pojazdu, zamontowana z tyłu dachu.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Dwa lidary Velodyne HDL-32E, zamontowane obok siebie na froncie dachu samochodu.
+\end_layout
+
+\begin_layout Itemize
+Dwie kamery przemysłowe Pixelink PL-B742F z soczewkami typi 
+\begin_inset Quotes pld
+\end_inset
+
+rybie oko
+\begin_inset Quotes erd
+\end_inset
+
+ Fujinon FE185C086HA-1, zainstalowane na środku dachu i zwrócone w kierunku
+ boków samochodu.
+\end_layout
+
+\begin_layout Itemize
+Lidar ibeo LUX 4L wbudowany w przedni zderzak blisko osi samochodu.
+\end_layout
+
+\begin_layout Itemize
+Radar Continental ARS 308 zamocowany obok lidara ibeo LUX.
+\end_layout
+
+\begin_layout Itemize
+Dalmierz laserowy (lidar 2D) SICK LMS100-10000, zamontowany na boku przedniego
+ zderzaka i zwrócony w kierunku drogi.
+\end_layout
+
+\begin_layout Itemize
+Nawigacja Magellan ProFlex 500 GNSS zamontowana wewnątrz samochodu, z dwiema
+ antenami na dachu.
+\end_layout
+
+\begin_layout Itemize
+Akcelerometr Xsens MTi-28A53G25 IMU zamontowany wewnątrz pojazdu.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Zbiór danych zawiera między innymi szereg wyselekcjonowanych 
+\begin_inset Quotes pld
+\end_inset
+
+wyzwań
+\begin_inset Quotes erd
+\end_inset
+
+, które zostały umieszczone w podfolderze challenges.
+ Zawierają one warunki drogowe potencjalnie utrudniające identyfikację obiektów:
+ objazd z powodu robót drogowych, ronda, śnieg, nieprzepisową jazdę innych
+ kierowców, gołębie na drodze, policję, strefę wspólnego ruchu pieszych
+ i pojazdów, czy zwężenia pasów ruchu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Subsection
+Waymo Open Dataset
+\end_layout
+
+\begin_layout Itemize
+Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH): /home/piokal/data
+sets/waymo
+\end_layout
+
+\begin_layout Itemize
+Całkowity rozmiar po kompresji: ###
+\end_layout
+
+\begin_layout Itemize
+Powiązana publikacja 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Waymo_dataset"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Wykorzystywane czujniki (widoczne również na Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:EU-longerm-czujniki"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+1 mid-range lidar 
+\end_layout
+
+\begin_layout Itemize
+4 short-range lidars 
+\end_layout
+
+\begin_layout Itemize
+5 cameras (front and sides) 
+\end_layout
+
+\begin_layout Itemize
+Synchronized lidar and camera data 
+\end_layout
+
+\begin_layout Itemize
+Lidar to camera projections 
+\end_layout
+
+\begin_layout Itemize
+Sensor calibrations and vehicle poses
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+nuScenes
+\end_layout
+
+\begin_layout Itemize
+Całkowity rozmiar po kompresji: 395GB (zbyt dużo aby przechowywać na stałe)
+\end_layout
+
+\begin_layout Itemize
+Powiązana publikacja 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nuscenes2019"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Wykorzystywane czujniki:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+6 kamer nagrywających w kolorze
+\end_layout
+
+\begin_layout Itemize
+1 obracający się lidar
+\end_layout
+
+\begin_layout Itemize
+5 radarów
+\end_layout
+
+\begin_layout Itemize
+system GPS
+\end_layout
+
+\begin_layout Itemize
+system IMU
+\end_layout
+
+\begin_layout Itemize
+system AHRS
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Inne
+\end_layout
+
+\begin_layout Standard
+Zidentyfikowanych zostało kilka dalszych potencjalnie interesujących zbiorów
+ danych, ale nie zostały pobrane na serwer tatooine ze względu na ograniczoną
+ dostępną przestrzeń dyskową:
+\end_layout
+
+\begin_layout Itemize
+KAIST 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "KAIST"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+IDD 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "IDD_indian_dataset"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+A2D2 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "A2D2_Audi_dataset"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+BDD100K 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BDD100K"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Cityscapes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cityscapes"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Leddar PixSet 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PixSet"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+PandaSet 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "PandaSet"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Waymo 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Waymo_dataset"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Przegląd modeli mogących służyć do rozwiązywania problemu śledzenia trajektorii
+\end_layout
+
+\begin_layout Standard
+Jest szereg modeli energetycznych, które mogą być stosowane do rozwiązywania
+ problemu śledzenia trajektorii wielu obiektów (Multiple Object Tracking;
+ MOT).
+ Można je stosować zarówno w klasycznych algorytmach optymalizacyjnych,
+ jak i w charakterze Hamiltonianów używanych przy wyrzarzaniu kwantowym.
+ Podstawowa procedura polega na zmapowaniu danego modelu do QUBO (quadratic
+ unconstrained binary optimization), czyli problemu optymalizacyjnego:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f_{\mathsf{obj}}(x,Q)=x^{T}\cdot Q\cdot x=\stackrel[i=1]{n}{\sum}\stackrel[j=1]{n}{\sum}Q_{ij}x_{i}x_{j},
+\end{equation}
+
+\end_inset
+
+gdzie 
+\begin_inset Formula $x$
+\end_inset
+
+ to wektor zmiennych binarnych z wartościami 
+\begin_inset Formula $x_{i}\in\left\{ 0,1\right\} $
+\end_inset
+
+, 
+\begin_inset Formula $f_{\mathsf{obj}}$
+\end_inset
+
+ to funkcja celu, a 
+\begin_inset Formula $Q$
+\end_inset
+
+ to macierz trójkątna, zawierająca wagi dla każdej pary indeksów 
+\begin_inset Formula $i,j$
+\end_inset
+
+.
+ Celem optymalizacji jest znalezienie ekstremum 
+\begin_inset Formula $x_{\mathsf{extr}}$
+\end_inset
+
+ funkcji 
+\begin_inset Formula $f_{\mathsf{obj}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Model Isinga
+\end_layout
+
+\begin_layout Standard
+Model Isinga powstał aby opisać zachowanie materiałów ferromagnetycznych.
+ Opisuje on układ spinów 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ mogących przyjmować jedynie 2 wartości: -1 lub +1, równomiernie rozmieszczonych
+ na dwuwymiarowej siatce.
+ Energię całego układu opisuje następujący hamiltonian:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H=-\frac{1}{2}\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}S_{i}S_{j}-\underset{i}{\sum}h_{i}S_{i},\label{eq:Ising}
+\end{equation}
+
+\end_inset
+
+gdzie 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $j$
+\end_inset
+
+ są indeksami węzłów, a 
+\begin_inset Formula $\left\langle i,j\right\rangle $
+\end_inset
+
+ oznacza, że jedynie sąsiadujące węzły są brane pod uwagę i każdy jest liczony
+ jedynie raz.
+ Parametr 
+\begin_inset Formula $J_{ij}$
+\end_inset
+
+ określa siłę oddziaływania między spinami w danym węźle 
+\begin_inset Formula $ij$
+\end_inset
+
+, a 
+\begin_inset Formula $h_{i}$
+\end_inset
+
+ – oddziaływanie zewnętrznego pola magnetycznego z indywidualnym spinem
+ 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Sformułowanie jako QUBO
+\end_layout
+
+\begin_layout Standard
+Mapowanie modelu Isinga do QUBO jest raczej trywialne, ponieważ relacja
+ pomiędzy spinami, a zmienną 
+\begin_inset Formula $x$
+\end_inset
+
+ to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+x_{i}=\frac{1+S_{i}}{2},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+S_{i}=2x_{i}-1,
+\end{equation}
+
+\end_inset
+
+co wynika z potrzeby przesunięcia bazy z 
+\begin_inset Formula $\left\{ -1,1\right\} $
+\end_inset
+
+ do 
+\begin_inset Formula $\left\{ 0,1\right\} $
+\end_inset
+
+.
+ Wyrażenia kwadratowe w 
+\begin_inset Formula $f_{\mathsf{obj}}(x,Q)$
+\end_inset
+
+ będą odpowiadały pierwszemu członowi hamiltonianu w Równaniu 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Ising"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, a liniowe — drugiemu.
+ Funkcja 
+\begin_inset Formula $f_{\mathsf{obj}}(x,Q)$
+\end_inset
+
+ będzie w takim wypadku miała postać:
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Formula 
+\begin{multline}
+\begin{aligned}f_{\mathsf{obj}}(x,Q) & =-\frac{1}{2}\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}\left(2x_{i}-1\right)\left(2x_{j}-1\right)-\underset{i}{\sum}h_{i}\left(2x_{i}-1\right)=...\\
+ & =\underset{\left\langle i,j\right\rangle }{\sum}\left(-4J_{ij}x_{i}x_{j}\right)-\underset{j}{\sum}\left(\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j}\right)x_{j}-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}-\underset{j}{\sum}h_{j}\\
+ & =\stackrel[i=1]{n}{\sum}\stackrel[j=1]{i}{\sum}Q_{ij}x_{i}x_{j}+C_{1}
+\end{aligned}
+\end{multline}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Jako, że przesunięcie o stałą nie ma żadnego znaczenia przy wyznaczaniu
+ ekstremum (w tym przypadku minimum energii), 
+\begin_inset Formula $C_{1}=-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}-\underset{j}{\sum}h_{j}$
+\end_inset
+
+ można śmiało zaniedbać i finalnie otrzymujemy
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f_{\mathsf{obj}}(x,Q)=\underset{\left\langle i,j\right\rangle }{\sum}\left(-4J_{ij}x_{i}x_{j}\right)-\underset{j}{\sum}\left(\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j}\right)x_{j}=\stackrel[i=1]{n}{\sum}\stackrel[j=1]{i}{\sum}Q_{ij}x_{i}x_{j},\label{eq:Ising_QUBO}
+\end{equation}
+
+\end_inset
+
+gdzie macierz 
+\begin_inset Formula $Q$
+\end_inset
+
+ ma postać
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Q_{ij}=\left\{ \begin{array}{cc}
+-4J_{ij} & \mathsf{dla\,i\neq j}\\
+\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j} & \mathsf{dla\,i=j}
+\end{array}\right..
+\end{equation}
+
+\end_inset
+
+Z racji bardzo prostego liniowego przekształcenia między 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ a 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+ mówi się, że model Isinga jest tożsamy z QUBO.
+\end_layout
+
+\begin_layout Subsubsection
+Zastosowanie do analizy obrazów
+\end_layout
+
+\begin_layout Standard
+Problem dopasowania stereo (dopasowania odpowiadających sobie pixeli z dwóch
+ różnych projekcji tego samego obrazu) można rozwiązać definiując funkcję
+ 
+\begin_inset Quotes pld
+\end_inset
+
+energii
+\begin_inset Quotes prd
+\end_inset
+
+ analogiczną do Modelu Isinga, którą będzie można następnie zminimalizować:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+f_{\mathsf{stereo}}(l)=\underset{\left\langle p,q\right\rangle \in\mathcal{N}}{\sum}V_{pq}\left(l_{p},l_{q}\right)-\underset{p\in\mathcal{P}}{\sum}D_{p}\left(l_{p}\right),
+\end{equation}
+
+\end_inset
+
+gdzie etykietowania 
+\begin_inset Formula $l$
+\end_inset
+
+ mapują pixele 
+\begin_inset Formula $p\in\mathcal{P}$
+\end_inset
+
+ do etykiet ze zbioru 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+, czyli 
+\begin_inset Formula $l:\mathcal{P}\rightarrow\mathcal{L}$
+\end_inset
+
+, 
+\begin_inset Formula $D_{p}$
+\end_inset
+
+ modeluje koszt przypisania 
+\begin_inset Formula $l_{p}$
+\end_inset
+
+ do pixela 
+\begin_inset Formula $p$
+\end_inset
+
+ (i 
+\begin_inset Formula $l_{q}$
+\end_inset
+
+ do pixela 
+\begin_inset Formula $q$
+\end_inset
+
+), 
+\begin_inset Formula $V_{pq}$
+\end_inset
+
+ modeluje koszt przypisania 
+\begin_inset Formula $l_{p}$
+\end_inset
+
+ do pixela 
+\begin_inset Formula $p$
+\end_inset
+
+ i 
+\begin_inset Formula $l_{q}$
+\end_inset
+
+ do pixela 
+\begin_inset Formula $q$
+\end_inset
+
+, jeśli pixele 
+\begin_inset Formula $p$
+\end_inset
+
+ i 
+\begin_inset Formula $q$
+\end_inset
+
+ sąsiadują ze sobą.
+ 
+\begin_inset Formula $\mathcal{N}$
+\end_inset
+
+ to zbiór sąsiadujących par pixeli 
+\begin_inset Formula $\left\langle p,q\right\rangle $
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cruz-santos_qubo_2018"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Pokrewne modele
+\end_layout
+
+\begin_layout Standard
+Istnieje wiele generalizacji i wariantów modelu Isinga.
+ Przykładowo, uogólniony model Potts'a dopuszcza dowolną liczbę stanów spinów:
+ 
+\begin_inset Formula $S_{i}=0,1,...,q$
+\end_inset
+
+.
+ Kolejnymi przykładami są model XY, czy model Heisenberga, jednak nie znalazły
+ szerokiego zastosowania w śledzeniu trajektorii obiektów.
+ 
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+: 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{equation}
+H=-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}S_{i}S_{j}-\underset{i}{\sum}h_{i}S_{i}=-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}\cos\left(\theta_{i}-\theta_{j}\right)-\underset{i}{\sum}h_{i}\cos\left(\theta_{i}\right),
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+gdzie spiny mogą się dowolnie obracać w poziomej płaszczyźnie (stąd XY w
+ nazwie modelu) o kąt 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Probabilistyczne modele grafowe
+\end_layout
+
+\begin_layout Standard
+Probabilistyczne modele grafowe (PGM) to rodzina modeli wykorzystujących
+ grafy do przedstawienia zależności pomiędzy zmiennymi.
+ W takich modelach węzły odpowiadają konkretnym zmiennym, a krawędzie zależności
+om pomiędzy tymi zmiennymi.
+ Grafy mogą być skierowane (zależność między zmiennymi jest jednostronna),
+ lub nieskierowane (zależność obustronna), a także cykliczne (zawierające
+ zamknięte cykli/pętli) lub acykliczne (nie zawierające zamkniętych pętli).
+\end_layout
+
+\begin_layout Subsubsection
+Modele Bayesowskie
+\end_layout
+
+\begin_layout Standard
+Zależności między zmiennymi są modelowane przy pomocy twierdzenia Bayesa:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+P\left(\left.A\right|B\right)=\frac{P\left(\left.B\right|A\right)P\left(A\right)}{P\left(B\right)},
+\end{equation}
+
+\end_inset
+
+gdzie 
+\begin_inset Formula $A$
+\end_inset
+
+ i 
+\begin_inset Formula $B$
+\end_inset
+
+ to zdarzenia i 
+\begin_inset Formula $P\left(B\right)>0$
+\end_inset
+
+, a 
+\begin_inset Formula $P\left(\left.A\right|B\right)=\frac{P\left(A\cap B\right)}{P\left(B\right)}$
+\end_inset
+
+ oznacza prawdopodobieństwo warunkowe (prawdopodobieństwo 
+\begin_inset Formula $A$
+\end_inset
+
+, o ile zajdzie 
+\begin_inset Formula $B$
+\end_inset
+
+).
+ Modele tego typu są stosowane do problemów MOT 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bayesian_tracking,Bayesian_online_tracking"
+literal "false"
+
+\end_inset
+
+, co więcej można je sprowadzić do problemu QUBO i tym samym rozwiązać na
+ wyżarzaczu kwantowym 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bayesian_networs_with_QUBO"
+literal "false"
+
+\end_inset
+
+.
+ Modele Bayesowskie są też nazywane sieciami Bayesowskimi i bazują na reprezenta
+cji problemu jako skierowanego grafu acyklicznego.
+ W porównaniu do sprowadzenia modelu Isinga do postaci QUBO (Równanie 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Ising_QUBO"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), przykładowe sprowadzenie problemu uczenia struktury sieci Bayesowskiej
+ do QUBO jest zdecydowanie nietrywialne i przykładowo wynik z 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bayesian_networs_with_QUBO"
+literal "false"
+
+\end_inset
+
+ przedstawia się następująco:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+H(\mathbf{d},\mathbf{y},\mathbf{r})\equiv H_{\text{score}}(\mathbf{d})+H_{\text{max}}(\mathbf{d},\mathbf{y})+H_{\text{cycle}}(\mathbf{d},\mathbf{r}),
+\]
+
+\end_inset
+
+gdzie
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H_{\text{score}}(\mathbf{d})=\stackrel[i=1]{n}{\sum}\sum_{\substack{J\subset\{1,\cdots,n\}\setminus\{i\}\\
+|J|\leq m
+}
+}\left(w_{i}(J)\prod_{j\in J}d_{ji}\right),$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H_{\text{max}}(\mathbf{d},\mathbf{y})=\stackrel[i=1]{n}{\sum}\delta_{\text{max}}^{(i)}(m-d_{i}-y_{i})^{2}$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H_{\text{cycle}}(\mathbf{d},\mathbf{r})\equiv\sum_{1\leq i<j\leq n}\delta_{\text{consist}}^{(ij)}(d_{ji}r_{ij}+d_{ij}(1-r_{ij}))+\sum_{1\leq i<j\leq n}\delta_{\text{trans}}^{(ijk)}\left(r_{ik}+r_{ij}r_{jk}-r_{ij}r_{ik}-r_{jk}r_{ik}\right)$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+oraz
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $w_{i}(J)=\sum_{l=0}^{|J|}(-1)^{|J|-l}\sum_{\substack{K\subset J\\
+|K|=l
+}
+}s_{i}(K)$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\delta_{\text{max}}^{(i)}$
+\end_inset
+
+, 
+\begin_inset Formula $\delta_{\text{consist}}^{(ij)}$
+\end_inset
+
+, 
+\begin_inset Formula $\delta_{\text{trans}}^{(ijk)}$
+\end_inset
+
+ to wagi kary, będące wolnymi parametrami w modelu,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d_{ij}$
+\end_inset
+
+ — macierz sąsiedztwa: 
+\begin_inset Formula $d_{ij}=1$
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ jeżeli 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+ i 
+\begin_inset Formula $X_{j}$
+\end_inset
+
+ są połączone krawędzią (0 jeśli nie lub 
+\begin_inset Formula $i=j$
+\end_inset
+
+), 
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $r_{ij}=1$
+\end_inset
+
+ odpowiada kolejności wierzchołków od 
+\begin_inset Formula $i$
+\end_inset
+
+ do 
+\begin_inset Formula $j$
+\end_inset
+
+ (a 0 przeciwnej),
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $y_{i}\equiv\sum_{l=1}^{\mu}2^{l-1}y_{il}$
+\end_inset
+
+ jest luźną
+\begin_inset space \space{}
+\end_inset
+
+zmienną (slack variable), zakodowaną przy pomocy 
+\begin_inset Formula $\mu\equiv\left\lceil \log_{2}(m+1)\right\rceil $
+\end_inset
+
+ bitów, gdzie
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ 
+\begin_inset Formula $m$
+\end_inset
+
+ jest maksymalną liczbą rodziców zmiennej 
+\begin_inset Formula $X_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Losowe Pola Markowa 
+\end_layout
+
+\begin_layout Standard
+Losowe pola Markowa (Markov Random Field; MRF), zwane też sieciami Markowa
+ to przykład modeli opartych na łańcuchu Markowa, wyrażonych w oparciu o
+ nieskierowane modele grafowe.
+ Sieci Markowa mogą być cykliczne, więc są komplementarne w stosunku do
+ sieci Bayesowskich (tzn.
+ mogą opisywać zależności, których te pierwsze nie są w stanie).
+ Podobnie jak modele Bayesowskie, MRF można również przedstawić jako QUBO
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MRF_x_QUBO"
+literal "false"
+
+\end_inset
+
+.
+ Łańcuch Markowa modeluje rozwój zmiennej losowej w czasie przy założeniu,
+ że kolejny stan zależy jedynie od obecnego i 
+\begin_inset Quotes pld
+\end_inset
+
+nie pamięta
+\begin_inset Quotes prd
+\end_inset
+
+ o wcześniejszych.
+ Różnicą między podstawowym łańcuchem Markowa, a MRF jest ilość zmiennych
+ losowych, dla MRF może ich być wiele.
+ Ponadto, aby losowe pole było polem Markowa, musi spełniać jedną z tzw.
+ własności Markowa.
+ Dla danego grafu nieskierowanego 
+\begin_inset Formula $G=\left(V,E\right)$
+\end_inset
+
+, gdzie 
+\begin_inset Formula $V$
+\end_inset
+
+ to wierzchołki (vertices), a 
+\begin_inset Formula $E$
+\end_inset
+
+ krawędzie (edges), którego wierzchołkom przypisany jest zbiór zmiennych
+ losowych 
+\begin_inset Formula $X=\left(X_{v}\right)_{v\in V}$
+\end_inset
+
+ można je wyrazić:
+\end_layout
+
+\begin_layout Itemize
+parowa: dla każdych 
+\begin_inset Formula $\left(i,j\right)\in V$
+\end_inset
+
+, które nie są przyległe oraz 
+\begin_inset Formula $i\neq j$
+\end_inset
+
+, 
+\begin_inset Formula $X_{i}\perp\!\!\!\perp X_{j}\mid X_{V\smallsetminus\{i,j\}}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+(dwie zmienne losowe, których powiązane wierzchołki nie są sąsiadami, są
+ warunkowo niezależne od pozostałych zmiennych ),
+\end_layout
+
+\begin_layout Itemize
+lokalna: dla każdego 
+\begin_inset Formula $i\in V$
+\end_inset
+
+ oraz 
+\begin_inset Formula $J\subset V$
+\end_inset
+
+, nie zawierającego ani nie sąsiadującego z 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $X_{i}\perp\!\!\!\perp X_{J}\mid X_{V\smallsetminus\left(\{i\}\cup J\right)}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+(zmienna losowa jest warunkowo niezależna od wszystkich pozostałych, biorąc
+ pod uwagę jej sąsiadów),
+\end_layout
+
+\begin_layout Itemize
+globalna: dla każdych 
+\begin_inset Formula $\left(I,J\right)\subset V$
+\end_inset
+
+, które nie są przyległe ani nie zawierają elementów wspólnych, 
+\begin_inset Formula $X_{I}\perp\!\!\!\perp X_{J}\mid X_{V\smallsetminus\left(I\cup J\right)}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+(każda para podzbiorów zmiennych losowych 
+\begin_inset Formula $X_{I}$
+\end_inset
+
+, 
+\begin_inset Formula $X_{J}$
+\end_inset
+
+ jest warunkowo niezależna jeśli można wskazać podzbiór, który je oddziela
+ tak, że każda ścieżka od wierzchołka w 
+\begin_inset Formula $I$
+\end_inset
+
+ do wierzchołka w 
+\begin_inset Formula $J$
+\end_inset
+
+ prowadzi przez ten podzbiór).
+\end_layout
+
+\begin_layout Standard
+Z własności globalnej wynika lokala, a z lokalnej parowa (ale niekoniecznie
+ w drugą stronę).
+ 
+\end_layout
+
+\begin_layout Standard
+Na korzyść potencjalnego zastosowania MRF na wyżarzaczach kwantowych przemawia
+ fakt, że oprogrowamowanie Ocean dostarczane przez firmę D-Wave Systems
+ zawiera 
+\begin_inset CommandInset href
+LatexCommand href
+name "gotową implementację"
+target "https://docs.ocean.dwavesys.com/en/latest/docs_dnx/reference/algorithms/generated/dwave_networkx.algorithms.markov.markov_network_bqm.html#dwave_networkx.algorithms.markov.markov_network_bqm"
+literal "false"
+
+\end_inset
+
+ funkcji tworzącej QUBO na podstawie sieci Markowa.
+ Tego typu funkcjonalności są również np.
+ dostępne w bibliotekach 
+\begin_inset CommandInset href
+LatexCommand href
+name "PyQUBO"
+target "https://pyqubo.readthedocs.io/en/latest/index.html"
+literal "false"
+
+\end_inset
+
+ czy 
+\begin_inset CommandInset href
+LatexCommand href
+name "ToQUBO.jl"
+target "https://pyqubo.readthedocs.io/en/latest/index.html"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Inne 
+\begin_inset Quotes pld
+\end_inset
+
+QUBO-walne
+\begin_inset Quotes prd
+\end_inset
+
+ modele
+\end_layout
+
+\begin_layout Standard
+Poza wymienionymi wyżej, do formy QUBO sprowadzić można między innymi również
+ np.
+ model regresji liniowej, maszyny wektorów nośnych (SVM), czy algorytm k-średnic
+h 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ML_models_QUBO_Linear_SVM_k_Means,SVM_QUBO_dWave"
+literal "false"
+
+\end_inset
+
+.
+ Z wymienionych, SVM-y faktycznie mają zastosowanie do śledzenia obiektów
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "object_recognition_with_SVM,object_detection_with_SVM"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+HUBO
+\end_layout
+
+\begin_layout Standard
+W przypadku gdy będziemy chcieli wykorzystać więcej niż 2 zródła informacji
+ (a w przypadku zbiorów danych w Sekcji 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Zbiory-danych"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ mamy ich faktycznie więcej), problem może nie dać się sprowadzić do postaci
+ QUBO (lub może to wymagać dodatkowych przekształceń), ponieważ będziemy
+ mieli wkłady wyższego rzędu.
+ Takie problemy optymalizacyjne nazywamy HUBO (Higher-order Unconstrained
+ Binary Optimization) i również dla nich możliwe jest uzyskanie rozwiązania
+ na komputerach kwantowych, jednak nie na wyżarzaczach kwantowych 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HUBO_solving_algorithm"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Wygenerowanie trajektorii na podstawie zgromadzonych danych
+\end_layout
+
+\begin_layout Standard
+Wszystkie rozważania w tej sekcji przeprowadzone są na podstawie zbioru
+ KITTI, a dokładniej podzbioru 2011_09_26_drive_0005 dostępnego pod 
+\begin_inset CommandInset href
+LatexCommand href
+name "tym linkiem"
+target "https://www.cvlibs.net/datasets/kitti/raw_data.php?type=city"
+literal "false"
+
+\end_inset
+
+.
+ Wybór był podyktowany stosunkowo niewielkim rozmiarem próbki, idealnym
+ do testów.
+ Rysunki można odtworzyć przy pomocy 
+\begin_inset CommandInset href
+LatexCommand href
+name "examples/KITTI_visualise.ipynb"
+target "https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/KITTI_visualise.ipynb"
+literal "false"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset href
+LatexCommand href
+name "examples/detect_and_track_YOLO.ipynb"
+target "https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/detect_and_track_YOLO.ipynb"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Format danych
+\end_layout
+
+\begin_layout Standard
+Pozyskanie danych pochodzących z wielu źródeł nie jest problemem, jednak
+ ich jednoczesne wykorzystanie do wykrywania obiektów i śledzenia ich trajektori
+i jest nietrywialne.
+ Wynika to w szczególności ze specyfiki samych danych: o ile obrazy z różnych
+ kamer są spójne jeśli chodzi o format danych, to już np.
+ dane z Lidar-ów zapisywane są w postaci tzw.
+ chmury punktów.
+ Co więcej, liczba punktów nie jest stała dla każdej klatki, co widać na
+ Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:liczba_pkt"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Oscyluje ona co prawda zazwyczaj koło 122500, ale jest to problem dla modeli
+ uczenia maszynowego, które preferują dostawać dane wsadowe zawsze w takim
+ samym kształcie.
+ Problem ten nie występuje dla danych z kamer, ponieważ są one zawsze w
+ wymiarze 375 x 1242 x 3, czyli 465750 pikseli z informacją o kolorze zakodowaną
+ w formacie RGB (przykładowa klatka z kamery jest pokazana na Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tylko_1_kamera"
+
+\end_inset
+
+).
+ Najprostszym rozwiązaniem z punktu widzenia łatwości implementacji w istniejący
+m już skrypcie do detekcji i śledzenia obiektów przy pomocy modelu YOLO
+ jest dodanie informacji z lidara bezpośrednio do obrazu w formie projekcji
+ do 2D, co jest pokazane na Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kamery_z_projekcja_lidaru"
+
+\end_inset
+
+.
+ Nie wykorzystujemy wtedy pełnej dostępnej informacji, ponieważ lidar zbiera
+ dane 3D (Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:lidar_3d"
+
+\end_inset
+
+).
+ Jest to zabieg o tyle konieczny, że model YOLO natywnie nie obsługuje informacj
+i z lidara (ani tym bardziej z kamer i lidara jednocześnie).
+\end_layout
+
+\begin_layout Standard
+Kolejnym potencjalnym problemem mogłaby być różnica w szybkości próbkowania
+ (liczbie zapisywanych klatek na sekundę) pomiędzy kamerami a lidarem.
+ Twórcy zbioru danych KITTI zapobiegli na szczęście takiej sytuacji poprzez
+ dostosowanie klatkowania kamer do prędkości, z jaką zbiera dane lidar,
+ tj.
+ 10 klatek na sekundę.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/points_per_frame.pdf
+	width 12cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Rozkład liczby punktów z pomiaru lidarem.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:liczba_pkt"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/just_camera.pdf
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Obraz z lewej kamery nagrywającej w kolorze (są po dwie nagrywające czarnobiały
+ i kolorowy obraz).
+ Wartości na osiach odpowiadają indeksom pikseli.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:tylko_1_kamera"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/velodyne_projection_front.pdf
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Obraz z kamer z nałożoną na niego projekcją chmur punktów z lidaru.
+ Kolor koduje odległość od pojazdu: czerwony to blisko, a niebieski: daleko.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kamery_z_projekcja_lidaru"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/lidar_top_view.pdf
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wizualizacja danych z lidaru w widoku z góry pojazdu.
+ Obraz przedstawia tą samą klatkę, która została wykorzystana w Rysunku
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kamery_z_projekcja_lidaru"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:lidar_top"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/3D_lidar.pdf
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wizualizacja danych z lidaru w projekcji 3D.
+ Dla polepszenia czytelności tylko co piąty punkt jest rysowany.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:lidar_3d"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Etykiety obiektów
+\end_layout
+
+\begin_layout Standard
+Użycie zbioru danych zamiast zwykłych nagrań ma oczywiście przede wszystkim
+ ogromną zaletę w postaci obecności etykiet danych, na podstawie których
+ można dokonać ustandaryzowanej oceny jakości wyników.
+ Pozwala to również na porównanie opublikowanych rezultatów uzyskanych różnymi
+ metodami.
+ Tego typu podsumowanie jest zresztą udostępnione na samej 
+\begin_inset CommandInset href
+LatexCommand href
+name "stronie KITTI"
+target "https://www.cvlibs.net/datasets/kitti/eval_tracking.php"
+literal "false"
+
+\end_inset
+
+.
+ Etykiety są tutaj zrealizowane w postaci trójwymiarowych prostopadłościanów,
+ okalających zidentyfikowane obiekty, co zostało pokazane na Rysunkach 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tylko_1_kamera_with_tracklets"
+
+\end_inset
+
+ i 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:lidar_3d_with_tracklets"
+
+\end_inset
+
+.
+ Należy tutaj zauważyć, że etykietowanie danych jako takie również jest
+ obarczone pewnymi ograniczeniami, co widać np.
+ na Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:tylko_1_kamera_with_tracklets"
+
+\end_inset
+
+, gdzie samochód zaparkowany z przodu po lewej stronie nie jest oznaczony.
+ Tak więc np.
+ wykrycie więcej obiektów niż jest etykiet w zbiorze danych nie musi oznaczać
+ wyniku fałszywie pozytywnego.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/just_camera_with_tracklets.pdf
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Obraz z lewej kamery nagrywającej w kolorze z dodanymi annotacjami danych
+ w postaci kolorowych 
+\begin_inset Quotes pld
+\end_inset
+
+pudełek
+\begin_inset Quotes prd
+\end_inset
+
+.
+ Kolory są przypisane do różnych typów obiektów, a nazwy kategorii są również
+ wypisane ponad obiektami.
+ Wartości na osiach odpowiadają indeksom pikseli.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:tylko_1_kamera_with_tracklets"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/3D_lidar_with_tracklets.pdf
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Wizualizacja danych z lidaru w projekcji 3D z dodanymi annotacjami danych
+ w postaci kolorowych 
+\begin_inset Quotes pld
+\end_inset
+
+pudełek
+\begin_inset Quotes prd
+\end_inset
+
+, gdzie kolory są przypisane do różnych typów obiektów.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:lidar_3d_with_tracklets"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Wstępne wyniki z YOLO
+\end_layout
+
+\begin_layout Standard
+Pierwsze podejście do detekcji obiektów zostało zrealizowane na samych danych
+ z kamer oraz na danych z kamer z nałożoną projekcją danych lidarowych.
+ W drugim przypadku należy się spodziewać potencjalnie gorszego wyniku,
+ ponieważ dostępne wstępnie nauczone modele nie były uczone na tego typu
+ danych, a na samych obrazach z kamer.
+ Do detekcji został użyty model YOLO (yolov8n), a jej wyniki są przedstawione
+ na Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:YOLO_detection_only_image"
+
+\end_inset
+
+.
+ Jak widać na Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:YOLO_detection_only_image_with_tracklets"
+
+\end_inset
+
+, detekcje modelu YOLO pokrywają się z etykietami.
+ Co więcej, model wykrył w pokazanym przykładzie jeden samochód więcej ponad
+ to, co było oznaczone.
+ Jednak z drugiej strony, nie udało mu się wykryć oznaczonego rowerzysty.
+ Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:YOLO_detection_image_with_lidar_proj"
+
+\end_inset
+
+ potwierdza wcześniejsze przypuszczenia o tym jak model bez żadnych modyfikacji
+ poradzi sobie na obrazie z nałożoną projekcją z lidaru.
+ Jedyny zidentyfikowany obiekt to samochód po prawej stronie, a do tego
+ niepoprawnie jako łódka (za co najprawdopodobniej można winić niebieski
+ kolor punktów z danych lidarowych.
+ Problem jest tutaj tak naprawdę dwojaki.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Model nie widział wcześniej tego typu danych, ponieważ był wstępnie trenowany
+ na zwykłych zdjęciach z kamer.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Projekcja chmury punktów z lidara na obraz z kamery zwyczajnie zasłania
+ część obrazu z kamery, co prowadzi de facto do utraty części informacji.
+\end_layout
+
+\begin_layout Standard
+Częściowym rozwiązaniem drugiego aspektu problemu może być zmiejszenie wielkości
+ punktów rysowanych w wyniku projekcji, jednak nadal konieczne będzie w
+ kolejnych krokach wytrenowanie modelu na nowym rodzaju danych.
+ Rysunek 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:YOLO_detection_image_with_lidar_proj_smaller"
+
+\end_inset
+
+ demonstruje, że w rzeczy samej pomniejszenie punktów poprawia wynik: tym
+ razem rowerzysta został poprawnie zidentyfikowany jako osoba.
+ Jest to o tyle ciekawe, że nie został on w ogóle wykryty na Rysunku 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:YOLO_detection_only_image"
+
+\end_inset
+
+, gdzie użyta była jedynie informacja z obrazu z kamery, co pokazuje, że
+ informacja z lidara może być faktycznie komplementarna do obrazu z kamer,
+ nawet jeśli wykorzystana w dosyć naiwny sposób.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/result_only_camera_frame_115.jpg
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:YOLO_detection_only_image"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/result_only_camera_frame_115_with_tracklets.jpg
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO z
+ nałożonymi etykietami z samego KITTI.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:YOLO_detection_only_image_with_tracklets"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/result_camera_with_lidar_proj_frame_115.jpg
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+ Detekcja została przeprowadzona na obrazie z kamer z nałożoną projekcją
+ chmury punktów z lidaru.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:YOLO_detection_image_with_lidar_proj"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename KITTI_plots/result_camera_with_lidar_proj_frame_115_smaller_points
+	width 16cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+ Detekcja została przeprowadzona na obrazie z kamer z nałożoną projekcją
+ chmury punktów z lidaru.
+ Punkty zostały narysowane w minimalnym możliwym rozmiarze.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:YOLO_detection_image_with_lidar_proj_smaller"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\start_of_appendix
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "AGH"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

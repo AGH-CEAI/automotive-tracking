@@ -1,0 +1,478 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass mwart
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Raport częściowy z wykonanych prac w ramach umowy poz.
+ 1/01/689/2024
+\end_layout
+
+\begin_layout Author
+Piotr Kalaczyński
+\end_layout
+
+\begin_layout Section*
+Szczegółowy wykaz obowiązków:
+\end_layout
+
+\begin_layout Enumerate
+Zebranie obrazów z przejazdów pojazdów mechanicznych
+\end_layout
+
+\begin_layout Enumerate
+Detekcja obiektów w pozyskanych danych
+\end_layout
+
+\begin_layout Enumerate
+Wyznaczanie trajektorii dla poruszających się obiektów
+\end_layout
+
+\begin_layout Enumerate
+Porównanie problemu ze śledzeniem cząstek w detektorach
+\end_layout
+
+\begin_layout Enumerate
+Opracowanie raportu
+\end_layout
+
+\begin_layout Section
+Dokumentacja:
+\end_layout
+
+\begin_layout Standard
+Cały kod rozwijany w ramach wyznaczonych zadań przechowywany jest w formie
+ otwartej w repozytorium 
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub/pkalaczynski/automotive-tracking"
+target "https://github.com/pkalaczynski/automotive-tracking"
+literal "false"
+
+\end_inset
+
+.
+ Dokumentacja zawarta jest w pliku 
+\begin_inset CommandInset href
+LatexCommand href
+name "README.md"
+target "https://github.com/pkalaczynski/automotive-tracking/blob/main/README.md"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Postęp prac:
+\end_layout
+
+\begin_layout Standard
+Dotychczas wykonane zostały następujące zadania: 
+\end_layout
+
+\begin_layout Subsection
+Zebranie obrazów z przejazdów pojazdów mechanicznych:
+\end_layout
+
+\begin_layout Standard
+Zostały zebrane zróżnicowane obrazy z przejazdów:
+\end_layout
+
+\begin_layout Enumerate
+Dane z misji Apollo15: 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://archive.org/download/Apollo15And1616mmOnboardFilm"
+target "https://archive.org/download/Apollo15And1616mmOnboardFilm"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Nagranie z drona pokazujące drogę podmiejską w Houston: 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://shorturl.at/gALOU"
+target "https://shorturl.at/gALOU"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ponadto, dodana została możliwość przetworzenia dowolnego filmu dostępnego
+ w serwisie YouTube, np.:
+\end_layout
+
+\begin_layout Enumerate
+Nagranie z przejazdu w śródmieściu Nowego Yorku: 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/7HaJArMDKgI?si=T0Bb3zOcz-YiOnMF"
+target "https://youtu.be/7HaJArMDKgI?si=T0Bb3zOcz-YiOnMF"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Ujęcie z wiaduktu na drogę wielopasmową: 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/Y1jTEyb3wiI?si=-gU51avblW5Qo-ij"
+target "https://youtu.be/Y1jTEyb3wiI?si=-gU51avblW5Qo-ij"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Obrzucanie kamieniami przez ludność cywilną przejeżdżającego konwoju tureckiego
+ wojska w Syrii: 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/jM2VrPE5kFg?si=RXfsB63fA58TuBSi"
+target "https://youtu.be/jM2VrPE5kFg?si=RXfsB63fA58TuBSi"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Detekcja obiektów i śledzenie trajektorii
+\end_layout
+
+\begin_layout Standard
+Do detekcji i śledzenia obiektów został użyty model YOLO (You Only Look
+ Once) v8.
+ Przykłady działania modelu na wymienionych w sekcji 2.1 materiałach wideo
+ są pokazane poniżej.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename apollo15_10_1_1st_frame_400.jpg
+	width 12cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa klatka z 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://archive.org/download/Apollo15And1616mmOnboardFilm"
+target "https://archive.org/download/Apollo15And1616mmOnboardFilm"
+literal "false"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:R1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename highway_drone_footage_frame_320.jpg
+	width 12cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa klatka z 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://shorturl.at/gALOU"
+target "https://shorturl.at/gALOU"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename frame400.jpg
+	width 12cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa klatka z 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/7HaJArMDKgI?si=T0Bb3zOcz-YiOnMF"
+target "https://youtu.be/7HaJArMDKgI?si=T0Bb3zOcz-YiOnMF"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename from_yt_2_frame_520.jpg
+	width 12cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa klatka z 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/Y1jTEyb3wiI?si=-gU51avblW5Qo-ij"
+target "https://youtu.be/Y1jTEyb3wiI?si=-gU51avblW5Qo-ij"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename from_yt_3_frame_200.jpg
+	width 12cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Przykładowa klatka z 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://youtu.be/jM2VrPE5kFg?si=RXfsB63fA58TuBSi"
+target "https://youtu.be/jM2VrPE5kFg?si=RXfsB63fA58TuBSi"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Uwagi:
+\end_layout
+
+\begin_layout Enumerate
+Jak widać na Rys.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:R1"
+
+\end_inset
+
+, model zdecydowanie nie widział wcześniej danych z łazików i błędnie klasyfikuj
+e jego element jako osobę ...
+\end_layout
+
+\begin_layout Enumerate
+Detekcja jest ograniczona rozdzielczością: obiekty o mniejszym rozmiarze
+ na klatce są rzadziej wykrywane.
+ Wykrywanie pojazdów w widoku całkowicie z góry wydawało się również działać
+ gorzej.
+\end_layout
+
+\end_body
+\end_document
