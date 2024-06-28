@@ -1,31 +1,12 @@
 #!/usr/bin/env python
 """
 This is a set of utility functions, which help to convert the KITTI dataset to the Ultralytics format
+and prepare the data to be used for training and validation of a object detection model (default: YOLO)
 """
 
-def read_calib_file(filepath):
-    """
-    [ taken from https://github.com/utiasSTARS/pykitti/blob/master/pykitti/utils.py ]
-    Read in a calibration file and parse into a dictionary.
-    """
-    import numpy as np
-    
-    data = {}
-
-    with open(filepath, 'r') as f:
-        for line in f.readlines():
-            try:
-                key, value = line.split(':', 1)
-            except ValueError:
-                key, value = line.split(' ', 1)
-            # The only non-float values in these files are dates, which
-            # we don't care about anyway
-            try:
-                data[key] = np.array([float(x) for x in value.split()])
-            except ValueError:
-                pass
-
-    return data
+# fixed size of KITTI images:
+IMG_WIDTH=1242
+IMG_HEIGHT=375
 
 def lidar_to_images(
         kitti_dir="../datasets/KITTI/",
@@ -36,37 +17,48 @@ def lidar_to_images(
     """
     import cv2
     import numpy as np
-    from kitti_foundation import Kitti_util
-
-    v_fov, h_fov = (-24.9, 2.0), (-90, 90) # field of view
-    v2c_filepath = '../datasets/KITTI/2011_09_26/calib_velo_to_cam.txt'
-    c2c_filepath = '../datasets/KITTI/2011_09_26/calib_cam_to_cam.txt'
-    velo_path = '../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data'
-    camera_path = '../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/image_02/data'
+    import sys
+    sys.path.append('../utils/')
+    import kitti_util as utils
+    import lidar
+    from glob import glob
 
     # get the list of scenes:
     scene_ids=[fname[-4:] for fname in glob(kitti_dir+subset+"/image_02/*", recursive = True)]
     scene_ids.sort()
 
     for scene_id in scene_ids:
+        print("Processing scene ",scene_id)
         # get the list of frames:
         frame_ids=[fname[-10:-4] for fname in glob(kitti_dir+"training/image_02/"+scene_id+"/*png", recursive = True)]
         frame_ids.sort()
 
         for frame_id in frame_ids:
-            # compute the projected lidar points:
+            # get the lidar points:
+            lidar_point_cloud = lidar.get_lidar(
+                dir='../datasets/KITTI/training/velodyne/'+scene_id,
+                filename=frame_id+'.bin',
+                point_cloud_only=True
+            )
+            lidar_distance = lidar.get_lidar(
+                dir='../datasets/KITTI/training/velodyne/'+scene_id,
+                filename=frame_id+'.bin',
+                distance_only=True
+            )
+            if lidar_point_cloud.size>0:
+            # get the calibration:
+                calibration = utils.Calibration("../datasets/KITTI/training/calib/"+scene_id+".txt")
 
-            image, points, color = Kitti_util(
-                frame=frame_id, camera_path=camera_path, velo_path=velo_path, v2c_path=v2c_filepath, \
-                c2c_path=c2c_filepath).velo_projection_frame(v_fov=v_fov, h_fov=h_fov)
+                # project the lidar points onto an image:
+                img_lidar = lidar.show_lidar_on_image(
+                    pc_velo=lidar_point_cloud, 
+                    img=np.zeros((IMG_HEIGHT,IMG_WIDTH)), # we just use a blank background
+                    calib=calibration, 
+                    img_width=IMG_WIDTH, 
+                    img_height=IMG_HEIGHT)
 
-            image*=0 # render the camera image blank
-
-            # draw the projected lidar points:
-            _ = [ cv2.circle(image, (np.int32(points[0][i]),np.int32(points[1][i])),1, (int(color[i]),255,255),-1) for i in range(points.shape[1]) ]
-
-            # save the image:
-            cv2.imwrite("../datasets/KITTI_for_YOLO/"+subset+"/images/camera_2/scene_"+scene_id+"_frame_"+frame_id+".jpg" % frame_no, image)
+                # save the image:
+                cv2.imwrite("../datasets/KITTI_for_YOLO/"+subset+"/lidar/images/scene_"+scene_id+"_frame_"+frame_id+".jpg", img_lidar)
 
 def kitti_to_ultra_labels(
         kitti_dir="../datasets/KITTI/",
@@ -115,13 +107,10 @@ def kitti_to_ultra_labels(
             ultra_df['class']=labels[slc]['type']
 
             # We need to norm to (0,1) by the image size:
-            img_width=1242 # constant width of KITTI images
-            img_height=375 # constant height of KITTI images
-
-            ultra_df['x_center']=0.5*(labels[slc]['bbox_left']+labels[slc]['bbox_right'])/img_width
-            ultra_df['y_center']=0.5*(labels[slc]['bbox_top']+labels[slc]['bbox_bottom'])/img_height
-            ultra_df['width']=(labels[slc]['bbox_right']-labels[slc]['bbox_left'])/img_width
-            ultra_df['height']=(labels[slc]['bbox_bottom']-labels[slc]['bbox_top'])/img_height
+            ultra_df['x_center']=0.5*(labels[slc]['bbox_left']+labels[slc]['bbox_right'])/IMG_WIDTH
+            ultra_df['y_center']=0.5*(labels[slc]['bbox_top']+labels[slc]['bbox_bottom'])/IMG_HEIGHT
+            ultra_df['width']=(labels[slc]['bbox_right']-labels[slc]['bbox_left'])/IMG_WIDTH
+            ultra_df['height']=(labels[slc]['bbox_bottom']-labels[slc]['bbox_top'])/IMG_HEIGHT
 
             # convert class names to integer IDs (matching KITTI.yaml):
             class_name_to_id = {
@@ -152,9 +141,11 @@ def split_train_test(
         start_scene_id=0,
         stop_scene_id=999999,
         only_labels=False,
+        only_lidar=False,
     ):
     """
-    Divides the images in training/ in the KITTI directory into a proper train and test dataset
+    Divides the images and/or labels in training/ in the KITTI 
+    directory into a proper train and test dataset
     """
     import os
     from glob import glob
@@ -166,7 +157,10 @@ def split_train_test(
         scene_ids=[fname[-4:] for fname in glob(kitti_dir+"training/image_02/*", recursive = True)]
         scene_ids.sort()
         scene_ids=np.asarray(scene_ids)
-        scene_ids=scene_ids[(scene_ids.astype(int)>=start_scene_id) & (scene_ids.astype(int)<=stop_scene_id)]
+        scene_ids=scene_ids[
+            (scene_ids.astype(int)>=start_scene_id) & 
+            (scene_ids.astype(int)<=stop_scene_id)
+        ]
 
         for scene_id in scene_ids:
             """
@@ -181,11 +175,15 @@ def split_train_test(
                 subset = "testing"
                 print("copying the test labels")
                 # move the labels:
-                os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/camera_1/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/camera_1/labels/")
-                os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/camera_2/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/camera_2/labels/")
-                os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/lidar/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/lidar/labels/")
+                if not only_lidar:
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/camera_1/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/camera_1/labels/")
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/camera_2/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/camera_2/labels/")
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/lidar/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/lidar/labels/")
+                if not only_labels:
+                    print("copying the test lidar projection images")
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/lidar/images/scene_"+scene_id+"_frame_*.jpg /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/lidar/images/")
 
-            if not only_labels:
+            if not only_labels and not only_lidar:
                 # get the list of frames:
                 frame_ids=[fname[-10:-4] for fname in glob(kitti_dir+"training/image_02/"+scene_id+"/*png", recursive = True)]
                 frame_ids.sort()
@@ -197,11 +195,6 @@ def split_train_test(
 
                     img_png = Image.open(kitti_dir+"training/image_03/"+scene_id+"/"+frame_id+".png") 
                     img_png.save("../datasets/KITTI_for_YOLO/"+subset+"/images/camera_2/scene_"+scene_id+"_frame_"+frame_id+".jpg")
-
-                    # os.system("cp -v "+kitti_dir+"training/image_02/"+scene_id+"/"+frame_id+".png ../datasets/KITTI_for_YOLO/"+subset+"/images/camera_1/scene_"+scene_id+"_frame_"+frame_id+".png")
-                    # os.system("cp -v "+kitti_dir+"training/image_03/"+scene_id+"/"+frame_id+".png ../datasets/KITTI_for_YOLO/"+subset+"/images/camera_2/scene_"+scene_id+"_frame_"+frame_id+".png")
-
-                # lidar must be 1st converted to img projections
     else:
         print("Other splitting modes are currently not implemented")
         raise NotImplementedError
