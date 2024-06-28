@@ -2,4 +2,5 @@ datasets/
 models/
 output/
 examples/*pdf
+examples/runs
 utils/__pycache__
