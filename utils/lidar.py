@@ -2,13 +2,6 @@
 Lidar-related helper functions
 Adapted from https://github.com/kuangliu/kitti-utils
 """
-# import sys
-# sys.path.append('.')
-# from kitti_util import project_rect_to_image,project_velo_to_ref,project_ref_to_rect
-
-# # get the calibration:
-# calibration = utils.Calibration("../datasets/KITTI/training/calib/"+scene_id+".txt")
-# import kitti_util as utils
 
 def get_lidar(
         dir='../datasets/KITTI/training/velodyne/0000',
