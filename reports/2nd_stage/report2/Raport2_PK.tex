@@ -1,0 +1,4460 @@
+%% LyX 2.3.7 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english,polish]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[latin9,latin2]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm,headheight=2cm,headsep=2cm,footskip=1cm}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stackrel}
+\usepackage{graphicx}
+\usepackage[unicode=true,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=3,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+\hypersetup{
+ pdfauthor={Piotr Kalaczyñski}}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{inconsolata}
+
+\@ifundefined{showcaptionsetup}{}{%
+ \PassOptionsToPackage{caption=false}{subfig}}
+\usepackage{subfig}
+\makeatother
+
+\usepackage{listings}
+\lstset{backgroundcolor={\color{white}},
+frame=single,
+frameround=ffff}
+\usepackage[style=numeric-comp,sorting=none,giveninits=true]{biblatex}
+\addto\captionsenglish{\renewcommand{\lstlistingname}{Listing}}
+\addto\captionspolish{\renewcommand{\lstlistingname}{Listing}}
+\renewcommand{\lstlistingname}{Listing}
+
+\addbibresource{AGH.bib}
+\begin{document}
+\title{\selectlanguage{english}%
+\inputencoding{latin9}%
+Raport ko\'{n}cowy \l \k{a}czny z wykonanych prac w ramach umowy\inputencoding{latin2}\foreignlanguage{polish}{
+poz. 1/04/689/2024}}
+\author{\inputencoding{latin2}%
+Piotr Kalaczyñski}
+\date{~}
+\maketitle
+
+\part*{Szczegó³owy wykaz obowi±zków:}
+\begin{enumerate}
+\item Zgromadzenie danych z przejazdów pojazdów mechanicznych zawieraj±cych
+przes³aniaj±ce siê obiekty, pochodz±cych z wielu ¼róde³
+\item Przegl±d modeli energetycznych mog±cych s³u¿yæ do rozwi±zywania problemu
+¶ledzenia trajektorii
+\item Wygenerowanie trajektorii na podstawie zgromadzonych danych
+\item Opracowanie raportu
+\end{enumerate}
+
+\part*{Dokumentacja:}
+
+Ca³y kod rozwijany w ramach wyznaczonych zadañ przechowywany jest
+w formie otwartego oprogramowania w repozytorium \href{https://github.com/AGH-CEAI/automotive-tracking}{GitHub/AGH-CEAI/automotive-tracking}.
+Dokumentacja zawarta jest w pliku \href{https://github.com/pkalaczynski/automotive-tracking/blob/main/README.md}{README.md}.
+
+\part*{Postêp prac:}
+
+Dotychczas wykonane zosta³y nastêpuj±ce zadania:
+
+\section{Zgromadzenie danych z przejazdów pojazdów mechanicznych zawieraj±cych
+przes³aniaj±ce siê obiekty, pochodz±cych z wielu ¼róde³\label{chap:Zbiory-danych}}
+
+Zbiory danych zosta³y pozyskane z publicznie dostêpnych zasobów, w
+wiêkszo¶ci powi±zanych z konkretnymi publikacjami. Z uwagi na ograniczon±
+dostêpn± przestrzeñ dyskow±, nie ka¿dy zbiór danych mo¿e byæ na sta³e
+przechowywany na serwerze tatooine. Dla ka¿dego ze szczegó³owiej opisanych
+zosta³ jednak przygotowany skrypt pobieraj±cy, zlokalizowany w \href{https://github.com/AGH-CEAI/automotive-tracking/datasets}{GitHub/AGH-CEAI/automotive-tracking/datasets/[nazwa-zbioru-danych]/}
+a tak¿e w Sekcji \ref{sec:Powi=000105zane-skrypty}.
+
+\subsection{KITTI}
+\begin{itemize}
+\item Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH):
+\\
+/home/piokal/automotive-tracking/datasets/KITTI
+\item Ca³kowity rozmiar po kompresji: 64GB
+\item Powi±zane publikacje: \cite{kitti-Geiger2012CVPR,kitti-Luiten2020IJCV}
+\item Wykorzystywane czujniki:
+\begin{itemize}
+\item 1 System nawigacji inercyjnej (GPS/IMU): OXTS RT 3003
+\item 1 Lidar (skaner laserowy): Velodyne HDL-64E
+\item 2 kamery nagrywaj±ce w skali szaro¶ci cameras, 1.4 Mpix: Point Grey
+Flea 2 (FL2-14S3M-C)
+\item 2 kamery nagrywaj±ce w kolorze, 1.4 Mpix: Point Grey Flea 2 (FL2-14S3C-C)
+\end{itemize}
+\end{itemize}
+
+\subsection{EU Long-term Dataset with Multiple Sensors for Autonomous Driving}
+\begin{itemize}
+\item Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH):
+\\
+/home/piokal/automotive-tracking/datasets/EU\_longerm
+\item Ca³kowity rozmiar wybranego podzbioru po kompresji: 94 GB
+\item Powi±zana publikacja \cite{yan_eu_2020}
+\item Wykorzystywane czujniki:
+\begin{itemize}
+\item Dwie kamery stereo:
+\begin{itemize}
+\item Bumblebee XB3 obrócona do przodu pojazdu, zamontowana na przodzie
+dachu.
+\item Bumblebee2 obrócona do ty³u pojazdu, zamontowana z ty³u dachu.
+\end{itemize}
+\item Dwa lidary Velodyne HDL-32E, zamontowane obok siebie na froncie dachu
+samochodu.
+\item Dwie kamery przemys³owe Pixelink PL-B742F z soczewkami typi ,,rybie
+oko'' Fujinon FE185C086HA-1, zainstalowane na ¶rodku dachu i zwrócone
+w kierunku boków samochodu.
+\item Lidar ibeo LUX 4L wbudowany w przedni zderzak blisko osi samochodu.
+\item Radar Continental ARS 308 zamocowany obok lidara ibeo LUX.
+\item Dalmierz laserowy (lidar 2D) SICK LMS100-10000, zamontowany na boku
+przedniego zderzaka i zwrócony w kierunku drogi.
+\item Nawigacja Magellan ProFlex 500 GNSS zamontowana wewn±trz samochodu,
+z dwiema antenami na dachu.
+\item Akcelerometr Xsens MTi-28A53G25 IMU zamontowany wewn±trz pojazdu.
+\end{itemize}
+\end{itemize}
+Zbiór danych zawiera miêdzy innymi szereg wyselekcjonowanych ,,wyzwañ'',
+które zosta³y umieszczone w podfolderze challenges. Zawieraj± one
+warunki drogowe potencjalnie utrudniaj±ce identyfikacjê obiektów:
+objazd z powodu robót drogowych, ronda, ¶nieg, nieprzepisow± jazdê
+innych kierowców, go³êbie na drodze, policjê, strefê wspólnego ruchu
+pieszych i pojazdów, czy zwê¿enia pasów ruchu.
+
+
+\subsection{nuScenes}
+\begin{itemize}
+\item Lokalizacja na serwerze tatooine (IP 10.156.253.203 w sieci AGH):
+\\
+/home/piokal/automotive-tracking/datasets/nuScenes
+\item Ca³kowity rozmiar po kompresji: 395GB (zbyt du¿o aby przechowywaæ
+na sta³e)
+\item Powi±zana publikacja \cite{nuscenes2019}
+\item Wykorzystywane czujniki:
+\begin{itemize}
+\item 6 kamer nagrywaj±cych w kolorze
+\item 1 obracaj±cy siê lidar
+\item 5 radarów
+\item system GPS
+\item system IMU
+\item system AHRS
+\end{itemize}
+\end{itemize}
+
+\subsection{Inne}
+
+Zidentyfikowanych zosta³o kilka dalszych potencjalnie interesuj±cych
+zbiorów danych, jednak nie zosta³y dotychczas bli¿ej zbadane ze wzglêdu
+na ograniczenia czasowe oraz w dostêpnej przestrzeni dyskowej:
+\begin{itemize}
+\item KAIST \cite{KAIST}
+\item IDD \cite{IDD_indian_dataset}
+\item A2D2 \cite{A2D2_Audi_dataset}
+\item BDD100K \cite{BDD100K}
+\item Cityscapes \cite{Cityscapes}
+\item Leddar PixSet \cite{PixSet}
+\item PandaSet \cite{PandaSet}
+\item Waymo \cite{Waymo_dataset}
+\end{itemize}
+
+\section{Przegl±d modeli mog±cych s³u¿yæ do rozwi±zywania problemu ¶ledzenia
+trajektorii}
+
+Istnieje szereg modeli energetycznych, które mog± byæ stosowane do
+rozwi±zywania problemu ¶ledzenia trajektorii wielu obiektów (Multiple
+Object Tracking; MOT). Mo¿na je stosowaæ zarówno w klasycznych algorytmach
+optymalizacyjnych, jak i w charakterze hamiltonianów u¿ywanych przy
+wy¿arzaniu kwantowym. Podstawowa procedura polega na zmapowaniu danego
+modelu do QUBO (Quadratic Unconstrained Binary Optimization), czyli
+problemu optymalizacyjnego:
+
+\begin{equation}
+f_{\mathsf{obj}}(x,Q)=x^{T}\cdot Q\cdot x=\stackrel[i=1]{n}{\sum}\stackrel[j=1]{n}{\sum}Q_{ij}x_{i}x_{j},
+\end{equation}
+gdzie $x$ to wektor zmiennych binarnych z warto¶ciami $x_{i}\in\left\{ 0,1\right\} $,
+$f_{\mathsf{obj}}$ to funkcja celu, a $Q$ to macierz trójk±tna,
+zawieraj±ca wagi dla ka¿dej pary indeksów $i,j$. Celem optymalizacji
+jest znalezienie ekstremum $x_{\mathsf{extr}}$ funkcji $f_{\mathsf{obj}}$.
+
+\subsection{Model Isinga}
+
+Model Isinga powsta³ aby opisaæ zachowanie materia³ów ferromagnetycznych.
+Opisuje on uk³ad spinów $S_{i}$, mog±cych przyjmowaæ jedynie dwie
+warto¶ci: $-1$ lub $+1$, równomiernie rozmieszczonych na dwuwymiarowej
+siatce. Energiê ca³ego uk³adu opisuje nastêpuj±cy hamiltonian:
+
+\begin{equation}
+H=-\frac{1}{2}\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}S_{i}S_{j}-\underset{i}{\sum}h_{i}S_{i},\label{eq:Ising}
+\end{equation}
+gdzie $i$, $j$ s± indeksami wêz³ów, a $\left\langle i,j\right\rangle $
+oznacza, ¿e jedynie s±siaduj±ce wêz³y s± brane pod uwagê i ka¿dy jest
+liczony jedynie raz. Parametr $J_{ij}$ okre¶la si³ê oddzia³ywania
+miêdzy spinami w danym wê¼le $ij$, a $h_{i}$ --- oddzia³ywanie
+zewnêtrznego pola magnetycznego z indywidualnym spinem $i$.
+
+\subsubsection{Sformu³owanie jako QUBO}
+
+Mapowanie modelu Isinga do QUBO jest raczej trywialne, poniewa¿ relacja
+pomiêdzy spinami, a zmienn± $x$ to:
+
+\begin{equation}
+x_{i}=\frac{1+S_{i}}{2},
+\end{equation}
+
+\begin{equation}
+S_{i}=2x_{i}-1,
+\end{equation}
+co wynika z potrzeby przesuniêcia bazy z $\left\{ -1,1\right\} $
+do $\left\{ 0,1\right\} $. Wyra¿enia kwadratowe w $f_{\mathsf{obj}}(x,Q)$
+bêd± odpowiada³y pierwszemu cz³onowi hamiltonianu w Równaniu \ref{eq:Ising},
+a liniowe --- drugiemu. Funkcja $f_{\mathsf{obj}}(x,Q)$ bêdzie w
+takim wypadku mia³a postaæ:
+\begin{flushleft}
+\begin{multline}
+\begin{aligned}f_{\mathsf{obj}}(x,Q) & =-\frac{1}{2}\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}\left(2x_{i}-1\right)\left(2x_{j}-1\right)-\underset{i}{\sum}h_{i}\left(2x_{i}-1\right)=...\\
+ & =\underset{\left\langle i,j\right\rangle }{\sum}\left(-4J_{ij}x_{i}x_{j}\right)-\underset{j}{\sum}\left(\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j}\right)x_{j}-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}-\underset{j}{\sum}h_{j}\\
+ & =\stackrel[i=1]{n}{\sum}\stackrel[j=1]{i}{\sum}Q_{ij}x_{i}x_{j}+C_{1}
+\end{aligned}
+\end{multline}
+Poniewa¿ przesuniêcie o sta³± nie ma znaczenia przy wyznaczaniu ekstremum
+(w tym przypadku minimum energii), $C_{1}=-\underset{\left\langle i,j\right\rangle }{\sum}J_{ij}-\underset{j}{\sum}h_{j}$
+mo¿na zaniedbaæ i finalny wynik to
+\par\end{flushleft}
+
+\begin{equation}
+f_{\mathsf{obj}}(x,Q)=\underset{\left\langle i,j\right\rangle }{\sum}\left(-4J_{ij}x_{i}x_{j}\right)-\underset{j}{\sum}\left(\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j}\right)x_{j}=\stackrel[i=1]{n}{\sum}\stackrel[j=1]{i}{\sum}Q_{ij}x_{i}x_{j},\label{eq:Ising_QUBO}
+\end{equation}
+gdzie macierz $Q$ ma postaæ
+
+\begin{equation}
+Q_{ij}=\left\{ \begin{array}{cc}
+-4J_{ij} & \mathsf{dla\,i\neq j}\\
+\underset{\left\langle i,k=j\right\rangle }{\sum}\left(2J_{ki}+2J_{ik}\right)+2h_{j} & \mathsf{dla\,i=j}
+\end{array}\right..
+\end{equation}
+Z racji bardzo prostego liniowego przekszta³cenia miêdzy $x_{i}$
+a $S_{i}$ mówi siê, ¿e model Isinga jest to¿samy z QUBO.
+
+\subsubsection{Zastosowanie do analizy obrazów}
+
+Problem dopasowania stereo (dopasowania odpowiadaj±cych sobie pixeli
+z dwóch ró¿nych projekcji tego samego obrazu) mo¿na rozwi±zaæ definiuj±c
+funkcjê ,,energii'' analogiczn± do Modelu Isinga, któr± bêdzie mo¿na
+nastêpnie zminimalizowaæ:
+
+\begin{equation}
+f_{\mathsf{stereo}}(l)=\underset{\left\langle p,q\right\rangle \in\mathcal{N}}{\sum}V_{pq}\left(l_{p},l_{q}\right)-\underset{p\in\mathcal{P}}{\sum}D_{p}\left(l_{p}\right),
+\end{equation}
+gdzie etykietowania $l$ mapuj± pixele $p\in\mathcal{P}$ do etykiet
+ze zbioru $\mathcal{L}$, czyli $l:\mathcal{P}\rightarrow\mathcal{L}$,
+$D_{p}$ modeluje koszt przypisania $l_{p}$ do pixela $p$ (i $l_{q}$
+do pixela $q$), $V_{pq}$ modeluje koszt przypisania $l_{p}$ do
+pixela $p$ i $l_{q}$ do pixela $q$ je¶li pixele $p$ i $q$ s±siaduj±
+ze sob±. $\mathcal{N}$ to zbiór s±siaduj±cych par pixeli $\left\langle p,q\right\rangle $
+\cite{cruz-santos_qubo_2018}.
+
+\subsubsection{Pokrewne modele}
+
+Powsta³ szereg generalizacji i wariantów modelu Isinga. Przyk³adowo,
+uogólniony model Pottsa dopuszcza dowoln± liczbê stanów spinów: $S_{i}=0,1,...,q$.
+Kolejnymi przyk³adami s± model XY czy model Heisenberga, jednak nie
+znalaz³y one szerokiego zastosowania w ¶ledzeniu trajektorii obiektów.
+
+\subsection{Probabilistyczne modele grafowe}
+
+Probabilistyczne modele grafowe (PGM) to rodzina modeli wykorzystuj±cych
+grafy do przedstawienia zale¿no¶ci pomiêdzy zmiennymi. W takich modelach
+wêz³y odpowiadaj± konkretnym zmiennym, a krawêdzie zale¿no¶ciom pomiêdzy
+tymi zmiennymi. Grafy mog± byæ skierowane (zale¿no¶æ miêdzy zmiennymi
+jest jednostronna) lub nieskierowane (zale¿no¶æ obustronna), a tak¿e
+cykliczne (zawieraj±ce zamkniête cykle/pêtle) lub acykliczne (nie
+zawieraj±ce zamkniêtych pêtli).
+
+\subsubsection{Modele Bayesowskie}
+
+Zale¿no¶ci miêdzy zmiennymi s± modelowane przy pomocy twierdzenia
+Bayesa:
+
+\begin{equation}
+P\left(\left.A\right|B\right)=\frac{P\left(\left.B\right|A\right)P\left(A\right)}{P\left(B\right)},
+\end{equation}
+gdzie $A$ i $B$ to zdarzenia i $P\left(B\right)>0$, a $P\left(\left.A\right|B\right)=\frac{P\left(A\cap B\right)}{P\left(B\right)}$
+oznacza prawdopodobieñstwo warunkowe (prawdopodobieñstwo $A$, o ile
+zajdzie $B$). Modele tego typu s± stosowane do problemów MOT \cite{Bayesian_tracking,Bayesian_online_tracking},
+co wiêcej mo¿na je sprowadziæ do problemu QUBO i tym samym rozwi±zaæ
+na wy¿arzaczu kwantowym \cite{bayesian_networs_with_QUBO}. Modele
+Bayesowskie s± te¿ nazywane sieciami Bayesowskimi i bazuj± na reprezentacji
+problemu jako skierowanego grafu acyklicznego. W porównaniu do sprowadzenia
+modelu Isinga do postaci QUBO (Równanie \ref{eq:Ising_QUBO}), wyra¿enie
+problemu uczenia struktury sieci Bayesowskiej jako QUBO jest zdecydowanie
+nietrywialne i przyk³adowy wynik z \cite{bayesian_networs_with_QUBO}
+przedstawia siê nastêpuj±co:
+
+\[
+H(\mathbf{d},\mathbf{y},\mathbf{r})\equiv H_{\text{score}}(\mathbf{d})+H_{\text{max}}(\mathbf{d},\mathbf{y})+H_{\text{cycle}}(\mathbf{d},\mathbf{r}),
+\]
+gdzie
+
+$H_{\text{score}}(\mathbf{d})=\stackrel[i=1]{n}{\sum}\sum_{\substack{J\subset\{1,\cdots,n\}\setminus\{i\}\\
+|J|\leq m
+}
+}\left(w_{i}(J)\prod_{j\in J}d_{ji}\right),$
+
+$H_{\text{max}}(\mathbf{d},\mathbf{y})=\stackrel[i=1]{n}{\sum}\delta_{\text{max}}^{(i)}(m-d_{i}-y_{i})^{2}$,
+
+$H_{\text{cycle}}(\mathbf{d},\mathbf{r})\equiv\sum_{1\leq i<j\leq n}\delta_{\text{consist}}^{(ij)}(d_{ji}r_{ij}+d_{ij}(1-r_{ij}))+\sum_{1\leq i<j\leq n}\delta_{\text{trans}}^{(ijk)}\left(r_{ik}+r_{ij}r_{jk}-r_{ij}r_{ik}-r_{jk}r_{ik}\right)$,
+
+oraz
+
+$w_{i}(J)=\sum_{l=0}^{|J|}(-1)^{|J|-l}\sum_{\substack{K\subset J\\
+|K|=l
+}
+}s_{i}(K)$, 
+
+$\delta_{\text{max}}^{(i)}$, $\delta_{\text{consist}}^{(ij)}$, $\delta_{\text{trans}}^{(ijk)}$
+to wagi kary, bêd±ce wolnymi parametrami w modelu,
+
+$d_{ij}$ --- macierz s±siedztwa: $d_{ij}=1$ je¿eli $X_{i}$ i $X_{j}$
+s± po³±czone krawêdzi± (0 je¶li nie lub $i=j$), 
+
+$r_{ij}=1$ odpowiada kolejno¶ci wierzcho³ków od $i$ do $j$ (a $r_{ij}=0$
+odwrotnej),
+
+$y_{i}\equiv\sum_{l=1}^{\mu}2^{l-1}y_{il}$ jest lu¼n± zmienn± (slack
+variable), zakodowan± przy pomocy $\mu\equiv\left\lceil \log_{2}(m+1)\right\rceil $
+bitów, gdzie $m$ jest maksymaln± liczb± rodziców zmiennej $X_{i}$.
+
+\subsubsection{Losowe Pola Markowa }
+
+Losowe pola Markowa (Markov Random Field; MRF), zwane te¿ sieciami
+Markowa to przyk³ad modeli opartych na ³añcuchu Markowa, wyra¿onych
+w oparciu o nieskierowane modele grafowe. Sieci Markowa mog± byæ cykliczne,
+wiêc s± komplementarne w stosunku do sieci Bayesowskich (tzn. mog±
+opisywaæ zale¿no¶ci, których te pierwsze nie s± w stanie). Podobnie
+jak modele Bayesowskie, MRF mo¿na równie¿ przedstawiæ jako QUBO \cite{MRF_x_QUBO}.
+£añcuch Markowa modeluje rozwój zmiennej losowej w czasie przy za³o¿eniu,
+¿e kolejny stan zale¿y jedynie od obecnego i ,,nie pamiêta'' o wcze¶niejszych.
+Ró¿nic± miêdzy podstawowym ³añcuchem Markowa, a MRF jest ilo¶æ zmiennych
+losowych. £añcuch Markowa jest modelem stosowanym dla pojedynczej
+zmiennej, podczas gdy dla MRF mo¿e ich byæ dwie lub wiêcej. Ponadto,
+aby losowe pole by³o polem Markowa, musi spe³niaæ jedn± z tzw. w³asno¶ci
+Markowa. Dla danego grafu nieskierowanego $G=\left(V,E\right)$, gdzie
+$V$ to wierzcho³ki (vertices) a $E$ to krawêdzie (edges), którego
+wierzcho³kom przypisany jest zbiór zmiennych losowych $X=\left(X_{v}\right)_{v\in V}$,
+mo¿na je wyraziæ w nastêpuj±cy sposób:
+\begin{itemize}
+\item parowa: dla ka¿dych $\left(i,j\right)\in V$ które nie s± przyleg³e
+oraz $i\neq j$, $X_{i}\perp\!\!\!\perp X_{j}\mid X_{V\smallsetminus\{i,j\}}$,\\
+(dwie zmienne losowe, których powi±zane wierzcho³ki nie s± s±siadami,
+s± warunkowo niezale¿ne od pozosta³ych zmiennych)
+\item lokalna: dla ka¿dego $i\in V$ oraz $J\subset V$ nie zawieraj±cego
+ani nie s±siaduj±cego z $i$, $X_{i}\perp\!\!\!\perp X_{J}\mid X_{V\smallsetminus\left(\{i\}\cup J\right)}$,\\
+(zmienna losowa jest warunkowo niezale¿na od wszystkich pozosta³ych,
+bior±c pod uwagê jej s±siadów)
+\item globalna: dla ka¿dych $\left(I,J\right)\subset V$ które nie s± przyleg³e
+ani nie zawieraj± elementów wspólnych, $X_{I}\perp\!\!\!\perp X_{J}\mid X_{V\smallsetminus\left(I\cup J\right)}$
+.\\
+(ka¿da para podzbiorów zmiennych losowych $X_{I}$, $X_{J}$ jest
+warunkowo niezale¿na je¶li mo¿na wskazaæ podzbiór, który je oddziela
+tak, ¿e ka¿da ¶cie¿ka od wierzcho³ka w $I$ do wierzcho³ka w $J$
+prowadzi przez ten podzbiór)
+\end{itemize}
+Z w³asno¶ci globalnej wynika lokala, a z lokalnej parowa (ale niekoniecznie
+w drug± stronê). 
+
+Na korzy¶æ potencjalnego zastosowania MRF na wy¿arzaczach kwantowych
+przemawia fakt, ¿e oprogrowamowanie Ocean dostarczane przez firmê
+D-Wave Systems zawiera \href{https://docs.ocean.dwavesys.com/en/latest/docs_dnx/reference/algorithms/generated/dwave_networkx.algorithms.markov.markov_network_bqm.html\#dwave_networkx.algorithms.markov.markov_network_bqm}{gotow± implementacjê}
+funkcji tworz±cej QUBO na podstawie sieci Markowa. Tego typu funkcjonalno¶ci
+s± równie¿ np. dostêpne w bibliotekach \href{https://pyqubo.readthedocs.io/en/latest/index.html}{PyQUBO}
+czy \href{https://pyqubo.readthedocs.io/en/latest/index.html}{ToQUBO.jl}.
+
+\subsection{Inne modele daj±ce siê sprowadziæ do formy QUBO}
+
+Poza wymienionymi wy¿ej, do formy QUBO sprowadziæ mo¿na miêdzy innymi
+równie¿ np. model regresji liniowej, maszyny wektorów no¶nych (SVM)
+czy algorytm k-¶rednich \cite{ML_models_QUBO_Linear_SVM_k_Means,SVM_QUBO_dWave}.
+Z wymienionych, SVM faktycznie maj± zastosowanie do ¶ledzenia obiektów
+\cite{object_recognition_with_SVM,object_detection_with_SVM}.
+
+\subsection{HUBO}
+
+W przypadku wykorzystania wiêcej ni¿ 2 zróde³ informacji (w przypadku
+zbiorów danych w Sekcji \ref{chap:Zbiory-danych} jest ich rzeczywi¶cie
+wiêcej) problem mo¿e nie daæ siê sprowadziæ do postaci QUBO (lub mo¿e
+to wymagaæ dodatkowych przekszta³ceñ), poniewa¿ w hamiltonianie mog±
+wyst±piæ wk³ady wy¿szego rzêdu. Takie problemy optymalizacyjne okre¶lane
+s± jako HUBO (Higher-order Unconstrained Binary Optimization) i równie¿
+dla nich mo¿liwe jest uzyskanie rozwi±zania na komputerach kwantowych,
+jednak nie na wy¿arzaczach kwantowych \cite{HUBO_solving_algorithm}.
+
+\section{Wygenerowanie trajektorii na podstawie zgromadzonych danych \label{sec:Wygenerowanie-trajektorii}}
+
+Wszystkie rozwa¿ania w tej sekcji przeprowadzone s± na podstawie zbioru
+KITTI, a dok³adniej dwóch jego podzbiorów:
+\begin{enumerate}
+\item Mniejszego zbioru z pojedyncz± scen± (ci±g³ym zestawem klatek nagranych
+w trakcie tego samego przejazdu pojazdu): \href{https://www.cvlibs.net/datasets/kitti/raw_data.php?type=city}{2011\_09\_26\_drive\_0005}.
+Na jego podstawie zosta³y opracowane Sekcje \ref{subsec:Format-danych},
+\ref{subsec:Etykiety-obiekt=0000F3w} oraz \ref{subsec:Wst=000119pne-wyniki}.
+\item Pe³nego zbioru dedykowanego do identyfikacji obiektów, zawieraj±cego
+21 ró¿nych scen: \href{https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d}{3D Object Detection Evaluation 2017}.
+Zosta³ on wykorzystany w sekcji \ref{subsec:Trening-YOLO}.
+\end{enumerate}
+Wybór by³ podyktowany stosunkowo niewielkim rozmiarem próbki, idealnym
+do testów. Rysunki mo¿na odtworzyæ przy pomocy notatników \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/KITTI_visualise.ipynb}{examples/KITTI\_visualise.ipynb}
+i \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/detect_and_track_YOLO.ipynb}{examples/detect\_and\_track\_YOLO.ipynb}.
+
+\subsection{Format danych\label{subsec:Format-danych}}
+
+Pozyskanie danych pochodz±cych z wielu ¼róde³ nie jest problemem,
+jednak ich jednoczesne wykorzystanie do wykrywania obiektów i ¶ledzenia
+ich trajektorii jest nietrywialne. Wynika to w szczególno¶ci ze specyfiki
+samych danych: o ile obrazy z ró¿nych kamer s± spójne je¶li chodzi
+o format danych, to ju¿ np. dane z lidarów zapisywane s± w postaci
+tzw. chmury punktów. Co wiêcej, liczba punktów nie jest sta³a dla
+ka¿dej klatki, co zosta³o przedstawione na Rysunku \ref{fig:liczba_pkt}.
+Dla testowanej sceny z podzbioru \href{https://www.cvlibs.net/datasets/kitti/raw_data.php?type=city}{2011\_09\_26\_drive\_0005}
+jest ona dla wiêkszo¶ci klatek zbli¿ona do 122500, jednak zmienno¶æ
+w formacie danych wej¶ciowych jest potencjalnym problemem dla modeli
+detekcyjnych takich jak np. YOLO czy R-CNN. Co prawda s± one w stanie
+obs³ugiwaæ ró¿ne rozdzielczo¶ci poprzez przeskalowanie otrzymanych
+danych, jednak maj± ograniczenia na maksymaln± i minimaln± wielko¶æ
+obrazów. Problem tego rodzaju nie wystêpuje dla danych z kamer, poniewa¿
+w zbiorze danych KITTI s± one zawsze w wymiarze 375 x 1242 x 3, czyli
+465750 pikseli z informacj± o kolorze zakodowan± w formacie RGB (przyk³adowa
+klatka z kamery jest pokazana na Rysunku \ref{fig:tylko_1_kamera}).
+Najprostszym rozwi±zaniem z punktu widzenia implementacji w powsta³ym
+ju¿ skrypcie do detekcji i ¶ledzenia obiektów przy pomocy modelu YOLO
+by³o dodanie informacji z lidara bezpo¶rednio do obrazu w formie projekcji
+do 2D, co zosta³o pokazane na Rysunku \ref{fig:kamery_z_projekcja_lidaru}.
+Pe³na dostêpna informacja nie zostaje wtedy wykorzystana, poniewa¿
+lidar zbiera dane 3D (Rysunek \ref{fig:lidar_3d}). Jest to zabieg
+o tyle konieczny, ¿e model YOLO natywnie nie obs³uguje informacji
+z lidara (ani tym bardziej z kamer i lidara jednocze¶nie).
+
+Kolejnym potencjalnym problemem mog³aby byæ ró¿nica w szybko¶ci próbkowania
+(liczbie zapisywanych klatek na sekundê) pomiêdzy kamerami a lidarem.
+Szczê¶liwie, twórcy zbioru danych KITTI zapobiegli takiej sytuacji
+poprzez dostosowanie klatkowania kamer do prêdko¶ci z jak± zbiera
+dane lidar, tj. 10 klatek na sekundê.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=12cm]{KITTI_plots/points_per_frame}\caption{Rozk³ad liczby punktów z pomiaru lidarem. \label{fig:liczba_pkt}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/just_camera}\caption{Obraz z g³ównej (lewej) kamery nagrywaj±cej w kolorze (pojazd ma po
+dwie nagrywaj±ce czarno-bia³y i kolorowy obraz). Warto¶ci na osiach
+odpowiadaj± indeksom pikseli. \label{fig:tylko_1_kamera}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/velodyne_projection_front}\caption{Obraz przedstawiony na Rysunku \ref{fig:tylko_1_kamera} z na³o¿on±
+na niego projekcj± chmur punktów z lidaru. Kolor koduje odleg³o¶æ
+od pojazdu: czerwony to blisko, a niebieski: daleko. \label{fig:kamery_z_projekcja_lidaru}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/lidar_top_view}\caption{Wizualizacja danych z lidaru w widoku z góry pojazdu. Obraz przedstawia
+t± sam± klatkê, która zosta³a wykorzystana w Rysunku \ref{fig:kamery_z_projekcja_lidaru}.
+\label{fig:lidar_top}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/3D_lidar}\caption{Wizualizacja danych z lidaru w projekcji 3D. Dla poprawienia czytelno¶ci
+rysowany jest co pi±ty punkt. \label{fig:lidar_3d}}
+\end{figure}
+
+
+\subsection{Etykiety obiektów\label{subsec:Etykiety-obiekt=0000F3w}}
+
+U¿ycie dedykowanego zbioru danych s³u¿±cego do trenowania i ewaluacji
+modeli uczenia maszynowego oferuje szereg korzy¶ci. Jedn± z ogromnych
+zalet jest z pewno¶ci± obecno¶æ etykiet danych, na podstawie których
+mo¿na dokonaæ ustandaryzowanej oceny uzyskanych wyników. Pozwala to
+równie¿ na porównanie rezultatów uzyskanych ró¿nymi metodami. Tego
+rodzaju podsumowanie dla powi±zanych publikacji jest udostêpnione
+na samej \href{https://www.cvlibs.net/datasets/kitti/eval_tracking.php}{stronie KITTI}.
+Etykiety obiektów w zbiorze KITTI zosta³y zrealizowane w postaci trójwymiarowych
+prostopad³o¶cianów okalaj±cych zidentyfikowane obiekty, co zosta³o
+pokazane na Rysunkach \ref{fig:tylko_1_kamera_with_tracklets} i \ref{fig:lidar_3d_with_tracklets}.
+Nale¿y zauwa¿yæ, ¿e etykietowanie danych jako takie równie¿ jest obarczone
+pewnymi ograniczeniami, co widaæ np. na Rysunku \ref{fig:tylko_1_kamera_with_tracklets},
+gdzie samochód zaparkowany z przodu po lewej stronie nie jest oznaczony.
+Tak wiêc np. wykrycie wiêkszej liczby obiektów ni¿ jest etykiet w
+zbiorze danych nie musi byæ jednoznaczne z wynikiem fa³szywie pozytywnym.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/just_camera_with_tracklets}\caption{Obraz z g³ównej (lewej) kamery nagrywaj±cej w kolorze z dodanymi annotacjami
+danych w postaci kolorowych prostopad³o¶cianów. Kolory s± przypisane
+do ró¿nych typów obiektów, a nazwy kategorii zosta³y równie¿ wypisane
+ponad obiektami. Warto¶ci na osiach odpowiadaj± indeksom pikseli.
+\label{fig:tylko_1_kamera_with_tracklets}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/3D_lidar_with_tracklets}\caption{Wizualizacja danych z lidaru w projekcji 3D z dodanymi annotacjami
+danych w postaci kolorowych prostopad³o¶cianów, gdzie kolory s± przypisane
+do ró¿nych typów obiektów. \label{fig:lidar_3d_with_tracklets}}
+\end{figure}
+
+
+\subsection{Wstêpne wyniki z YOLO \label{subsec:Wst=000119pne-wyniki}}
+
+Pierwsze podej¶cie do detekcji obiektów zosta³o zrealizowane na danych
+z g³ównej kamery nagrywaj±cej w kolorze oraz na tych samych danych
+z na³o¿on± na nie projekcj± danych lidarowych. W drugim przypadku
+nale¿a³o siê spodziewaæ potencjalnie gorszego wyniku, poniewa¿ dostêpne
+wstêpnie nauczone modele nie by³y uczone na tego typu danych, a na
+samych obrazach z kamer. Do detekcji zosta³ u¿yty model YOLO (yolov8n)
+nauczony identyfikacji obiektów na innych zbiorach danych, a wyniki
+zosta³y przedstawione na Rysunku \ref{fig:YOLO_detection_only_image}.
+Jak widaæ na Rysunku \ref{fig:YOLO_detection_only_image_with_tracklets},
+detekcje modelu YOLO pokrywaj± siê z etykietami. Co wiêcej, model
+wykry³ w pokazanym przyk³adzie jeden samochód wiêcej ponad to, co
+by³o oznaczone. Nale¿y jednak zauwa¿yæ, ¿e nie uda³o mu siê wykryæ
+oznaczonego rowerzysty. Rysunek \ref{fig:YOLO_detection_image_with_lidar_proj}
+potwierdza wcze¶niejsze przypuszczenia o tym jak model bez ¿adnych
+modyfikacji poradzi sobie na obrazie z na³o¿on± projekcj± z lidaru.
+Jedyny zidentyfikowany obiekt to samochód po prawej stronie, do tego
+niepoprawnie jako ³ódka (za co najprawdopodobniej mo¿na winiæ niebieski
+kolor punktów z danych lidarowych). Problem jest w tym przypadku dwojaki:
+\begin{enumerate}
+\item Model nie widzia³ wcze¶niej tego typu danych, poniewa¿ by³ wstêpnie
+trenowany na zwyk³ych zdjêciach z kamer. 
+\item Projekcja chmury punktów z lidara na obraz z kamery zas³ania czê¶æ
+obrazu z kamery, co prowadzi do utraty czê¶ci informacji.
+\end{enumerate}
+Czê¶ciowym rozwi±zaniem drugiego aspektu problemu mo¿e byæ zmiejszenie
+wielko¶ci punktów rysowanych w wyniku projekcji, jednak nadal konieczne
+bêdzie wytrenowanie modelu na nowym rodzaju danych w kolejnych krokach.
+Rysunek \ref{fig:YOLO_detection_image_with_lidar_proj_smaller} demonstruje,
+¿e w rzeczy samej pomniejszenie punktów poprawia wynik: tym razem
+rowerzysta zosta³ poprawnie zidentyfikowany jako osoba. Jest to o
+tyle ciekawe, ¿e nie zosta³ on w ogóle wykryty na Rysunku \ref{fig:YOLO_detection_only_image},
+gdzie u¿yta by³a jedynie informacja z obrazu z kamery, co pokazuje,
+¿e informacja z lidara mo¿e byæ faktycznie komplementarna do obrazu
+z kamer, nawet je¶li wykorzystana w dosyæ naiwny sposób.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_only_camera_frame_115}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+\label{fig:YOLO_detection_only_image}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_only_camera_frame_115_with_tracklets}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO
+z na³o¿onymi etykietami z samego KITTI. \label{fig:YOLO_detection_only_image_with_tracklets}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_camera_with_lidar_proj_frame_115}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+Detekcja zosta³a przeprowadzona na obrazie z kamer z na³o¿on± projekcj±
+chmury punktów z lidaru. \label{fig:YOLO_detection_image_with_lidar_proj}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{KITTI_plots/result_camera_with_lidar_proj_frame_115_smaller_points}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO.
+Detekcja zosta³a przeprowadzona na obrazie z kamer z na³o¿on± projekcj±
+chmury punktów z lidaru. Punkty zosta³y narysowane w minimalnym mo¿liwym
+rozmiarze. \label{fig:YOLO_detection_image_with_lidar_proj_smaller}}
+\end{figure}
+
+
+\subsection{Trening YOLO na danych z KITTI\label{subsec:Trening-YOLO}}
+
+W ¶wietle obserwacji z sekcji \ref{subsec:Wst=000119pne-wyniki} oczywiste
+sta³o siê, ¿e model YOLO musi zostaæ poddany uczeniu na danych lidarowych
+aby ta dodatkowa informacja mog³a byæ u¿yteczna. Naturalnie, dobrym
+rozwi±zaniem mog³oby byæ równie¿ zastosowanie modelu YOLO wstêpnie
+wytrenowanego na danych lidarowych, jednak ... takich modeli zwyczajnie
+zabrak³o. By³o tutaj kilka mo¿liwych dróg:
+\begin{enumerate}
+\item Uczenie na obrazach z lewej kamery z na³o¿on± projekcj± punktów z
+lidaru.
+\item Uczenie osobno dla obrazów z kamery i osobno dla projekcji punktów
+z lidaru.
+\item Uczenie osobno dla obrazów z kamery i osobno punktów z lidaru (bez
+projekcji).
+\end{enumerate}
+Z uwagi na to, ¿e pierwsza opcja nadal powodowa³abt utratê czê¶ci
+informacji z kamery (przez zas³anianie czê¶ci obrazu), a dla trzeciej
+mog³oby byæ konieczne dodatkowe modyfikowanie architektury modelu,
+przy uczeniu zastosowano drugie podej¶cie. Jest ono dodatkowo zgodne
+z dalszymi planami zespo³u badawczego (poza zakresem umowy poz. 1/04/689/2024),
+tj. kwantow± fuzj± etykiet pozyskanych z ró¿nych ¼róde³.
+
+\subsubsection{Dane ucz±ce}
+
+Przed rozpoczêciem uczenia konieczne by³o zaimplementowanie konwersji
+formatu zbioru danych (\href{https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d}{3D Object Detection Evaluation 2017})
+do obs³ugiwanego przez bibliotekê Ultralytics, pozwalaj±c± na czê¶ciowo
+zautomatyzowane uczenie modelu. Zosta³o to zrealizowane w \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/src/KITTI_to_Ultralytics.py}{GitHub/AGH-CEAI/automotive-tracking/src/KITTI\_to\_Ultralytics.py}
+i przyk³adowe u¿ycie mo¿na znale¼æ w \href{https://github.com/AGH-CEAI/automotive-tracking/blob/main/examples/detect_and_track_YOLO.ipynb}{GitHub/AGH-CEAI/automotive-tracking/examples/detect\_and\_track\_YOLO.ipynb}.
+W szczególno¶ci, etykiety danych wymaga³y konwersji do formatu zilustrowanego
+na Rysunku \ref{fig:format-etykiet}, gdzie skale pozioma i pionowa
+s± znormalizowane do 1 a etykiety opisane wspó³rzêdnymi ¶rodka prostok±ta
+$\left(x,y\right)$ oraz jego szeroko¶ci± i wysoko¶ci±. Przy konwersji
+danych stwierdzony zosta³ równie¿ brak klatek 177-180 w danych lidarowych
+dla sceny 0001. Problem zosta³ zweryfikowany jako faktyczne uchybienie
+autorów zbioru danych, jest to jednak rzecz zaniedbywalna przy rozmiarze
+ca³ego zbioru, bez znacz±cego wp³ywu na uczenie modelu wykrywaj±cego
+obiekty.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{label_illustration}\caption{Ilustracja formatu etykiet obs³ugiwanego przez bibliotekê Ultralytics.
+\label{fig:format-etykiet}}
+\end{figure}
+Zbiór danych KITTI zawiera 21 zetykietowanych scen z ró¿nymi ilo¶ciami
+nagranych klatek. £±cznie w zbiorze jest 9 ró¿nych etykiet, jednak
+jak widaæ na Rysunku \ref{fig:etykiety}, dominuj±c± klas± s± zdecydowanie
+samochody, co nie powinno dziwiæ zwa¿ywszy na charakter zbioru danych.
+Na drugim miejscu pod wzglêdem liczebno¶ci plasuje siê etykieta ,,DontCare'',
+która oznacza miêdzy innymi obiekty, które znajduj± siê zbyt daleko
+od skanera laserowego (lidara), a wiêc i od samego samochodu. Kolejne,
+mniej liczne, etykiety jak piesi, vany, rowerzy¶ci itd. mog± nie byæ
+wystarczaj±co reprezentowane aby model by³ w stanie skutecznie nauczyæ
+siê ich rozpoznawania (a z pewno¶ci± mo¿na siê spodziewaæ, ¿e bêdzie
+sobie z tymi klasami radzi³ gorzej z racji mniejszej ekspozycji).
+Rozk³ady etykiet obiektów na wspó³rzêdnych obrazu (Rys. \ref{fig:etykiety-korelogram})
+wydaj± siê wystarczaj±co szerokie, chocia¿ inklinacja w kierunku obiektów
+na ¶rodku obrazu jest wyra¼na.
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{camera_1_training/labels}\caption{Krótkie podsumowanie zbioru ucz±cego. W górnym lewym panelu narysowana
+jest czêsto¶æ wystêpowania poszczególnych etykiet. Prawy górny panel
+pokazuje czêsto¶æ wystêpowania etykiet ró¿nych rozmiarów (rysuj±c
+je wszystkie razem wycentrowane na tym samym punkcie). Na dolnych
+panelach przedstawione zosta³y dwa korelogramy zmiennych opisuj±cych
+prostok±ty etykietuj±ce obiekty: wspó³rzêdne ¶rodka prostok±ta $x$
+i $y$ oraz jego szeroko¶æ i wysoko¶æ. Pe³ny zestaw korelogramów zosta³
+pokazany na Rysunku \ref{fig:etykiety-korelogram}. \label{fig:etykiety}}
+\end{figure}
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{camera_1_training/labels_correlogram}\caption{Pe³en zestaw korelogramów zmiennych opisuj±cych prostok±ty etykietuj±ce
+obiekty: wspó³rzêdne ¶rodka prostok±ta $x$ i $y$ oraz jego szeroko¶æ
+i wysoko¶æ. Dodatkowo narysowane s± równie¿ jednowymiarowe histogramy
+dla ka¿dej ze zmiennych. \label{fig:etykiety-korelogram}}
+\end{figure}
+
+
+\subsubsection{Walidacja i wyniki uczenia}
+
+Ta sekcja podsumowuje przebieg uczenia modelu YOLO (yolov8n) na dwóch
+zestawach danych ucz±cych:
+\begin{enumerate}
+\item Obrazach z g³ównej (lewej) kamery.
+\item Chmurach punktów z lidaru zrzutowanych na pusty obraz o identycznych
+wymiarach, jak z g³ównej kamery.
+\end{enumerate}
+W obu przypadkach model by³ uczony dla 10 etapów (oszczêdno¶æ czasu
+i zasobów), oraz rozmiaru obrazu 1248x1248. Drugie z ustawieñ jest
+ograniczeniem wynikaj±cym z samego modelu YOLO, dla którego mo¿liwe
+jest jedynie uczenie na kwadratowych obrazach o wymiarach bêd±cych
+wielokrotno¶ciami 32 (w tym przypadku $39\cdot32=1248$). Wybór takiego
+wymiaru nie by³ przypadkowy --- podyktowany zosta³ rozmiarem samych
+obrazów w przygotowanych zestawach danych ucz±cych, który wynosi zawsze
+1242 pikseli szeroko¶ci i 375 pikseli wysoko¶ci. Wybór 1248 pozwoli³
+wiêc zmie¶ciæ pe³n± szeroko¶æ przygotowanych obrazów. Zarówno dla
+danych z kamery jak i lidara zestawy danych zosta³y podzielone na
+dane treningowe (sceny 0000-0016) i testowe (0017--0020). Przebieg
+uczenia zosta³ przedstawiony na Rysunkach \ref{fig:probka_kamera-krzywe_uczenia}
+i \ref{fig:probka-lidar-krzywe_uczenia}. Na krzywych uczenia widaæ,
+¿e uczenie na danych z lidara przebiega³o w sposób regularniejszy
+i rzeczywi¶cie wraz z dostarczaniem kolejnych próbek danych warto¶ci
+funkcji straty mala³y, a warto¶ci metryk ros³y zarówno dla danych
+treningowych, jak i testowych (co nie jest prawd± dla danych z kamery).
+Jest to wstêpnym wska¼nikiem, ¿e uczenie na danych z kamery nie przebiega³o
+równie dobrze, jak dla projekcji danych lidarowych.
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Próbka danych z kamery. \label{fig:probka_kamera-krzywe_uczenia}]{\centering{}\includegraphics[width=16cm]{camera_1_training/results}}
+\par\end{centering}
+\centering{}\subfloat[Próbka danych z lidaru. \label{fig:probka-lidar-krzywe_uczenia}]{\centering{}\includegraphics[width=16cm]{lidar_training/results}}\caption{Przebieg uczenia modelu YOLO na zestawach danych z kamery i lidara.
+O¶ pozioma wszystkich wykresów to liczba etapów uczenia, a osi pionowe
+to funkcje straty (pierwsze trzy kolumny) i cztery ró¿ne metryki klasyfikacyjne
+(dwie ostatnie kolumny). \label{fig:probki-uczace-batches-krzywe_uczenia}}
+\end{figure}
+Przyk³ady wykorzystanych próbek ucz±cych dla obu zestawów danych przedstawione
+s± na Rysunku \ref{fig:probki-uczace-batches}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Próbka danych z kamery. \label{fig:probka_kamera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/train_batch0}}
+\par\end{centering}
+\centering{}\subfloat[Próbka danych z lidaru. \label{fig:probka-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/train_batch0}}\caption{Przyk³ady próbek ucz±cych wykorzystywanych przy treningu modelu YOLO
+na danych z kamery oraz lidaru. Prawdziwe etykiety obiektów s± na
+nich oznaczone liczbami ca³kowitymi, co pozwala na minimalizacjê zu¿ycia
+pamiêci przy obliczeniach. Obrazy s± losowo umieszczane w ró¿nych
+miejscach oraz skalowane, aby uzyskaæ przewidywania bardziej niezale¿ne
+od rozmiaru obiektów na obrazie, a tak¿e ca³kowitej rozdzielczo¶ci
+obrazu. \label{fig:probki-uczace-batches}}
+\end{figure}
+Porównanie przewidywañ modelu nauczonego na danych z kamery z prawdziwymi
+etykietami zosta³o pokazane na Rysunku \ref{fig:wyniki_etykiet_kamera}.
+Wyniki s± raczej dobre, zw³aszcza maj±c na uwadze oszczêdnie dobrane
+parametry uczenia, chocia¿ np. wykrycie samochodu uda³o siê tylko
+na tych klatkach, gdzie by³ dobrze widoczny. Analogiczne porównanie
+etykiet prawdziwych i ,,nauczonych'' dla modelu nauczonego na danych
+lidarowych widoczne jest na Rysunku \ref{fig:wyniki_etykiet_lidar}.
+Nale¿y nadmieniæ, ¿e porównanie zosta³o dokonane dla innej sceny (0017)
+ni¿ dla kamery (0019) i wybór ten by³ ca³kowicie losowy. Model uczony
+na danych lidarowych wydaje siê równie¿ radziæ sobie dobrze, wykrywa
+nawet tych pieszych, którzy nie zostali oznaczeni w zbiorze danych
+KITTI (nale¿y nadmieniæ, ¿e oznaczanie obiektów by³o dokonywane przez
+osoby zatrudnione przez KIT specjalnie do tego celu).
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Prawdziwe etykiety. \label{fig:probka_kamera-etykiety-prawdziwe}]{\centering{}\includegraphics[width=16cm]{camera_1_training/val_batch1_labels}}
+\par\end{centering}
+\centering{}\subfloat[Etykiety wed³ug modelu. \label{fig:probka_kamera-etykiety-przewidziane}]{\centering{}\includegraphics[width=16cm]{camera_1_training/val_batch1_pred}}\caption{Porównanie etykiet prawdziwych (Rys. \ref{fig:probka_kamera-etykiety-prawdziwe})
+z tymi przypisanymi przez wyuczony model YOLO (Rys. \ref{fig:probka_kamera-etykiety-przewidziane}).
+Porównanie zosta³o przedstawione dla tego samego zestawu klatek po
+obu stronach. Przy przewidywaniu modelu pokazana jest równie¿ wyra¿ona
+liczbowo pewno¶æ przewidywania dla konkretnej klasy (etykiety). Model
+by³ uczony na obrazach z g³ównej kamery pojazdu. \label{fig:wyniki_etykiet_kamera}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Prawdziwe etykiety. \label{fig:probka_lidar-etykiety-prawdziwe}]{\centering{}\includegraphics[width=16cm]{lidar_training/val_batch1_labels}}
+\par\end{centering}
+\centering{}\subfloat[Etykiety wed³ug modelu. \label{fig:probka_lidar-etykiety-przewidziane}]{\centering{}\includegraphics[width=16cm]{lidar_training/val_batch1_pred}}\caption{Porównanie etykiet prawdziwych (Rys. \ref{fig:probka_lidar-etykiety-prawdziwe})
+z tymi przypisanymi przez wyuczony model YOLO (Rys. \ref{fig:probka_lidar-etykiety-przewidziane}).
+Porównanie zosta³o przedstawione dla tego samego zestawu klatek po
+obu stronach. Przy przewidywaniu modelu pokazana jest równie¿ wyra¿ona
+liczbowo pewno¶æ przewidywania dla konkretnej klasy (etykiety). Model
+by³ uczony na projekcji danych z lidaru na obrazy. \label{fig:wyniki_etykiet_lidar}}
+\end{figure}
+Omówione przyk³adowe klatki ze zbioru testowego daj± jedynie jako¶ciowy
+ogl±d tego, jak dobrze model YOLO poradzi³ sobie z zadaniem identyfikacji
+zadanych rodzajów obiektów. Ilo¶ciow± odpowied¼ na to pytanie daj±
+metryki klasyfikacyjne. W tym przypadku zastosowane zosta³y nastêpuj±ce:
+\begin{enumerate}
+\item Macierz pomy³ek.
+\item Krzywa precyzji (Precision $\mathrm{P}=\frac{\mathrm{TP}}{\mathrm{TP+FP}}$,
+gdzie $\mathrm{TP}$ to liczba wyników prawdziwie pozytywnych, a $\mathrm{FP}$
+--- fa³szywie pozytywnych).
+\item Krzywa czu³o¶ci (Recall $\mathrm{R=\frac{\mathrm{TP}}{\mathrm{TP+FN}}}$,
+gdzie $\mathrm{FN}$ to liczba wyników fa³szywie negatywnych).
+\item Krzywa $\mathrm{P}\mathrm{R}$.
+\item $F_{1}-$score (harmoniczna ¶rednia precyzji i czu³o¶ci: $F_{1}=2\cdot\frac{\mathrm{P}\cdot\mathrm{R}}{\mathrm{P}+\mathrm{R}}$).
+\end{enumerate}
+Macierze pomy³ek pokazuj± korelacje pomiêdzy prawdziwymi etykietami
+i tymi przypisanymi przez model. Dla przypadku idealnej klasyfikacji
+macierz powinna byæ diagonalna. Jak widaæ na Rysunku \ref{fig:macierz-kamera},
+dla czêsto wystêpuj±cych klas wyniki dla danych z kamery s± zadowalaj±ce,
+tj. faktycznie le¿± na diagonali. Jednak¿e tym, co zdecydowanie uderza
+po porównaniu tej macierzy z t± na Rysunku \ref{fig:macierz-lidar}
+jest mia¿d¿±ca przewaga wyniku uzyskanego na danych z lidaru. W ich
+przypadku nie do¶æ, ¿e dla pierwszych czterech klas (licz±c od góry)
+wynik jest znacz±co lepszy, to jeszcze wyniki dla pozosta³ych, nawet
+najrzadszych, plasuj± siê na poziomie powy¿ej 0.52. Sugeruje to znacznie
+wiêksz± u¿yteczno¶æ lidaru w porównaniu do kamer w zadaniach detekcyjnych.
+Takie wnioski s± tylko potwierdzaj± tak¿e pozosta³e metryki na Rysunkach
+\ref{fig:precyzja}, \ref{fig:czulosc}, \ref{fig:PR} oraz \ref{fig:F1}.
+Wyniki dla klasy ,,samochód'' wydaj± siê sugerowaæ, ¿e dla odpowiednio
+licznej próbki ucz±cej przewaga danych lidarowych nad tymi z kamery
+maleje, lub ¿e dane z kamery s± bardziej podatne na problemy z niezbalansowanymi
+liczebnie klasami.
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Wyniki dla danych z kamery. \label{fig:macierz-kamera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/confusion_matrix_normalized}}
+\par\end{centering}
+\centering{}\subfloat[Wyniki dla danych z lidara. \label{fig:macierz-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/confusion_matrix_normalized}}\caption{Macierze pomy³ek dla danych z kamery i lidara, z warto¶ciami znormalizowanymi
+do ca³kowitej prawdziwej liczby przypadków z danej klasy (tzn. maksymalna
+warto¶æ to 1.0). Na osi poziomej znajduj± siê prawdziwe etykiety,
+a na pionowej zwrócone przez model. \label{fig:macierze pomy=000142ek}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Wyniki dla danych z kamery. \label{fig:precision-kamera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/P_curve}}
+\par\end{centering}
+\centering{}\subfloat[Wyniki dla danych z lidara. \label{fig:precision-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/P_curve}}\caption{Krzywa precyzji dla danych z kamery i lidara. Na osi poziomej znajduje
+siê pewno¶æ, z jak± model przewiduje dan± etykietê, a na pionowej
+--- precyzja. Idealna krzywa mia³aby precyzjê równ± 1.0 niezale¿nie
+od pewno¶ci modelu. \label{fig:precyzja}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Wyniki dla danych z kamery. \label{fig:czulosc-kamera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/R_curve}}
+\par\end{centering}
+\centering{}\subfloat[Wyniki dla danych z lidara. \label{fig:czulosc-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/R_curve}}\caption{Krzywa czu³o¶ci dla danych z kamery i lidara. Na osi poziomej znajduje
+siê pewno¶æ, z jak± model przewiduje dan± etykietê, a na pionowej
+--- czu³o¶æ. Idealna krzywa mia³aby czu³o¶æ równ± 1.0 niezale¿nie
+od pewno¶ci modelu. \label{fig:czulosc}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Wyniki dla danych z kamery. \label{fig:PR-kamera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/PR_curve}}
+\par\end{centering}
+\centering{}\subfloat[Wyniki dla danych z lidara. \label{fig:PR-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/PR_curve}}\caption{Krzywa precyzji-czu³o¶ci dla danych z kamery i lidara. Na osi poziomej
+znajduje siê czu³o¶æ, a na pionowej --- precyzja. Idealna krzywa
+mia³aby precyzjê równ± 1.0 niezale¿nie od czu³o¶ci. \label{fig:PR}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Wyniki dla danych z kamery. \label{fig:F1-kamera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/F1_curve}}
+\par\end{centering}
+\centering{}\subfloat[Wyniki dla danych z lidara. \label{fig:F1-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/F1_curve}}\caption{Krzywa $F_{1}$ dla danych z kamery i lidara. Na osi poziomej znajduje
+siê pewno¶æ, z jak± model przewiduje dan± etykietê, a na pionowej
+--- metryka $F_{1}$. Idealna krzywa mia³aby $F_{1}=1.0$ niezale¿nie
+od pewno¶ci. \label{fig:F1}}
+\end{figure}
+
+
+\subsection{Wielo¼ród³owe ¶ledzenie trajektorii \label{subsec:Wielo=00017Ar=0000F3d=000142owe-=00015Bledzenie-trajektorii}}
+
+Prace przedstawione w tym raporcie skupia³y siê przede wszystkim na
+wprowadzeniu wielo¼ród³owo¶ci danych, jako ¿e samo przej¶cie od detekcji
+do ¶ledzenia obiektów zosta³o ju¿ wcze¶niej zrealizowane i mo¿e zostaæ
+zastosowane w analogiczny sposób równie¿ do danych lidarowych. Sprowadza
+siê ono do wyboru algorytmu ¶ledz±cego, który zostanie u¿yty razem
+z modelem detekcyjnym. Dotychczas stosowany algorytm to dostêpny w
+bibliotece Ultralytics \href{https://github.com/ifzhang/ByteTrack}{ByteTrack},
+cechuj±cy siê dobrymi osi±gami w porównaniu z konkurencyjnymi rozwi±zaniami
+\cite{ByteTrack}. Poni¿ej przedstawione zosta³y wybrane wyniki uzyskane
+przy u¿yciu modelu YOLO wyuczonego tak jak zosta³o to opisane w Sekcji
+\ref{subsec:Trening-YOLO}. Rysunek \ref{fig:YOLO_detection_only_image_with_tracklets-OUR_TRAINED_MODEL}
+przedstawia t± sam± klatkê która pojawi³a siê na Rysunku \ref{fig:YOLO_detection_only_image_with_tracklets}.
+Co ciekawe, tym razem jedynym wykrytym obiektem jest rowerzysta, który
+przy gotowym YOLO (który nie by³ uczony na zbiorze KITTI) nie by³
+w ogóle zidentyfikowany, a tutaj zosta³ i to z du¿± pewno¶ci±. Zaskakuj±ce
+jest jednak, ¿e nie uda³o siê zidentyfikowaæ ¿adnego samochodu i to
+pomimo ogólnie gorszych wyników uzyskanych dla uczenia na danych z
+kamery. Rysunek \ref{fig:YOLO_tracking-OUR_TRAINED_MODEL-camera}
+nie ma swojego odpowiednika we wcze¶niejszej sekcji, ale przedstawia
+t± sam± klatkê, jednak dla zrzutowanych danych lidarowych. Rysunki
+\ref{fig:YOLO_tracking-OUR_TRAINED_MODEL-camera} i \ref{fig:YOLO_tracking-OUR_TRAINED_MODEL-lidar}
+pokazuj± przyk³adowe zachowanie ¶ledzenia trajektorii dla danych z
+kamery i lidara dla tej samej klatki. Równie¿ tutaj widaæ dobre wyniki
+detekcji z lidara, przy czym mo¿na zauwa¿yæ ciekawy efekt, tj. lidar
+nie wykrywa odbicia samochodu w szybcie, co udaje siê dla danych z
+kamery. Mo¿e to byæ istotne z punktu widzenia autonomicznej nawigacji,
+poniewa¿ odbicie samochodu bez nale¿ytej interpretacji jest de facto
+przypadkiem fa³szywie pozytywnym (tzn. w tamtym miejscu z przodu po
+prawej stronie naprawdê samochodu nie ma).
+
+\begin{figure}[H]
+\centering{}\includegraphics[width=16cm]{camera_1_training/result_only_camera_frame_115_with_tracklets}\caption{Identyfikacja obiektów ze zbioru danych KITTI przy pomocy modelu YOLO
+z na³o¿onymi etykietami z samego KITTI. \label{fig:YOLO_detection_only_image_with_tracklets-OUR_TRAINED_MODEL}}
+\end{figure}
+
+\begin{figure}[H]
+\begin{centering}
+\subfloat[Dane z kamery. \label{fig:YOLO_tracking-OUR_TRAINED_MODEL-camera}]{\centering{}\includegraphics[width=16cm]{camera_1_training/KITTI_frame_5}}
+\par\end{centering}
+\subfloat[Dane z lidara. \label{fig:YOLO_tracking-OUR_TRAINED_MODEL-lidar}]{\centering{}\includegraphics[width=16cm]{lidar_training/KITTI_lidar_frame_5}}
+\centering{}\caption{¦ledzenie obiektów ze zbioru danych KITTI przy pomocy wytrenowanego
+modelu YOLO. Detekcja zosta³a przeprowadzona na obrazie z g³ównej
+kamery i projekcji danych z lidara. \label{fig:YOLO_tracking-OUR_TRAINED_MODEL}}
+\end{figure}
+Przedstawione w raporcie zaimplementowane rozwi±zania pozwalaj± na
+osobne ¶ledzenie trajektorii na podstawie dwóch ró¿nych rodzajów danych.
+Fuzja tych wyników do wspólnego przewidywania bêdzie przedmiotem dalszych
+prac Zespo³u Obliczeñ Kwantowych.
+
+\appendix
+
+\section{Powi±zane skrypty \label{sec:Powi=000105zane-skrypty}}
+
+Ca³y kod u¿yty do uzyskania wyników przedstawionych w tym raporcie
+zosta³ zdeponowany w repozytorium \href{https://github.com/AGH-CEAI/automotive-tracking}{GitHub/AGH-CEAI/automotive-tracking}.
+Jego struktura wygl±da nastêpuj±co:
+
+\begin{lstlisting}[language=bash,extendedchars=true,escapeinside={\%*}{*)},inputencoding=utf8,extendedchars=true]
+automotive-tracking/
+   |-datasets
+   |---EU_longerm
+   |-----get_files_EU.sh
+   |---KITTI
+   |-----get_files_KITTI.sh
+   |---KITTI_for_YOLO
+   |---nuScenes
+   |-----get_files_nuScenes.py
+   |-examples
+   |-models
+   |-output
+   |-reports
+   |-src
+   |-utils
+\end{lstlisting}
+Folder \lstinline[language=bash]!datasets! zawiera podfoldery dla
+zbiorów danych. Dane z \lstinline[language=bash]!KITTI! po konwersji
+do po¿±danego formatu umieszczane s± w katalogu \lstinline[language=bash]!KITTI_for_YOLO!.
+Dla \lstinline[language=bash]!EU_longerm! , \lstinline[language=bash]!KITTI!
+oraz \lstinline[language=bash]!nuScenes! zosta³y przygotowane skrypty
+pobieraj±ce dane:
+\begin{itemize}
+\item skrypt \lstinline[language=bash]!get_files_EU.sh!:\\
+\begin{lstlisting}[language=bash,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+#!/bin/bash
+# -----------------------------------------------------------------#
+# script, which downloads the multi-sensor autonomous car data     #
+# from the EU Long-term Dataset                                    #
+# (https://epan-utbm.github.io/utbm_robocar_dataset/)              #
+# -----------------------------------------------------------------#
+
+echo "downloading the EU Long-term Dataset for object tracking ..."
+
+while getopts ":s:d:" opt; do
+  case $opt in
+    s) arg1="$OPTARG"
+    ;;
+    d) arg2="$OPTARG"
+    ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+    ;;
+  esac
+done
+
+
+case $arg1 in
+
+  *"help"*)
+    echo """
+    Usage:
+      --help                            prints help
+      -s [selection]                    selects what should be downloaded:
+        challenges                      the challenge files
+        longterm                        the long-term data
+        roundabouts                     the data from roundabouts
+        all                             everything
+      -d [directory]                    specifies the download directory
+    """
+    ;;
+
+  "longterm")
+    # non-image files:
+    wget --show-progress \
+      https://drive.utbm.fr/s/YiX3DWfpmRKGKMX/download/utbm_robocar_dataset_20180502_evening_xb3 \
+      https://drive.utbm.fr/s/xk6K4Rg8EGC6San/download/utbm_robocar_dataset_20180502_noimage1.bag \
+      https://drive.utbm.fr/s/Y2fnAfzgNGdS8Sj/download/utbm_robocar_dataset_20180502_noimage2.bag \
+      https://drive.utbm.fr/s/PRLWKX3MLQJt5XD/download/utbm_robocar_dataset_20180713_noimage.bag \
+      https://drive.utbm.fr/s/tqYN75r5A3Cdzea/download/utbm_robocar_dataset_20180716_noimage.bag \
+      https://drive.utbm.fr/s/PBn6SAWPPC73cco/download/utbm_robocar_dataset_20180717_noimage.bag \
+      https://drive.utbm.fr/s/48pstJgSz9CniHG/download/utbm_robocar_dataset_20180718_noimage.bag \
+      https://drive.utbm.fr/s/WNf8ALLdtQokX3r/download/utbm_robocar_dataset_20180719_noimage.bag \
+      https://drive.utbm.fr/s/6WfczpWcE8ce9t4/download/utbm_robocar_dataset_20180720_noimage.bag \
+      https://drive.utbm.fr/s/WdFBbSk5c72TdTw/download/utbm_robocar_dataset_20190110_noimage.bag \
+      https://drive.utbm.fr/s/JoB5gHwaEfDA8ga/download/utbm_robocar_dataset_20190131_noimage.bag \
+      https://drive.utbm.fr/s/6NcE2GSqNdGyELg/download/utbm_robocar_dataset_20190418_noimage.bag -P $arg2;
+    # image files have to be dealt with separately because each download is for multiple files:
+    wget --show-progress -O utbm_robocar_dataset_20180502_image2.zip https://drive.utbm.fr/s/x2aGgxC2jcXWTRN/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20180713_image.zip https://drive.utbm.fr/s/iGP3tBX2kxMy3DQ/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20180716_image.zip https://drive.utbm.fr/s/SXD6FnZK3WFSwTS/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20180717_image.zip https://drive.utbm.fr/s/fmBYFizza4n4L52/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20180718_image.zip https://drive.utbm.fr/s/PEq5roAeLj3y9Rf/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20180719_image.zip https://drive.utbm.fr/s/FqyM5AFnfNnM4DA/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20180720_image.zip https://drive.utbm.fr/s/R99NdcaQWcejaH4/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20190110_image.zip https://drive.utbm.fr/s/GsbwwTkCDZFzNQe/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20190131_image.zip https://drive.utbm.fr/s/5ESADzCZ838At4b/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20190418_image.zip https://drive.utbm.fr/s/wneajmi6KiADqiB/download -P $arg2
+    ;;
+
+  "roundabouts")
+    # non-image files:
+    wget --show-progress \
+      https://drive.utbm.fr/s/d4jA8r2bbXG59kw/download/utbm_robocar_dataset_20190412_roundabout_noimage.bag \
+      https://drive.utbm.fr/s/wn7RCYayNZJNxMj/download/utbm_robocar_dataset_20190418_roundabout_noimage.bag -P $arg2;
+    # image files:
+    wget --show-progress -O utbm_robocar_dataset_20190412_roundabout_image.zip https://drive.utbm.fr/s/9yTDg7QbLpr6BLR/download -P $arg2
+    wget --show-progress -O utbm_robocar_dataset_20190418_roundabout_image.zip https://drive.utbm.fr/s/8Q6QcngjqDFqRcq/download -P $arg2
+    ;;
+
+  "challenges")
+    wget --show-progress \
+      https://drive.utbm.fr/s/p3PinX5qQBxSdz9/download/shared_zone.zip \
+      https://drive.utbm.fr/s/Nay2pTMpLgWX2tp/download/construction_bypass.zip \
+      https://drive.utbm.fr/s/2b46iNkeJtdQ5BW/download/roundabout.zip \
+      https://drive.utbm.fr/s/2mfBPXxKc4TJbRc/download/snow.zip \
+      https://drive.utbm.fr/s/QpyJPbgaiG3S3dJ/download/right_overtaking.zip \
+      https://drive.utbm.fr/s/JyNLiNMB9ZNiyg9/download/crossing.zip \
+      https://drive.utbm.fr/s/9j7LwoA5T4FF6AC/download/pigeon.zip \
+      https://drive.utbm.fr/s/LPjYJQxC7J7QBTN/download/police.zip -P $arg2
+    ;;
+
+  "all")
+    wget --show-progress http://datasets.chronorobotics.tk/s/vVGheghiMYIF988/download -P $arg2 \
+         -O utbm_robotcar_dataset.zip
+
+    ;;
+
+  *)
+    echo >&2 "Invalid option: $@";
+    echo """
+    Usage:
+      --help                            prints help
+      -s [selection]                    selects what should be downloaded:
+        challenges                      the challenge files
+        longterm                        the long-term data
+        roundabouts                     the data from roundabouts
+        all                             everything
+      -d [directory]                    specifies the download directory
+    """;
+    exit 1;
+    ;;
+    
+esac
+
+
+
+
+echo "done!"
+\end{lstlisting}
+\item skrypt \lstinline[language=bash]!get_files_KITTI.sh!:\\
+\begin{lstlisting}[language=bash,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+#!/bin/bash
+# -----------------------------------------------------------------#
+# script, which downloads the multi-sensor autonomous car data     #
+# from the KITTI Dataset                                           #
+# (https://www.cvlibs.net/datasets/kitti/eval_tracking.php)        #
+# -----------------------------------------------------------------#
+
+echo "downloading KITTI object tracking dataset ..."
+
+cd ../
+
+wget --show-progress \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_image_2.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_image_3.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_velodyne.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_oxts.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_calib.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_label_2.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_det_2_lsvm.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/data_tracking_det_2_regionlets.zip \
+  https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_tracking.zip -P $1 \
+
+echo "done!"
+\end{lstlisting}
+\item skrypt \lstinline[language=bash]!get_files_nuScenes.py!:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+#!/usr/bin/env python
+
+"""
+The script was adapted from https://github.com/li-xl/nuscenes-download
+"""
+
+import requests
+import os
+import hashlib
+from tqdm import tqdm
+import tarfile
+import gzip
+import json
+import argparse
+import shlex
+
+# Read the arguments:
+parser = argparse.ArgumentParser()
+parser.add_argument("user_email",
+                    help="email associated with a registered account at https://www.nuscenes.org/ It it highly advised to pass it inside '', e.g. 'myemail@abc.com', to avoid problems with escape characters!")
+parser.add_argument("user_password",
+                    help="password associated with a registered account at https://www.nuscenes.org/ It it highly advised to pass it inside '', e.g. 'myVERYsafePaSSw0rD', to avoid problems with escape characters!")
+parser.add_argument("output_dir",
+                    help="directory to which the files should be saved")
+args = parser.parse_args()
+print('Trying to download the nuScenes dataset ...')
+print('your email: ',args.user_email)
+print('your password: ',args.user_password,'\n')
+
+
+output_dir = args.output_dir # just save here
+region = 'asia' # 'us' or 'asia'
+
+
+download_files = {
+    "v1.0-test_meta.tgz":"b0263f5c41b780a5a10ede2da99539eb",
+    "v1.0-test_blobs.tgz":"e065445b6019ecc15c70ad9d99c47b33",
+    "v1.0-trainval01_blobs.tgz":"cbf32d2ea6996fc599b32f724e7ce8f2",
+    "v1.0-trainval02_blobs.tgz":"aeecea4878ec3831d316b382bb2f72da",
+    "v1.0-trainval03_blobs.tgz":"595c29528351060f94c935e3aaf7b995",
+    "v1.0-trainval04_blobs.tgz":"b55eae9b4aa786b478858a3fc92fb72d",
+    "v1.0-trainval05_blobs.tgz":"1c815ed607a11be7446dcd4ba0e71ed0",
+    "v1.0-trainval06_blobs.tgz":"7273eeea36e712be290472859063a678",
+    "v1.0-trainval07_blobs.tgz":"46674d2b2b852b7a857d2c9a87fc755f",
+    "v1.0-trainval08_blobs.tgz":"37524bd4edee2ab99678909334313adf",
+    "v1.0-trainval09_blobs.tgz":"a7fcd6d9c0934e4052005aa0b84615c0",
+    "v1.0-trainval10_blobs.tgz":"31e795f2c13f62533c727119b822d739",
+    "v1.0-trainval_meta.tgz":"537d3954ec34e5bcb89a35d4f6fb0d4a",
+}
+
+
+
+def login(username, password):
+    headers = {
+        "content-type": "application/x-amz-json-1.1",
+        "x-amz-target": "AWSCognitoIdentityProviderService.InitiateAuth",
+    }
+
+    data = (
+        '{"AuthFlow":"USER_PASSWORD_AUTH","ClientId":"7fq5jvs5ffs1c50hd3toobb3b9","AuthParameters":{"USERNAME":"'
+        + username
+        + '","PASSWORD":"'
+        + password
+        + '"},"ClientMetadata":{}}'
+    )
+
+    response = requests.post(
+        "https://cognito-idp.us-east-1.amazonaws.com/",
+        headers=headers,
+        data=data,
+    )
+
+    token = json.loads(response.content)["AuthenticationResult"]["IdToken"]
+
+    return token
+
+def download_file(url, save_file,md5):
+    response = requests.get(url, stream=True)
+    if save_file.endswith(".tgz"):
+        content_type = response.headers.get('Content-Type', '')
+        if content_type == 'application/x-tar':
+            save_file = save_file.replace('.tgz', '.tar')
+        elif content_type != 'application/octet-stream':
+            print("unknow content type",content_type)
+            return save_file
+
+    if os.path.exists(save_file):
+        print(save_file,"has downloaded")
+        # check md5
+        md5obj = hashlib.md5()
+        with open(save_file, 'rb') as file:
+            for chunk in file:
+                md5obj.update(chunk)
+        hash = md5obj.hexdigest()
+        if hash != md5:
+            print(save_file,"check md5 failed,download again")
+        else:
+            print(save_file,"check md5 success")
+            return save_file
+        
+    file_size = int(response.headers.get('Content-Length', 0))
+    progress_bar = tqdm(total=file_size, unit='B', unit_scale=True, unit_divisor=1024,desc=save_file, ascii=True)
+
+
+    # save file & check md5
+    md5obj = hashlib.md5()
+    with open(save_file, 'wb') as file:
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:
+                md5obj.update(chunk)
+                file.write(chunk)
+                progress_bar.update(len(chunk))
+    progress_bar.close()
+
+    hash = md5obj.hexdigest()
+    if hash != md5:
+        print(save_file,"check md5 failed")
+    else:
+        print(save_file,"check md5 success")
+
+    return save_file
+
+
+
+
+def extract_tgz_to_original_folder(tgz_file_path):
+    original_folder = os.path.dirname(tgz_file_path)
+    print(f"Extracting {tgz_file_path} to {original_folder}")
+
+    with gzip.open(tgz_file_path, 'rb') as f_in:
+        with tarfile.open(fileobj=f_in, mode='r') as tar:
+            tar.extractall(original_folder)
+
+def extract_tar_to_original_folder(tar_file_path):
+    original_folder = os.path.dirname(tar_file_path)
+    print(f"Extracting {tar_file_path} to {original_folder}")
+
+    with tarfile.open(tar_file_path, 'r') as tar:
+        tar.extractall(original_folder)
+
+def main():
+    print("Loginging...")
+    bearer_token = login(args.user_email, args.user_password)
+    # set request header
+    headers = {
+        'Authorization': f'Bearer {bearer_token}',
+        'Content-Type': 'application/json',
+    }
+
+    print("Getting download urls...")
+    download_data = {}
+    for filename,md5 in download_files.items():
+        api_url = f'https://o9k5xn5546.execute-api.us-east-1.amazonaws.com/v1/archives/v1.0/{filename}?region={region}&project=nuScenes'
+
+        response = requests.get(api_url, headers=headers)
+
+        if response.status_code == 200:
+            print(filename,'request success')
+            download_url = response.json()['url']
+            download_data[filename] = [download_url,os.path.join(output_dir,filename),md5]
+        else:
+            print(f'request failed : {response.status_code}')
+            print(response.text)
+
+    print("Downloading files...")
+
+    os.makedirs(output_dir,exist_ok=True)
+    for output_name,(download_url,save_file,md5) in download_data.items():
+        save_file = download_file(download_url,save_file,md5)
+        download_data[output_name] = [download_url,save_file,md5]
+
+    print("Extracting files...")
+    for output_name,(download_url,save_file,md5) in download_data.items():
+        if output_name.endswith(".tgz"):
+            extract_tgz_to_original_folder(save_file)
+        elif output_name.endswith(".tar"):
+            extract_tar_to_original_folder(save_file)
+        else:
+            print("unknow file type",output_name)
+
+    print("Done!")
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+\end{itemize}
+W folderze \lstinline[language=bash]!examples! znajduj± siê interaktywne
+notesy Jupyter, pozwalaj±ce zreprodukowaæ uzyskane wyniki:
+\begin{itemize}
+\item notes \lstinline[language=bash]!KITTI_visualise.ipynb!, zawieraj±cy
+wizualizacjê danych wykorzystan± w Sekcjach \ref{subsec:Format-danych}
+oraz \ref{subsec:Etykiety-obiekt=0000F3w}:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+# get the KITTI dataset if not there already:
+!bash ../datasets/KITTI/get_files_KITTI.sh
+""" based on https://github.com/windowsub0406/KITTI_Tutorial/ """
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+sys.path.append("../utils/") # Adds utils python modules path.
+from kitti_foundation import Kitti, Kitti_util
+%matplotlib inline
+
+v2c_filepath = '../datasets/KITTI/2011_09_26/calib_velo_to_cam.txt'
+c2c_filepath = '../datasets/KITTI/2011_09_26/calib_cam_to_cam.txt'
+xml_path = "../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/tracklet_labels.xml"
+
+velo_path = '../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data'
+camera_path = '../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/'
+
+frame_no=115
+v_fov, h_fov = (-24.9, 2.0), (-90, 90) # field of view
+# print shapes of the data
+velo = Kitti(frame=frame_no, velo_path=velo_path)
+frame = velo.velo_file
+print(frame.shape)
+
+image_path = camera_path+'image_03/data'
+image = Kitti(frame=frame_no, camera_path=image_path)
+frame = image.camera_file
+print(frame.shape)
+# Distributions of point counts for different lidar frames
+num_points=np.asarray([Kitti(frame=frame_id, velo_path=velo_path).velo_file.shape[0] for frame_id in range(0,154)])
+plt.grid()
+plt.hist(num_points,bins=40)
+# plt.yscale("log")
+plt.xlabel("points per frame")
+plt.ylabel("number of frames")
+plt.savefig("points_per_frame.pdf", bbox_inches='tight')
+# Example image from the left camera
+def draw_tracklets(check):
+    """ draw 3d bounding boxes around annotated objects """
+    import cv2
+    tracklet_, type_ = check.tracklet_info
+
+    tracklet2d = []
+    for i, j in zip(tracklet_[frame_no], type_[frame_no]):
+        point = i.T
+        chk,_ = check._Kitti_util__velo_2_img_projection(point)
+        tracklet2d.append(chk)
+
+    type_c = { 'Car': (0, 0, 255), 'Van': (0, 255, 0), 'Truck': (255, 0, 0), 'Pedestrian': (0,255,255), \
+        'Person (sitting)': (255, 0, 255), 'Cyclist': (255, 255, 0), 'Tram': (0, 0, 0), 'Misc': (255, 255, 255)}
+
+    line_order = ([0, 1], [1, 2],[2, 3],[3, 0], [4, 5], [5, 6], \
+            [6 ,7], [7, 4], [4, 0], [5, 1], [6 ,2], [7, 3])
+
+    for i, j in zip(tracklet2d, type_[frame_no]):
+        for k in line_order:    
+            cv2.line(image, (int(i[0][k[0]]), int(i[1][k[0]])), (int(i[0][k[1]]), int(i[1][k[1]])), type_c[j], 2)
+        cv2.putText(image, j, (int(i[0][k[0]]), int(-10+i[1][k[0]])), cv2.FONT_HERSHEY_PLAIN, 1, type_c[j], 2)
+import matplotlib.image as mpimg
+import cv2
+
+with_tracklets = True
+
+# read left camera image
+image_type = 'color'  # 'gray' or 'color' image
+mode = '00' if image_type == 'gray' else '02'  # image_00 = 'gray image' , image_02 = 'color image'
+
+image_path = camera_path+'image_' + mode + '/data'
+check = Kitti_util(frame=frame_no, velo_path=velo_path, camera_path=image_path, \
+                   xml_path=xml_path, v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+image = check.camera_file
+
+txt=""
+if with_tracklets:
+    draw_tracklets(check)
+    txt="_with_tracklets"
+
+plt.title("")
+plt.imshow(image)
+# print(image.shape)
+plt.gcf().set_size_inches(13, 3)
+# plt.savefig("just_camera"+txt+".pdf", bbox_inches='tight')
+## Projection of lidar points onto the same camera image
+def print_projection_cv2(points, color, image):
+    """ project converted velodyne points into camera image """
+    
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    for i in range(points.shape[1]):
+        cv2.circle(hsv_image, (np.int32(points[0][i]),np.int32(points[1][i])),2, (int(color[i]),255,255),-1)
+
+    return cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
+
+def print_projection_plt(points, color, image):
+    """ project converted velodyne points into camera image """
+    
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    for i in range(points.shape[1]):
+        cv2.circle(hsv_image, (np.int32(points[0][i]),np.int32(points[1][i])),2, (int(color[i]),255,255),-1)
+
+    return cv2.cvtColor(hsv_image, cv2.COLOR_HSV2RGB)
+res = Kitti_util(frame=frame_no, camera_path=image_path, velo_path=velo_path, \
+                v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+
+img, pnt, c_ = res.velo_projection_frame(v_fov=v_fov, h_fov=h_fov)
+
+result = print_projection_plt(pnt, c_, img)
+
+# display result image
+plt.subplots(1,1, figsize = (13,3) )
+# plt.title("Projection of velodyne lidar points to camera image")
+plt.imshow(result)
+# plt.xlabel("number of points per frame")
+# plt.ylabel("number of frames")
+# plt.savefig("velodyne_projection_front.pdf", bbox_inches='tight')
+
+# Lidar projection as a video
+Save the video file
+temp = Kitti(frame=0, camera_path=image_path)
+img = temp.camera_file
+size = (img.shape[1], img.shape[0])
+
+""" save result video """
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+vid = cv2.VideoWriter('projection.avi', fourcc, 25.0, size)
+test = Kitti_util(frame='all', camera_path=image_path, velo_path=velo_path, \
+                  v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+
+res = test.velo_projection(v_fov=v_fov, h_fov=h_fov)
+
+for frame, point, cc in res:
+    image = print_projection_cv2(point, cc, frame)
+    vid.write(image)
+
+print('video saved')
+vid.release()
+Play the video file
+from IPython.display import clear_output
+
+""" display video """
+vid = cv2.VideoCapture("./projection.avi")
+
+while(True):
+    ret, frame = vid.read()
+    if not ret:
+        vid.release()
+        break
+    fig = plt.figure(figsize=(12,3))
+    
+    plt.title("Projection video result")
+    plt.axis('off')
+    plt.imshow(frame)
+    plt.show()
+    # clear current frame for next frame
+    clear_output(wait=True)
+
+vid.release()
+# Visualisations of lidar data alone
+### Top view
+velo = Kitti_util(frame=150, velo_path=velo_path)
+
+x_range, y_range, z_range, scale = (-20, 20), (-20, 20), (-2, 2), 10
+topview_img = velo.velo_2_topview_frame(x_range=x_range, y_range=y_range, z_range=z_range)
+
+# Plot result
+plt.subplots(1,1, figsize = (5,5))
+plt.imshow(topview_img)
+plt.axis('off')
+plt.savefig("lidar_top_view.pdf", bbox_inches='tight')
+save topview video
+# pre define range for image size
+x_range, y_range, scale = (-20,20), (-20,20), 10
+size = int((max(x_range)-min(x_range)) * scale), int((max(y_range)-min(y_range)) * scale)
+
+velo2 = Kitti_util(frame='all', velo_path=velo_path)
+topview = velo2.velo_2_topview(x_range=x_range, y_range=y_range, z_range=z_range, scale=scale)
+
+""" save top view video """
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+vid = cv2.VideoWriter('topview.avi', fourcc, 25.0, size, False)
+
+for frame in topview:
+    vid.write(frame)
+
+print('video saved')
+vid.release()
+play topview video
+from IPython.display import clear_output
+
+""" display video """
+vid = cv2.VideoCapture("./topview.avi")
+
+while(True):
+    ret, frame = vid.read()
+    if not ret:
+        vid.release()
+        break
+    fig = plt.figure(figsize=(12,5))
+    
+    plt.title("Topview video result")
+    plt.axis('off')
+    plt.imshow(frame)
+    plt.show()
+    # clear current frame for next frame
+    clear_output(wait=True)
+
+vid.release()
+
+check = Kitti_util(frame=frame_no, velo_path=velo_path, camera_path=image_path, \
+                   xml_path=xml_path, v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+
+# bring velo points & tracklet info
+points = check.velo_file
+tracklet_, type_ = check.tracklet_info
+
+print(points.shape)
+print('The number of GT : ', len(tracklet_[frame_no]))
+### 3D projection
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+
+def draw_3d_box(tracklet_, type_, ax, show_tracklets=True):
+    """ draw 3d bounding box """
+
+    type_c = { 'Car': 'b', 'Van': 'g', 'Truck': 'r', 'Pedestrian': 'c', \
+          'Person (sitting)': 'm', 'Cyclist': 'y', 'Tram': 'k', 'Misc': 'w'}
+    
+    line_order = ([0, 1], [1, 2],[2, 3],[3, 0], [4, 5], [5, 6], \
+             [6 ,7], [7, 4], [4, 0], [5, 1], [6 ,2], [7, 3])
+
+    if show_tracklets:
+        # draw the tracklets:
+        for i, j in zip(tracklet_[frame_no], type_[frame_no]):
+            for k in line_order:    
+                ax.plot3D(*zip(i.T[k[1]],i.T[k[0]]), lw = 1.5, color=type_c[j])
+with_tracklets = False
+
+fig = plt.figure(figsize=(16, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+draw_3d_box(tracklet_, type_, ax=ax, show_tracklets=with_tracklets)
+
+# plt.title("3D Tracklet display")
+pnt = points.T[:, 1::5] # one point in 5 points
+
+ax.scatter(*pnt, s = 0.1, c='k', marker='.', alpha=0.5)
+
+
+ax.set_xlabel('X [m]')
+ax.set_ylabel('Y [m]')
+ax.set_zlabel('Z [m]')
+
+ax.set_xlim3d(-30,30)
+ax.set_ylim3d(-30,30)
+ax.set_zlim3d(-2,10)
+
+ax.set_box_aspect(aspect=None, zoom=0.92)
+if with_tracklets:
+    txt="_with_tracklets"
+else:
+    txt=""
+plt.savefig("3D_lidar"+txt+".pdf", bbox_inches='tight')
+\end{lstlisting}
+\item notes \lstinline[language=bash]!detect_and_track_YOLO.ipynb!, zawieraj±cy
+wizualizacjê danych wykorzystan± w Sekcjach \ref{subsec:Wst=000119pne-wyniki},
+\ref{subsec:Trening-YOLO} oraz \ref{subsec:Wielo=00017Ar=0000F3d=000142owe-=00015Bledzenie-trajektorii}:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+from ultralytics import YOLO
+import cv2
+import numpy as np
+from collections import defaultdict
+from cap_from_youtube import cap_from_youtube
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE" # to avoid OMP conficts
+# Load an official or custom model
+# model = YOLO('../models/yolov8n.pt')  # Load an official Detect model
+model = YOLO('../models/yolov8x.pt')  # Load an official Detect model
+# Tracking from a video file or YouTube url
+# Open the video file
+# fname="highway_drone_footage"
+# fname="apollo15_10_1_1st"
+# fname="cars"
+# cap = cv2.VideoCapture("../videos/"+fname+".mp4")
+
+# Open the video from YouTube
+fname="from_yt_5"
+# cap = cap_from_youtube("https://youtu.be/7HaJArMDKgI?si=T0Bb3zOcz-YiOnMF", '720p') # 1
+# cap = cap_from_youtube("https://youtu.be/Y1jTEyb3wiI?si=-gU51avblW5Qo-ij", '720p') # 2
+# cap = cap_from_youtube("https://youtu.be/jM2VrPE5kFg?si=RXfsB63fA58TuBSi", '720p') # 3
+# cap = cap_from_youtube("https://youtu.be/CftLBPI1Ga4?si=N69rX1Bo3w9S6qjq", '1080p') # 4 (busy street with cars)
+cap = cap_from_youtube("https://youtu.be/dDE3d6mEfn8?si=s5fAKjGVaHhfeLCQ", '2160p50') # 4 (mumbai street)
+
+# Store the track history
+track_history = defaultdict(lambda: [])
+
+# Below VideoWriter object will create a frame of above defined The output  
+# is stored in 'output.mp4' file. 
+output_video = cv2.VideoWriter("../output/"+fname+"_output.mp4",  
+                         cv2.VideoWriter_fourcc(*'mp4v'), # writer object # XVID
+                        #  cv2.VideoWriter_fourcc(*'XVID'),
+                        #  cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),
+                         int(cap.get(cv2.CAP_PROP_FPS)), # FPS
+                         (852,480)) # frame size
+
+# Loop through the video frames
+i=0
+while cap.isOpened():
+    i+=1
+    # Read a frame from the video
+    success, frame = cap.read()
+
+    if success:
+
+        print(frame.shape)
+        frame = cv2.resize(frame, dsize=(852,480))# reshape to 480, 852
+        print(frame.shape)
+
+        # Run YOLOv8 tracking on the frame, persisting tracks between frames
+        results = model.track(frame, persist=True,tracker="bytetrack.yaml") # , show=True, stream=True
+
+        try:
+            # Get the boxes and track IDs
+            boxes = results[0].boxes.xywh.cpu()
+            track_ids = results[0].boxes.id.int().cpu().tolist()
+
+            # Visualize the results on the frame
+            annotated_frame = results[0].plot()
+
+            # Plot the tracks
+            for box, track_id in zip(boxes, track_ids):
+                x, y, w, h = box
+                track = track_history[track_id]
+                track.append((float(x), float(y)))  # x, y center point
+                if len(track) > 30:  # retain 90 tracks for 90 frames
+                    track.pop(0)
+
+                # Draw the tracking lines
+                points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+                cv2.polylines(annotated_frame, [points], isClosed=False, color=(255,0,0), thickness=10)
+
+        except:
+            annotated_frame = frame
+
+        # Break the loop if 'q' is pressed
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+        
+        # Display the annotated frame (requires X-forwarding ...)
+        # cv2.imshow("YOLOv8 Tracking", annotated_frame)
+
+        # write the frame to the output file
+        output_video.write(annotated_frame)
+
+        # save every n-th frame as jpg
+        n=500
+        if i % n == 0:
+            print('saving '+str(n)+'-th frame ...')
+            cv2.imwrite("../output/"+fname+"_frame_%d.jpg" % i, annotated_frame)     # save frame as JPEG file 
+
+        # except:
+        #     print("No detection in this frame, skipping ...")
+
+
+
+        if i==80:
+            print("ok, that's enough ...")
+            break
+
+        # Break the loop if 'q' is pressed
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+    else:
+        print("failed to read the frame :<")
+        # Break the loop if the end of the video is reached
+        break
+
+# Release the video capture object and close the display window
+cap.release()
+output_video.release()
+cv2.destroyAllWindows()
+# Tracking on KITTI
+from collections import defaultdict
+import cv2
+import numpy as np
+
+from ultralytics import YOLO
+
+model = YOLO("../models/yolov8n_trained_on_camera_1_KITTI.pt")
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+sys.path.append("../utils/") # Adds utils python modules path.
+from kitti_foundation import Kitti, Kitti_util
+%matplotlib inline
+
+v2c_filepath = '../datasets/KITTI/2011_09_26/calib_velo_to_cam.txt'
+c2c_filepath = '../datasets/KITTI/2011_09_26/calib_cam_to_cam.txt'
+xml_path = "../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/tracklet_labels.xml"
+
+velo_path = '../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/velodyne_points/data'
+camera_path = '../datasets/KITTI/2011_09_26/2011_09_26_drive_0005_sync/'
+
+frame_no = 115
+v_fov, h_fov = (-24.9, 2.0), (-90, 90) # field of view
+def draw_tracklets(check):
+    """ draw 3d bounding boxes around annotated objects """
+    import cv2
+    tracklet_, type_ = check.tracklet_info
+
+    tracklet2d = []
+    for i, j in zip(tracklet_[frame_no], type_[frame_no]):
+        point = i.T
+        chk,_ = check._Kitti_util__velo_2_img_projection(point)
+        tracklet2d.append(chk)
+
+    type_c = { 'Car': (0, 0, 255), 'Van': (0, 255, 0), 'Truck': (255, 0, 0), 'Pedestrian': (0,255,255), \
+        'Person (sitting)': (255, 0, 255), 'Cyclist': (255, 255, 0), 'Tram': (0, 0, 0), 'Misc': (255, 255, 255)}
+
+    line_order = ([0, 1], [1, 2],[2, 3],[3, 0], [4, 5], [5, 6], \
+            [6 ,7], [7, 4], [4, 0], [5, 1], [6 ,2], [7, 3])
+
+    for i, j in zip(tracklet2d, type_[frame_no]):
+        for k in line_order:    
+            cv2.line(image, (int(i[0][k[0]]), int(i[1][k[0]])), (int(i[0][k[1]]), int(i[1][k[1]])), type_c[j], 2)
+        cv2.putText(image, j, (int(i[0][k[0]]), int(-10+i[1][k[0]])), cv2.FONT_HERSHEY_PLAIN, 1, type_c[j], 2)
+Just using a regular camera image
+# read left camera image
+with_tracklets = True
+image_type = 'color'  # 'gray' or 'color' image
+mode = '00' if image_type == 'gray' else '02'  # image_00 = 'gray image' , image_02 = 'color image'
+
+image_path = camera_path+'image_' + mode + '/data'
+check = Kitti_util(frame=frame_no, velo_path=velo_path, camera_path=image_path, \
+                   xml_path=xml_path, v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+image = check.camera_file
+
+results = model.track(source=image, persist=True,tracker="bytetrack.yaml")
+
+txt=""
+if with_tracklets:
+    draw_tracklets(check)
+    txt="_with_tracklets"
+
+for result in results:
+    result.save(filename="../output/result_only_camera_frame_"+str(frame_no)+""+txt+".jpg")  # save to disk
+
+plt.imshow(image)
+Using a camera image with projected lidar data
+model = YOLO("../models/yolov8n_trained_on_lidar_KITTI.pt")
+def print_projection_plt(points, color, image, velo_only=False):
+    """ project converted velodyne points into camera image """
+    if velo_only:
+        hsv_image=image*0
+    else:
+        hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    for i in range(points.shape[1]):
+        cv2.circle(hsv_image, (np.int32(points[0][i]),np.int32(points[1][i])),1, (int(color[i]),255,255),-1)
+
+    return cv2.cvtColor(hsv_image, cv2.COLOR_HSV2RGB)
+def read_calib_file(filepath):
+    """Read in a calibration file and parse into a dictionary."""
+    import numpy as np
+    
+    data = {}
+
+    with open(filepath, 'r') as f:
+        for line in f.readlines():
+            try:
+                key, value = line.split(':', 1)
+            except ValueError:
+                key, value = line.split(' ', 1)
+            # The only non-float values in these files are dates, which
+            # we don't care about anyway
+            try:
+                data[key] = np.array([float(x) for x in value.split()])
+            except ValueError:
+                pass
+
+    return data
+
+image_type = 'color'  # 'gray' or 'color' image
+mode = '00' if image_type == 'gray' else '02'  # image_00 = 'gray image' , image_02 = 'color image'
+
+image_path = camera_path+'image_' + mode + '/data'
+res = Kitti_util(frame=frame_no, camera_path=image_path, velo_path=velo_path, \
+                v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+
+img, pnt, c_ = res.velo_projection_frame(v_fov=v_fov, h_fov=h_fov)
+
+image = print_projection_plt(pnt, c_, img, velo_only=True) # img*0 
+# image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # to grayscale
+
+results = model.track(source=image, persist=True,tracker="bytetrack.yaml")
+
+txt=""
+
+for result in results:
+    result.save(filename="../output/result_camera_with_lidar_proj_frame_"+str(frame_no)+""+txt+".jpg")  # save to disk
+
+plt.imshow(image)
+# Load the YOLOv8 model
+# model = YOLO("yolov8n.pt") # pretrained one
+# model = YOLO("../models/yolov8n_trained_on_camera_1_KITTI.pt") # trained on main camera images by us
+model = YOLO("../models/yolov8n_trained_on_lidar_KITTI.pt") # trained on lidar projections by us
+print(len(list(model.names.values())))
+print(list(model.names.values()))
+
+txt=""
+image_type = 'color'  # 'gray' or 'color' image
+mode = '00' if image_type == 'gray' else '02'  # image_00 = 'gray image' , image_02 = 'color image'
+image_path = camera_path+'image_' + mode + '/data'
+# Store the track history
+track_history = defaultdict(lambda: [])
+
+# Below VideoWriter object will create a frame of above defined The output  
+# is stored in 'output.mp4' file. 
+output_video = cv2.VideoWriter("../output/kitti_test_output.mp4",  
+                         cv2.VideoWriter_fourcc(*'mp4v'), # writer object # XVID or mp4v
+                        #  cv2.VideoWriter_fourcc(*'XVID'),
+                        #  cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),
+                         10, # FPS
+                         image.shape[:2]) # frame size
+with_lidar = True
+txt=""
+for frame_no in range(1,20):
+
+    
+
+    # read the next KITTI frame:
+    img, pnt, c_ = Kitti_util(
+        frame=frame_no, camera_path=image_path, velo_path=velo_path, v2c_path=v2c_filepath, c2c_path=c2c_filepath
+    ).velo_projection_frame(v_fov=v_fov, h_fov=h_fov)
+    if with_lidar:
+        txt="lidar_"
+        frame = print_projection_plt(pnt, c_, img, velo_only=True)
+    else:
+        frame = img
+
+    # print(frame.shape)
+    cv2.resize(frame, dsize=image.shape[:2]) # reshape to 480, 852
+    # print(frame.shape)
+
+    # do the object detection for tracking:
+    results = model.track(
+        source=frame, 
+        persist=True,
+        tracker="bytetrack.yaml"
+    )
+
+    try: # will work ONLY if there was some detection!
+        # Get the boxes and track IDs
+        boxes = results[0].boxes.xywh.cpu()
+        track_ids = results[0].boxes.id.int().cpu().tolist()
+
+        # Visualize the results on the frame
+        annotated_frame = results[0].plot()
+
+        # Plot the tracks
+        for box, track_id in zip(boxes, track_ids):
+            x, y, w, h = box
+            track = track_history[track_id]
+            track.append((float(x), float(y)))  # x, y center point
+            if len(track) > 30:  # retain 90 tracks for 90 frames
+                track.pop(0)
+
+            # Draw the tracking lines
+            points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+            cv2.polylines(annotated_frame, [points], isClosed=False, color=(0,0,255), thickness=10)
+    except:
+        annotated_frame = frame
+
+    if frame_no % 5 == 0:
+        cv2.imwrite("../output/KITTI_"+txt+"frame_%d.jpg" % frame_no, annotated_frame)     # save frame as JPEG file
+
+    # write the frame to the output file
+    output_video.write(annotated_frame)
+
+    # Display the annotated frame
+    # cv2.imshow("YOLOv8 Tracking", annotated_frame)
+
+
+output_video.release()
+cv2.destroyAllWindows()
+# Save the Lidar projections as images for processing with Ultralytics
+Based on https://github.com/kuixu/kitti_object_vis/blob/master/kitti_object.py
+def get_lidar(lidar_dir='../datasets/KITTI/training/velodyne/0000',idx=0,point_cloud_only=False,distance_only=False):
+    """
+    Read a lidar file
+
+    The format is (x,y,z,r)
+    """
+    import os
+    import numpy as np
+    
+    lidar_file = os.path.join(lidar_dir, '{:06d}.bin'.format(idx))
+    assert os.path.isfile(lidar_file)
+    if point_cloud_only:
+        return np.fromfile(lidar_file, dtype=np.float32).reshape(-1, 4)[:, :3]
+    elif distance_only:
+        return np.fromfile(lidar_file, dtype=np.float32).reshape(-1, 4)[:, 3]
+    else:
+        return np.fromfile(lidar_file, dtype=np.float32).reshape(-1, 4)
+def project_velo_to_rect(self, pts_3d_velo):
+    pts_3d_ref = self.project_velo_to_ref(pts_3d_velo)
+    return self.project_ref_to_rect(pts_3d_ref)
+def project_velo_to_image(self, pts_3d_velo):
+    """ Input: nx3 points in velodyne coord.
+        Output: nx2 points in image2 coord.
+    """
+    pts_3d_rect = self.project_velo_to_rect(pts_3d_velo)
+    return self.project_rect_to_image(pts_3d_rect)
+def get_lidar_in_image_fov(
+    pc_velo, calib, xmin, ymin, xmax, ymax, return_more=False, clip_distance=2.0
+):
+    """ Filter lidar points, keep those in image FOV """
+    pts_2d = calib.project_velo_to_image(pc_velo)
+    fov_inds = (
+        (pts_2d[:, 0] < xmax)
+        & (pts_2d[:, 0] >= xmin)
+        & (pts_2d[:, 1] < ymax)
+        & (pts_2d[:, 1] >= ymin)
+    )
+    fov_inds = fov_inds & (pc_velo[:, 0] > clip_distance)
+    imgfov_pc_velo = pc_velo[fov_inds, :]
+    if return_more:
+        return imgfov_pc_velo, pts_2d, fov_inds
+    else:
+        return imgfov_pc_velo
+def show_lidar_on_image(pc_velo, img, calib, img_width, img_height):
+    """ Project LiDAR points to image """
+    import cv2
+    
+    img =  np.copy(img)
+    imgfov_pc_velo, pts_2d, fov_inds = get_lidar_in_image_fov(
+        pc_velo, calib, 0, 0, img_width, img_height, True
+    )
+    imgfov_pts_2d = pts_2d[fov_inds, :]
+    imgfov_pc_rect = calib.project_velo_to_rect(imgfov_pc_velo)
+
+    import matplotlib.pyplot as plt
+
+    cmap = plt.cm.get_cmap("hsv", 256)
+    cmap = np.array([cmap(i) for i in range(256)])[:, :3] * 255
+
+    for i in range(imgfov_pts_2d.shape[0]):
+        depth = imgfov_pc_rect[i, 2]
+        color = cmap[int(640.0 / depth), :]
+        cv2.circle(
+            img,
+            (int(np.round(imgfov_pts_2d[i, 0])), int(np.round(imgfov_pts_2d[i, 1]))),
+            1,
+            color=tuple(color),
+            thickness=-1,
+        )
+    # cv2.imshow("projection", img)
+    # plt.imshow(img)
+    # cv2.imwrite("projection.jpg", img) 
+    return img
+
+import sys
+sys.path.append("../utils/") # Adds utils python modules path.
+import kitti_util as utils
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+
+
+width=1242
+height=375
+lidar_point_cloud = get_lidar(point_cloud_only=True)
+lidar_distance = get_lidar(distance_only=True)
+calibration = utils.Calibration("../datasets/KITTI/training/calib/0000.txt")
+img_lidar = show_lidar_on_image(pc_velo=lidar_point_cloud, img=np.zeros((height,width)), calib=calibration, img_width=width, img_height=height)
+# img_lidar = cv2.cvtColor(img_lidar, cv2.COLOR_BGR2RGB)
+
+fig_lidar = plt.figure(figsize=(14, 7))
+ax_lidar = fig_lidar.subplots()
+ax_lidar.imshow(img_lidar)
+plt.show()
+# now, let's use the function we defined:
+import sys
+sys.path.append('../src/')
+sys.path.append("../utils/") # Adds utils python modules path.
+import kitti_util as utils
+from KITTI_to_Ultralytics import lidar_to_images
+lidar_to_images(
+    kitti_dir="../datasets/KITTI/",
+    subset="training",
+)
+# we move the part of the lidar projections to the test set:
+import sys
+sys.path.append('../src/')
+from KITTI_to_Ultralytics import split_train_test
+split_train_test(
+        kitti_dir="../datasets/KITTI/",
+        mode="simple",
+        start_scene_id=0,
+        stop_scene_id=999999,
+        only_lidar=True,
+)
+# Translate KITTI labels to Ultralytics format
+import pandas as pd
+"""
+KITTI format: 
+#Values    Name      Description
+----------------------------------------------------------------------------
+   1    frame        Frame within the sequence where the object appearers
+   1    track id     Unique tracking id of this object within this sequence
+   1    type         Describes the type of object: 'Car', 'Van', 'Truck',
+                     'Pedestrian', 'Person_sitting', 'Cyclist', 'Tram',
+                     'Misc' or 'DontCare'
+   1    truncated    Integer (0,1,2) indicating the level of truncation.
+                     Note that this is in contrast to the object detection
+                     benchmark where truncation is a float in [0,1].
+   1    occluded     Integer (0,1,2,3) indicating occlusion state:
+                     0 = fully visible, 1 = partly occluded
+                     2 = largely occluded, 3 = unknown
+   1    alpha        Observation angle of object, ranging [-pi..pi]
+   4    bbox         2D bounding box of object in the image (0-based index):
+                     contains left, top, right, bottom pixel coordinates <----- [top & bottom seem swapped BUT they are NOT! the y axis goes downwards!!!]
+   3    dimensions   3D object dimensions: height, width, length (in meters)
+   3    location     3D object location x,y,z in camera coordinates (in meters)
+   1    rotation_y   Rotation ry around Y-axis in camera coordinates [-pi..pi]
+   1    score        Only for results: Float, indicating confidence in
+                     detection, needed for p/r curves, higher is better.
+"""
+colnames=['frame','track_id','type','truncated','occluded','alpha',
+          'bbox_left','bbox_top','bbox_right','bbox_bottom',
+          'obj_height','obj_width','obj_length',
+          'obj_x','obj_y','obj_z','rotation_y','score',]
+temp=pd.read_csv("/home/piokal/automotive-tracking/datasets/KITTI/training/label_02/0000.txt",sep=" ",header=None,names=colnames) # ,names=colnames
+print(temp)
+"""Ultralytics label format: 
+
+    class x_center y_center width height
+
+- Box coordinates must be in normalized xywh format (from 0 to 1). If your boxes are in pixels, divide x_center and width by image width, and y_center and height by image height.
+- Class numbers are zero-indexed (start from 0).
+"""
+ultra_colnames = ['class','x_center','y_center','width','height']
+ultra_df = pd.DataFrame(columns=ultra_colnames)
+ultra_df['class']=temp['type']
+
+# We need to norm to (0,1) by the image size:
+img_width=1242
+img_height=375
+
+ultra_df['x_center']=0.5*(temp['bbox_left']+temp['bbox_right'])/img_width
+ultra_df['y_center']=0.5*(temp['bbox_top']+temp['bbox_bottom'])/img_height
+ultra_df['width']=(temp['bbox_right']-temp['bbox_left'])/img_width
+ultra_df['height']=(temp['bbox_bottom']-temp['bbox_top'])/img_height
+class_name_to_id = {
+    'Car'            : 0,
+    'Pedestrian'     : 1,
+    'Van'            : 2,
+    'Cyclist'        : 3,
+    'Truck'          : 4,
+    'Misc'           : 5,
+    'Tram'           : 6,
+    'Person_sitting' : 7,
+    'DontCare'       : 8,
+}
+ultra_df['class']=[class_name_to_id[c] for c in ultra_df['class']]
+ultra_df.to_csv('../datasets/KITTI_for_YOLO/labels/test.txt',sep=' ',index=None, float_format='%.6f',header=None)
+# now, let's use the function we defined:
+import sys
+sys.path.append('../src/')
+from KITTI_to_Ultralytics import kitti_to_ultra_labels
+kitti_to_ultra_labels(kitti_dir="../datasets/KITTI/",subset="training")
+# Split into training and test set (the KITTI testing set has no labels!)
+import sys
+sys.path.append('../src/')
+from KITTI_to_Ultralytics import split_train_test
+split_train_test(start_scene_id=0,only_labels=True)
+# Train the YOLO model on KITTI
+from ultralytics import YOLO
+
+model = YOLO("../models/yolov8n.pt")
+### Train on regular camera images
+# Train the model
+results = model.train(data="/home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/KITTI.yaml", 
+                      epochs=10, imgsz=1248, project='../output/',name='yolov8n_trained_on_camera_1_KITTI')
+# move the trained model to the models/ directory:
+!cp -v automotive-tracking/output/yolov8n_trained_on_camera_1_KITTI/weights/best.pt ../models/yolov8n_trained_on_camera_1_KITTI.pt
+### Train on lidar data projected onto camera image format
+# Train the model
+results = model.train(data="/home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/KITTI_lidar.yaml", epochs=10, imgsz=1248,
+                      project='../output/',name='yolov8n_trained_on_lidar_KITTI')
+# move the trained model to the models/ directory:
+!cp -v automotive-tracking/output/yolov8n_trained_on_lidar_KITTI/weights/best.pt ../models/yolov8n_trained_on_lidar_KITTI.pt
+# Tracking on trained models
+# Load the YOLOv8 model
+# model = YOLO("yolov8n.pt") # pretrained one
+model = YOLO("../models/yolov8n_trained_on_camera_1_KITTI.pt") # trained on main camera images by us
+# model = YOLO("../models/yolov8n_trained_on_lidar_KITTI.pt") # trained on lidar projections by us
+print(len(list(model.names.values())))
+print(list(model.names.values()))
+
+txt=""
+image_type = 'color'  # 'gray' or 'color' image
+mode = '00' if image_type == 'gray' else '02'  # image_00 = 'gray image' , image_02 = 'color image'
+image_path = camera_path+'image_' + mode + '/data'
+# Store the track history
+track_history = defaultdict(lambda: [])
+
+# Below VideoWriter object will create a frame of above defined The output  
+# is stored in 'output.mp4' file. 
+output_video = cv2.VideoWriter("../output/kitti_test_output.mp4",  
+                         cv2.VideoWriter_fourcc(*'mp4v'), # writer object # XVID or mp4v
+                        #  cv2.VideoWriter_fourcc(*'XVID'),
+                        #  cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),
+                         10, # FPS
+                         image.shape[:2]) # frame size
+with_lidar = False
+txt=""
+for frame_no in range(1,20):
+
+    # read the next KITTI frame:
+    if with_lidar:
+        txt="lidar_"
+        frame = "/home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/testing/lidar/images/scene_0019_frame_"+str(frame_no).zfill(6)+".jpg"
+    else:
+        frame = "/home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/testing/camera_1/images/scene_0019_frame_"+str(frame_no).zfill(6)+".jpg"
+
+    # do the object detection for tracking:
+    results = model.track(
+        source=frame, 
+        persist=True,
+        tracker="bytetrack.yaml"
+    )
+
+    try: # will work ONLY if there was some detection!
+        # Get the boxes and track IDs
+        boxes = results[0].boxes.xywh.cpu()
+        track_ids = results[0].boxes.id.int().cpu().tolist()
+
+        # Visualize the results on the frame
+        annotated_frame = results[0].plot()
+
+        # Plot the tracks
+        for box, track_id in zip(boxes, track_ids):
+            x, y, w, h = box
+            track = track_history[track_id]
+            track.append((float(x), float(y)))  # x, y center point
+            if len(track) > 30:  # retain 90 tracks for 90 frames
+                track.pop(0)
+
+            # Draw the tracking lines
+            points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+            cv2.polylines(annotated_frame, [points], isClosed=False, color=(0,0,255), thickness=10)
+    except:
+        annotated_frame = frame
+
+    if frame_no % 5 == 0:
+        cv2.imwrite("../output/KITTI_"+txt+"frame_%d.jpg" % frame_no, annotated_frame)     # save frame as JPEG file
+
+    # write the frame to the output file
+    output_video.write(annotated_frame)
+
+    # Display the annotated frame
+    # cv2.imshow("YOLOv8 Tracking", annotated_frame)
+
+
+output_video.release()
+cv2.destroyAllWindows()
+\end{lstlisting}
+\end{itemize}
+Folder \lstinline[language=bash]!models! jest przeznaczony do przechowywania
+wytrenowanych modeli, natomiast \lstinline[language=bash]!output!
+--- do wszelkiego rodzaju plików wynikowych: rysunków, filmów, itd.
+W katalogu \lstinline[language=bash]!reports! znajduj± siê wszystkie
+raporty z prac nad projektem., ³±cznie z ich plikami ¼ród³owymi. Folder
+\lstinline[language=bash]!src! zawiera pliki ¼ród³owe, wykorzystywane
+przez notesy:
+\begin{itemize}
+\item skrypt \lstinline[language=bash]!detect_and_track_YOLO.py!, pozwalaj±cy
+na ¶ledzenie obiektów przy pomocy modelu YOLO:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+#!/usr/bin/env python
+# --------------------------------------------------------------
+# script, which downloads the videos needed for running the code
+# --------------------------------------------------------------
+
+# imports
+from ultralytics import YOLO
+import cv2
+import numpy as np
+from collections import defaultdict
+from cap_from_youtube import cap_from_youtube
+import argparse
+import os
+
+
+# first we handle to arguments passed to the script:
+parser = argparse.ArgumentParser(
+    prog='python detect_and_track.py',
+    description='This code detects objects in a specified video, identifies them and tracks their trajectories',
+    epilog='To manually stop the processing, press "q"'
+)
+parser.add_argument('video_filename', type=str, nargs=1, action='store',
+                    help='Video file to be processed. It can be either a local path or a YouTube URL.')
+parser.add_argument('--max-frames', dest='max_frames',
+                    default=0, type=int,
+                    help='maximal number of frames to be processed')
+parser.add_argument('--every-nth', dest='every_nth',
+                    default=0, type=int,
+                    help='saves every nth frame to a .jpg')
+
+args = parser.parse_args()
+print(args)
+
+
+# Load the model
+print('loading the YOLO model ...')
+model = YOLO('models/yolov8n.pt')
+
+# Open the video file
+if "youtu" in args.video_filename:
+    print("Opening a video from YouTube ... ")
+    fname="from_yt"
+    cap = cap_from_youtube(args.video_filename, '720p')
+else:
+    print("Opening a local video file ... ")
+    path=''.join(args.video_filename)
+    fname=os.path.split(path)[-1]
+    cap = cv2.VideoCapture(path)
+
+
+# Initialize empty track history
+track_history = defaultdict(lambda: [])
+
+
+# Define the output file
+output_video = cv2.VideoWriter("output/processed_"+fname,  
+                         cv2.VideoWriter_fourcc(*'mp4v'), # writer object
+                         int(cap.get(cv2.CAP_PROP_FPS)), # FPS
+                         (852,480)) # frame size
+
+# Loop through the video frames
+i=0
+while cap.isOpened():
+    i+=1
+    # Read a frame from the video
+    success, frame = cap.read()
+
+    if success:
+
+        # print(frame.shape)
+        frame = cv2.resize(frame, dsize=(852,480)) # reshape to 480, 852
+        # print(frame.shape)
+
+        # Run YOLOv8 tracking on the frame, persisting tracks between frames
+        results = model.track(frame, persist=True,tracker="bytetrack.yaml") # , show=True, stream=True
+
+        # Get the boxes and track IDs
+        boxes = results[0].boxes.xywh.cpu()
+        track_ids = results[0].boxes.id.int().cpu().tolist()
+
+        # Visualize the results on the frame
+        annotated_frame = results[0].plot()
+
+        # Plot the tracks
+        for box, track_id in zip(boxes, track_ids):
+            x, y, w, h = box
+            track = track_history[track_id]
+            track.append((float(x), float(y)))  # x, y center point
+            if len(track) > 30:  # retain 90 tracks for 90 frames
+                track.pop(0)
+
+            # Draw the tracking lines
+            points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+            cv2.polylines(annotated_frame, [points], isClosed=False, color=(255,0,0), thickness=10)
+
+        # Display the annotated frame (requires X-forwarding ...)
+        # cv2.imshow("YOLOv8 Tracking", annotated_frame)
+
+        # write the frame to the output file
+        output_video.write(annotated_frame)
+
+        # save every n-th frame as jpg
+        if i % args.every_nth == 0:
+            print('saving 15-th frame ...')
+            cv2.imwrite("output/frame_%d.jpg" % i, annotated_frame)     # save frame as JPEG file  
+
+        if (i==args.max_frames) & (args.max_frames>0):
+            print("ok, that's enough ...")
+            break
+    else:
+        print("failed to read the frame :<")
+        # Break the loop if the end of the video is reached
+        break
+
+# Release the video capture object and close the display window
+cap.release()
+output_video.release()
+cv2.destroyAllWindows()
+
+print("Finished processing the file!")
+\end{lstlisting}
+\item kod \lstinline[language=bash]!KITTI_to_Ultralytics.py!, zawieraj±cy
+szereg funkcjonalno¶ci niezbêdnych do konwersji zbioru danych KITTI
+do formatu obs³ugiwanego przez bibliotekê Ultralytics:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+#!/usr/bin/env python
+"""
+This is a set of utility functions, which help to convert the KITTI dataset to the Ultralytics format
+and prepare the data to be used for training and validation of a object detection model (default: YOLO)
+"""
+
+# fixed size of KITTI images:
+IMG_WIDTH=1242
+IMG_HEIGHT=375
+
+def lidar_to_images(
+        kitti_dir="../datasets/KITTI/",
+        subset="training",
+    ):
+    """
+    converts the KITTI velodyne lidar point clouds to RBG images and saves them
+    """
+    import cv2
+    import numpy as np
+    import sys
+    sys.path.append('../utils/')
+    import kitti_util as utils
+    import lidar
+    from glob import glob
+
+    # get the list of scenes:
+    scene_ids=[fname[-4:] for fname in glob(kitti_dir+subset+"/image_02/*", recursive = True)]
+    scene_ids.sort()
+
+    for scene_id in scene_ids:
+        print("Processing scene ",scene_id)
+        # get the list of frames:
+        frame_ids=[fname[-10:-4] for fname in glob(kitti_dir+"training/image_02/"+scene_id+"/*png", recursive = True)]
+        frame_ids.sort()
+
+        for frame_id in frame_ids:
+            # get the lidar points:
+            lidar_point_cloud = lidar.get_lidar(
+                dir='../datasets/KITTI/training/velodyne/'+scene_id,
+                filename=frame_id+'.bin',
+                point_cloud_only=True
+            )
+            lidar_distance = lidar.get_lidar(
+                dir='../datasets/KITTI/training/velodyne/'+scene_id,
+                filename=frame_id+'.bin',
+                distance_only=True
+            )
+            if lidar_point_cloud.size>0:
+            # get the calibration:
+                calibration = utils.Calibration("../datasets/KITTI/training/calib/"+scene_id+".txt")
+
+                # project the lidar points onto an image:
+                img_lidar = lidar.show_lidar_on_image(
+                    pc_velo=lidar_point_cloud, 
+                    img=np.zeros((IMG_HEIGHT,IMG_WIDTH)), # we just use a blank background
+                    calib=calibration, 
+                    img_width=IMG_WIDTH, 
+                    img_height=IMG_HEIGHT)
+
+                # save the image:
+                cv2.imwrite("../datasets/KITTI_for_YOLO/"+subset+"/lidar/images/scene_"+scene_id+"_frame_"+frame_id+".jpg", img_lidar)
+
+def kitti_to_ultra_labels(
+        kitti_dir="../datasets/KITTI/",
+        subset="training",
+    ):
+    """
+    converts a single KITTI-formatted label file to multiple corresponding files in ultralytics format
+    """
+    import pandas as pd
+    from glob import glob
+
+    if subset=="training":
+        print("Converting the KITTI labels ...")
+    elif subset=="testing":
+        print("The KITTI dataset does NOT have labels provided for the testing/ directory ...")
+        raise NotImplementedError
+    else:
+        print("unknown option")
+        raise SyntaxError
+
+    colnames=[
+        'frame','track_id','type','truncated','occluded','alpha',
+        'bbox_left','bbox_top','bbox_right','bbox_bottom',
+        'obj_height','obj_width','obj_length',
+        'obj_x','obj_y','obj_z','rotation_y','score',]
+
+    ultra_colnames = ['class','x_center','y_center','width','height']
+
+    # get the list of scenes:
+    scene_ids=[fname[-4:] for fname in glob(kitti_dir+subset+"/image_02/*", recursive = True)]
+    scene_ids.sort()
+
+    for scene_id in scene_ids:
+        print("Processing scene ",scene_id)
+        # read the data:
+        labels=pd.read_csv(
+            kitti_dir+subset+'/label_02/'+scene_id+'.txt',
+            sep=" ",header=None,names=colnames)[['frame','type','bbox_left','bbox_bottom','bbox_right','bbox_top']]
+
+        for frame in labels['frame'].unique():
+            slc=labels['frame']==frame
+
+            # convert to ultralytics format:
+            ultra_df = pd.DataFrame(columns=ultra_colnames)
+            
+            ultra_df['class']=labels[slc]['type']
+
+            # We need to norm to (0,1) by the image size:
+            ultra_df['x_center']=0.5*(labels[slc]['bbox_left']+labels[slc]['bbox_right'])/IMG_WIDTH
+            ultra_df['y_center']=0.5*(labels[slc]['bbox_top']+labels[slc]['bbox_bottom'])/IMG_HEIGHT
+            ultra_df['width']=(labels[slc]['bbox_right']-labels[slc]['bbox_left'])/IMG_WIDTH
+            ultra_df['height']=(labels[slc]['bbox_bottom']-labels[slc]['bbox_top'])/IMG_HEIGHT
+
+            # convert class names to integer IDs (matching KITTI.yaml):
+            class_name_to_id = {
+                'Car'            : 0,
+                'Pedestrian'     : 1,
+                'Van'            : 2,
+                'Cyclist'        : 3,
+                'Truck'          : 4,
+                'Misc'           : 5,
+                'Tram'           : 6,
+                'Person_sitting' : 7,
+                'Person'         : 7,
+                'DontCare'       : 8,
+            }
+            # print(scene_id,frame,ultra_df['class'].unique())
+            ultra_df['class']=[class_name_to_id[c] for c in ultra_df['class']]
+
+            # prepare the filename to write to:
+            output_filename='scene_'+scene_id+'_frame_'+str(frame).zfill(6)+'.txt' # list of output files
+            # print(output_filename)
+            ultra_df.to_csv('../datasets/KITTI_for_YOLO/'+subset+'/camera_1/labels/'+output_filename,sep=' ',index=None, float_format='%.6f',header=None)
+            ultra_df.to_csv('../datasets/KITTI_for_YOLO/'+subset+'/camera_2/labels/'+output_filename,sep=' ',index=None, float_format='%.6f',header=None)
+            ultra_df.to_csv('../datasets/KITTI_for_YOLO/'+subset+'/lidar/labels/'+output_filename,sep=' ',index=None, float_format='%.6f',header=None)
+
+def split_train_test(
+        kitti_dir="../datasets/KITTI/",
+        mode="simple",
+        start_scene_id=0,
+        stop_scene_id=999999,
+        only_labels=False,
+        only_lidar=False,
+    ):
+    """
+    Divides the images and/or labels in training/ in the KITTI 
+    directory into a proper train and test dataset
+    """
+    import os
+    from glob import glob
+    from PIL import Image # needed for .png -> .jpg conversion
+    import numpy as np
+
+    if mode=="simple":
+        # get the list of scenes:
+        scene_ids=[fname[-4:] for fname in glob(kitti_dir+"training/image_02/*", recursive = True)]
+        scene_ids.sort()
+        scene_ids=np.asarray(scene_ids)
+        scene_ids=scene_ids[
+            (scene_ids.astype(int)>=start_scene_id) & 
+            (scene_ids.astype(int)<=stop_scene_id)
+        ]
+
+        for scene_id in scene_ids:
+            """
+            The split is done:
+                train: scenes 0  - 16
+                test:  scenes 17 - 20
+            """
+            print("processing scene ",scene_id)
+            if int(scene_id) <= 16:
+                subset = "training"
+            else:
+                subset = "testing"
+                print("copying the test labels")
+                # move the labels:
+                if not only_lidar:
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/camera_1/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/camera_1/labels/")
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/camera_2/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/camera_2/labels/")
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/lidar/labels/scene_"+scene_id+"_frame_*.txt /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/lidar/labels/")
+                if not only_labels:
+                    print("copying the test lidar projection images")
+                    os.system("cp /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/training/lidar/images/scene_"+scene_id+"_frame_*.jpg /home/piokal/automotive-tracking/datasets/KITTI_for_YOLO/"+subset+"/lidar/images/")
+
+            if not only_labels and not only_lidar:
+                # get the list of frames:
+                frame_ids=[fname[-10:-4] for fname in glob(kitti_dir+"training/image_02/"+scene_id+"/*png", recursive = True)]
+                frame_ids.sort()
+
+                for frame_id in frame_ids:
+                    # camera images are opened and saved as .jpg:
+                    img_png = Image.open(kitti_dir+"training/image_02/"+scene_id+"/"+frame_id+".png") 
+                    img_png.save("../datasets/KITTI_for_YOLO/"+subset+"/images/camera_1/scene_"+scene_id+"_frame_"+frame_id+".jpg")
+
+                    img_png = Image.open(kitti_dir+"training/image_03/"+scene_id+"/"+frame_id+".png") 
+                    img_png.save("../datasets/KITTI_for_YOLO/"+subset+"/images/camera_2/scene_"+scene_id+"_frame_"+frame_id+".jpg")
+    else:
+        print("Other splitting modes are currently not implemented")
+        raise NotImplementedError
+\end{lstlisting}
+\end{itemize}
+Katalog \lstinline[language=bash]!utils! zawiera pomocnicze funkcje
+do pracy z danymi z KITTI:
+\begin{itemize}
+\item plik \lstinline[language=bash]!kitti_foundation.py!, z funkcjonalno¶ciami
+do odczytu, transformacji i wizualizacji danych:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+""" 2017.07.19
+made by changsub Bae
+github.com/windowsub0406
+"""
+import numpy as np
+import glob
+import cv2
+import parseTrackletXML as pt_XML
+
+class Kitti:
+
+    """
+    frame : specific frame number or 'all' for whole dataset. default = 'all'
+    velo_path : velodyne bin file path. default = None
+    camera_path : left-camera image file path. default = None
+    img_type : image type info 'gray' or 'color'. default = 'gray'
+    v2c_path : Velodyne to Camera calibration info file path. default = None
+    c2c_path : camera to Camera calibration info file path. default = None
+    xml_path : XML file having tracklet info
+    """
+    def __init__(self, frame='all', velo_path=None, camera_path=None, \
+                 img_type='gray', v2c_path=None, c2c_path=None, xml_path=None):
+        self.__frame_type = frame
+        self.__img_type = img_type
+        self.__num_frames = None
+        self.__cur_frame = None
+
+        if velo_path is not None:
+            self.__velo_path = velo_path
+            self.__velo_file = self.__load_from_bin()
+        else:
+            self.__velo_path, self.__velo_file = None, None
+
+        if camera_path is not None:
+            self.__camera_path = camera_path
+            self.__camera_file = self.__load_image()
+        else:
+            self.__camera_path, self.__camera_file = None, None
+        if v2c_path is not None:
+            self.__v2c_path = v2c_path
+            self.__v2c_file = self.__load_velo2cam()
+        else:
+            self.__v2c_path, self.__v2c_file = None, None
+        if c2c_path is not None:
+            self.__c2c_path = c2c_path
+            self.__c2c_file = self.__load_cam2cam()
+        else:
+            self.__c2c_path, self.__c2c_file = None, None
+        if xml_path is not None:
+            self.__xml_path = xml_path
+            self.__tracklet_box, self.__tracklet_type = self.__load_tracklet()
+        else:
+            self.__xml_path = None
+            self.__tracklet_box, self.__tracklet_type = None, None
+
+    @property
+    def frame_type(self):
+        return self.__frame_type
+
+    @property
+    def image_type(self):
+        return self.__img_type
+
+    @property
+    def num_frame(self):
+        return self.__num_frames
+
+    @property
+    def cur_frame(self):
+        return self.__cur_frame
+
+    @property
+    def img_size(self):
+        return self.__img_size
+
+    @property
+    def velo_file(self):
+        return self.__velo_file
+
+    @property
+    def velo_d_file(self):
+        x = self.__velo_file[:, 0]
+        y = self.__velo_file[:, 1]
+        z = self.__velo_file[:, 2]
+        d = np.sqrt(x ** 2 + y ** 2 + z ** 2)
+        return np.hstack((self.__velo_file, d[:, None]))
+
+    @property
+    def camera_file(self):
+        return self.__camera_file
+
+    @property
+    def v2c_file(self):
+        return self.__v2c_file
+
+    @property
+    def c2c_file(self):
+        return self.__c2c_file
+
+    @property
+    def tracklet_info(self):
+        return self.__tracklet_box, self.__tracklet_type
+
+    def __get_velo(self, files):
+        """ Convert bin to numpy array for whole dataset"""
+
+        for i in files.keys():
+            points = np.fromfile(files[i], dtype=np.float32).reshape(-1, 4)
+            self.__velo_file = points[:, :3]
+            self.__cur_frame = i
+            yield self.__velo_file
+
+    def __get_velo_frame(self, files):
+        """ Convert bin to numpy array for one frame """
+        points = np.fromfile(files[self.__frame_type], dtype=np.float32).reshape(-1, 4)
+        return points[:, :3]
+
+    def __get_camera(self, files):
+        """ Return image for whole dataset """
+
+        for i in files.keys():
+            self.__camera_file = files[i]
+            self.__cur_frame = i
+            frame = cv2.imread(self.__camera_file)
+            if i == 0:
+                self.__img_size = frame.shape
+            yield frame
+
+    def __get_camera_frame(self, files):
+        """ Return image for one frame """
+        frame = cv2.imread(files[self.__frame_type])
+        self.__img_size = frame.shape
+        return frame
+
+    def __load_from_bin(self):
+        """ Return numpy array including velodyne's all 3d x,y,z point cloud """
+
+        velo_bins = glob.glob(self.__velo_path + '/*.bin')
+        velo_bins.sort()
+        self.__num_frames = len(velo_bins)
+        velo_files = {i: velo_bins[i] for i in range(len(velo_bins))}
+
+        if self.__frame_type in velo_files:
+            velo_xyz = self.__get_velo_frame(velo_files)
+        else:
+            velo_xyz = self.__get_velo(velo_files)
+
+        return velo_xyz
+
+    def __load_image(self):
+        """ Return camera image """
+
+        image_path = glob.glob(self.__camera_path + '/*.png')
+        image_path.sort()
+        self.__num_frames = len(image_path)
+        image_files = {i: image_path[i] for i in range(len(image_path))}
+
+        if self.__frame_type in image_files:
+            image = self.__get_camera_frame(image_files)
+        else:
+            image = self.__get_camera(image_files)
+
+        return image
+
+    def __load_velo2cam(self):
+        """ load Velodyne to Camera calibration info file """
+        with open(self.__v2c_path, "r") as f:
+            file = f.readlines()
+            return file
+
+    def __load_cam2cam(self):
+        """ load Camera to Camera calibration info file """
+        with open(self.__c2c_path, "r") as f:
+            file = f.readlines()
+            return file
+
+    def __load_tracklet(self):
+        """ extract tracklet's 3d box points and type """
+
+        # read info from xml file
+        tracklets = pt_XML.parseXML(self.__xml_path)
+
+        f_tracklet = {}
+        f_type = {}
+
+        # refered to parseTrackletXML.py's example function
+        # loop over tracklets
+        for tracklet in tracklets:
+
+            # this part is inspired by kitti object development kit matlab code: computeBox3D
+            h, w, l = tracklet.size
+            trackletBox = np.array([  # in velodyne coordinates around zero point and without orientation yet\
+                [-l / 2, -l / 2, l / 2, l / 2, -l / 2, -l / 2, l / 2, l / 2], \
+                [w / 2, -w / 2, -w / 2, w / 2, w / 2, -w / 2, -w / 2, w / 2], \
+                [0.0, 0.0, 0.0, 0.0, h, h, h, h]])
+
+            # loop over all data in tracklet
+            for translation, rotation, state, occlusion, truncation, amtOcclusion, amtBorders, absoluteFrameNumber in tracklet:
+
+                # determine if object is in the image; otherwise continue
+                if truncation not in (pt_XML.TRUNC_IN_IMAGE, pt_XML.TRUNC_TRUNCATED):
+                    continue
+
+                # re-create 3D bounding box in velodyne coordinate system
+                yaw = rotation[2]  # other rotations are 0 in all xml files I checked
+                assert np.abs(rotation[:2]).sum() == 0, 'object rotations other than yaw given!'
+                rotMat = np.array([ \
+                    [np.cos(yaw), -np.sin(yaw), 0.0], \
+                    [np.sin(yaw), np.cos(yaw), 0.0], \
+                    [0.0, 0.0, 1.0]])
+
+                cornerPosInVelo = np.dot(rotMat, trackletBox) + np.tile(translation, (8, 1)).T
+
+                if absoluteFrameNumber in f_tracklet:
+                    f_tracklet[absoluteFrameNumber] += [cornerPosInVelo]
+                    f_type[absoluteFrameNumber] += [tracklet.objectType]
+                else:
+                    f_tracklet[absoluteFrameNumber] = [cornerPosInVelo]
+                    f_type[absoluteFrameNumber] = [tracklet.objectType]
+
+        # fill none in non object frame
+        if self.num_frame is not None:
+            for i in range(self.num_frame):
+                if i not in f_tracklet:
+                    f_tracklet[i] = None
+                    f_type[i] = None
+
+        return f_tracklet, f_type
+
+    def __del__(self):
+        pass
+
+class Kitti_util(Kitti):
+
+    def __init__(self, frame='all', velo_path=None, camera_path=None, \
+                 img_type='gray', v2c_path=None, c2c_path=None, xml_path=None):
+        super(Kitti_util, self).__init__(frame, velo_path, camera_path, img_type, v2c_path, c2c_path, xml_path)
+        self.__h_min, self.__h_max = -180, 180
+        self.__v_min, self.__v_max = -24.9, 2.0
+        self.__v_res, self.__h_res = 0.42, 0.35
+        self.__x, self.__y, self.__z, self.__d = None, None, None, None
+        self.__h_fov, self.__v_fov = None, None
+        self.__x_range, self.__y_range, self.__z_range = None, None, None
+        self.__get_sur_size, self.__get_top_size = None, None
+
+    @property
+    def surround_size(self):
+        return self.__get_sur_size
+
+    @property
+    def topview_size(self):
+        return self.__get_top_size
+
+    def __calib_velo2cam(self):
+        """
+        get Rotation(R : 3x3), Translation(T : 3x1) matrix info
+        using R,T matrix, we can convert velodyne coordinates to camera coordinates
+        """
+        if self.v2c_file is None:
+            raise NameError("calib_velo_to_cam file isn't loaded.")
+
+        for line in self.v2c_file:
+            (key, val) = line.split(':', 1)
+            if key == 'R':
+                R = np.fromstring(val, sep=' ')
+                R = R.reshape(3, 3)
+            if key == 'T':
+                T = np.fromstring(val, sep=' ')
+                T = T.reshape(3, 1)
+        return R, T
+
+    def __calib_cam2cam(self):
+        """
+        If your image is 'rectified image' :
+            get only Projection(P : 3x4) matrix is enough
+        but if your image is 'distorted image'(not rectified image) :
+            you need undistortion step using distortion coefficients(5 : D)
+
+        In this code, only P matrix info is used for rectified image
+        """
+        if self.c2c_file is None:
+            raise NameError("calib_velo_to_cam file isn't loaded.")
+
+        mode = '00' if self.image_type == 'gray' else '02'
+
+        for line in self.c2c_file:
+            (key, val) = line.split(':', 1)
+            if key == ('P_rect_' + mode):
+                P_ = np.fromstring(val, sep=' ')
+                P_ = P_.reshape(3, 4)
+                # erase 4th column ([0,0,0])
+                P_ = P_[:3, :3]
+        return P_
+
+    def __upload_points(self, points):
+        self.__x = points[:, 0]
+        self.__y = points[:, 1]
+        self.__z = points[:, 2]
+        self.__d = np.sqrt(self.__x ** 2 + self.__y ** 2 + self.__z ** 2)
+
+    def __point_matrix(self, points):
+        """ extract points corresponding to FOV setting """
+
+        # filter in range points based on fov, x,y,z range setting
+        self.__points_filter(points)
+
+        # Stack arrays in sequence horizontally
+        xyz_ = np.hstack((self.__x[:, None], self.__y[:, None], self.__z[:, None]))
+        xyz_ = xyz_.T
+
+        # stack (1,n) arrays filled with the number 1
+        one_mat = np.full((1, xyz_.shape[1]), 1)
+        xyz_ = np.concatenate((xyz_, one_mat), axis=0)
+
+        # need dist info for points color
+        color = self.__normalize_data(self.__d, min=1, max=70, scale=120, clip=True)
+
+        return xyz_, color
+
+    def __normalize_data(self, val, min, max, scale, depth=False, clip=False):
+        """ Return normalized data """
+        if clip:
+            # limit the values in an array
+            np.clip(val, min, max, out=val)
+        if depth:
+            """
+            print 'normalized depth value'
+            normalize values to (0 - scale) & close distance value has high value. (similar to stereo vision's disparity map)
+            """
+            return (((max - val) / (max - min)) * scale).astype(np.uint8)
+        else:
+            """
+            print 'normalized value'
+            normalize values to (0 - scale) & close distance value has low value.
+            """
+            return (((val - min) / (max - min)) * scale).astype(np.uint8)
+
+    def __hv_in_range(self, m, n, fov, fov_type='h'):
+        """ extract filtered in-range velodyne coordinates based on azimuth & elevation angle limit 
+            horizontal limit = azimuth angle limit
+            vertical limit = elevation angle limit
+        """
+
+        if fov_type == 'h':
+            return np.logical_and(np.arctan2(n, m) > (-fov[1] * np.pi / 180), \
+                                  np.arctan2(n, m) < (-fov[0] * np.pi / 180))
+        elif fov_type == 'v':
+            return np.logical_and(np.arctan2(n, m) < (fov[1] * np.pi / 180), \
+                                  np.arctan2(n, m) > (fov[0] * np.pi / 180))
+        else:
+            raise NameError("fov type must be set between 'h' and 'v' ")
+
+    def __3d_in_range(self, points):
+        """ extract filtered in-range velodyne coordinates based on x,y,z limit """
+        return points[np.logical_and.reduce((self.__x > self.__x_range[0], self.__x < self.__x_range[1], \
+                                             self.__y > self.__y_range[0], self.__y < self.__y_range[1], \
+                                             self.__z > self.__z_range[0], self.__z < self.__z_range[1]))]
+
+    def __points_filter(self, points):
+        """
+        filter points based on h,v FOV and x,y,z distance range.
+        x,y,z direction is based on velodyne coordinates
+        1. azimuth & elevation angle limit check
+        2. x,y,z distance limit
+        """
+
+        # upload current points
+        self.__upload_points(points)
+
+        x, y, z = points[:, 0], points[:, 1], points[:, 2]
+        d = np.sqrt(x ** 2 + y ** 2 + z ** 2)
+
+        if self.__h_fov is not None and self.__v_fov is not None:
+            if self.__h_fov[1] == self.__h_max and self.__h_fov[0] == self.__h_min and \
+                            self.__v_fov[1] == self.__v_max and self.__v_fov[0] == self.__v_min:
+                pass
+            elif self.__h_fov[1] == self.__h_max and self.__h_fov[0] == self.__h_min:
+                con = self.__hv_in_range(d, z, self.__v_fov, fov_type='v')
+                lim_x, lim_y, lim_z, lim_d = self.__x[con], self.__y[con], self.__z[con], self.__d[con]
+                self.__x, self.__y, self.__z, self.__d = lim_x, lim_y, lim_z, lim_d
+            elif self.__v_fov[1] == self.__v_max and self.__v_fov[0] == self.__v_min:
+                con = self.__hv_in_range(x, y, self.__h_fov, fov_type='h')
+                lim_x, lim_y, lim_z, lim_d = self.__x[con], self.__y[con], self.__z[con], self.__d[con]
+                self.__x, self.__y, self.__z, self.__d = lim_x, lim_y, lim_z, lim_d
+            else:
+                h_points = self.__hv_in_range(x, y, self.__h_fov, fov_type='h')
+                v_points = self.__hv_in_range(d, z, self.__v_fov, fov_type='v')
+                con = np.logical_and(h_points, v_points)
+                lim_x, lim_y, lim_z, lim_d = self.__x[con], self.__y[con], self.__z[con], self.__d[con]
+                self.__x, self.__y, self.__z, self.__d = lim_x, lim_y, lim_z, lim_d
+        else:
+            pass
+
+        if self.__x_range is None and self.__y_range is None and self.__z_range is None:
+            pass
+        elif self.__x_range is not None and self.__y_range is not None and self.__z_range is not None:
+            # extract in-range points
+            temp_x, temp_y = self.__3d_in_range(self.__x), self.__3d_in_range(self.__y)
+            temp_z, temp_d = self.__3d_in_range(self.__z), self.__3d_in_range(self.__d)
+            self.__x, self.__y, self.__z, self.__d = temp_x, temp_y, temp_z, temp_d
+        else:
+            raise ValueError("Please input x,y,z's min, max range(m) based on velodyne coordinates. ")
+
+    def __surround_view(self, points, depth):
+        """ convert coordinates for panoramic image """
+
+        # upload current points
+        self.__points_filter(points)
+        # project point cloud to 2D point map
+        x_img = np.arctan2(-self.__y, self.__x) / (self.__h_res * (np.pi / 180))
+        y_img = -(np.arctan2(self.__z, self.__d) / (self.__v_res * (np.pi / 180)))
+        # filter in range points based on fov, x,y,z range setting
+
+        x_size = int(np.ceil((self.__h_fov[1] - self.__h_fov[0]) / self.__h_res))
+        y_size = int(np.ceil((self.__v_fov[1] - self.__v_fov[0]) / self.__v_res))
+        self.__get_sur_size = (x_size + 1, y_size + 1)
+
+        # shift negative points to positive points (shift minimum value to 0)
+        x_offset = self.__h_fov[0] / self.__h_res
+        x_img = np.trunc(x_img - x_offset).astype(np.int32)
+        y_offset = self.__v_fov[1] / self.__v_res
+        y_fine_tune = 1
+        y_img = np.trunc(y_img + y_offset + y_fine_tune).astype(np.int32)
+        dist = self.__normalize_data(self.__d, min=0, max=120, scale=255, depth=depth)
+
+        # array to img
+        img = np.zeros([y_size + 1, x_size + 1], dtype=np.uint8)
+        img[y_img, x_img] = dist
+        return img
+
+    def __topview(self, points, scale):
+        """ convert coordinates for top-view (bird's eye view) image """
+
+        # filter in range points based on fov, x,y,z range setting
+        self.__points_filter(points)
+
+        x_size = int(np.ceil(self.__y_range[1] - self.__y_range[0]))
+        y_size = int(np.ceil(self.__x_range[1] - self.__x_range[0]))
+        self.__get_sur_size = (x_size * scale + 1, y_size * scale + 1)
+
+        # convert 3D lidar coordinates(vehicle coordinates) to 2D image coordinates
+        # Velodyne coordinates info : http://www.cvlibs.net/publications/Geiger2013IJRR.pdf
+        # scale - for high resolution
+        x_img = -(self.__y * scale).astype(np.int32)
+        y_img = -(self.__x * scale).astype(np.int32)
+
+        # shift negative points to positive points (shift minimum value to 0)
+        x_img += int(np.trunc(self.__y_range[1] * scale))
+        y_img += int(np.trunc(self.__x_range[1] * scale))
+
+        # normalize distance value & convert to depth map
+        max_dist = np.sqrt((max(self.__x_range) ** 2) + (max(self.__y_range) ** 2))
+        dist_lim = self.__normalize_data(self.__d, min=0, max=max_dist, scale=255, depth=True)
+        # array to img
+        img = np.zeros([y_size * scale + 1, x_size * scale + 1], dtype=np.uint8)
+        img[y_img, x_img] = dist_lim
+        return img
+
+    def __velo_2_img_projection(self, points):
+        """ convert velodyne coordinates to camera image coordinates """
+
+        # rough velodyne azimuth range corresponding to camera horizontal fov
+        if self.__h_fov is None:
+            self.__h_fov = (-50, 50)
+        if self.__h_fov[0] < -50:
+            self.__h_fov = (-50,) + self.__h_fov[1:]
+        if self.__h_fov[1] > 50:
+            self.__h_fov = self.__h_fov[:1] + (50,)
+
+        # R_vc = Rotation matrix ( velodyne -> camera )
+        # T_vc = Translation matrix ( velodyne -> camera )
+        R_vc, T_vc = self.__calib_velo2cam()
+
+        # P_ = Projection matrix ( camera coordinates 3d points -> image plane 2d points )
+        P_ = self.__calib_cam2cam()
+
+        """
+        xyz_v - 3D velodyne points corresponding to h, v FOV limit in the velodyne coordinates
+        c_    - color value(HSV's Hue vaule) corresponding to distance(m)
+
+                 [x_1 , x_2 , .. ]
+        xyz_v =  [y_1 , y_2 , .. ]
+                 [z_1 , z_2 , .. ]
+                 [ 1  ,  1  , .. ]
+        """
+        xyz_v, c_ = self.__point_matrix(points)
+
+        """
+        RT_ - rotation matrix & translation matrix
+            ( velodyne coordinates -> camera coordinates )
+
+                [r_11 , r_12 , r_13 , t_x ]
+        RT_  =  [r_21 , r_22 , r_23 , t_y ]
+                [r_31 , r_32 , r_33 , t_z ]
+        """
+        RT_ = np.concatenate((R_vc, T_vc), axis=1)
+
+        # convert velodyne coordinates(X_v, Y_v, Z_v) to camera coordinates(X_c, Y_c, Z_c)
+        for i in range(xyz_v.shape[1]):
+            xyz_v[:3, i] = np.matmul(RT_, xyz_v[:, i])
+
+        """
+        xyz_c - 3D velodyne points corresponding to h, v FOV in the camera coordinates
+                 [x_1 , x_2 , .. ]
+        xyz_c =  [y_1 , y_2 , .. ]
+                 [z_1 , z_2 , .. ]
+        """
+        xyz_c = np.delete(xyz_v, 3, axis=0)
+
+        # convert camera coordinates(X_c, Y_c, Z_c) image(pixel) coordinates(x,y)
+        for i in range(xyz_c.shape[1]):
+            xyz_c[:, i] = np.matmul(P_, xyz_c[:, i])
+
+        """
+        xy_i - 3D velodyne points corresponding to h, v FOV in the image(pixel) coordinates before scale adjustment
+        ans  - 3D velodyne points corresponding to h, v FOV in the image(pixel) coordinates
+                 [s_1*x_1 , s_2*x_2 , .. ]
+        xy_i =   [s_1*y_1 , s_2*y_2 , .. ]        ans =   [x_1 , x_2 , .. ]
+                 [  s_1   ,   s_2   , .. ]                [y_1 , y_2 , .. ]
+        """
+        xy_i = xyz_c[::] / xyz_c[::][2]
+        ans = np.delete(xy_i, 2, axis=0)
+
+        return ans, c_
+
+    def velo_2_pano(self, h_fov=None, v_fov=None, x_range=None, y_range=None, z_range=None, depth=False):
+        """ panoramic image for whole velo dataset """
+
+        self.__v_fov, self.__h_fov = v_fov, h_fov
+        self.__x_range, self.__y_range, self.__z_range = x_range, y_range, z_range
+
+        velo_gen = self.velo_file
+        if velo_gen is None:
+            raise ValueError("Velo data is not included in this class")
+        for points in velo_gen:
+            res = self.__surround_view(points, depth)
+            yield res
+
+    def velo_2_pano_frame(self, h_fov=None, v_fov=None, x_range=None, y_range=None, z_range=None, depth=False):
+        """ panoramic image for one frame """
+
+        self.__v_fov, self.__h_fov = v_fov, h_fov
+        self.__x_range, self.__y_range, self.__z_range = x_range, y_range, z_range
+
+        velo_gen = self.velo_file
+        if velo_gen is None:
+            raise ValueError("Velo data is not included in this class")
+        res = self.__surround_view(velo_gen, depth)
+        return res
+
+    def velo_2_topview(self, h_fov=None, v_fov=None, x_range=None, y_range=None, z_range=None, scale=10):
+        """ Top-view(Bird's eye view) image for whole velo dataset """
+
+        self.__v_fov, self.__h_fov = v_fov, h_fov
+        self.__x_range, self.__y_range, self.__z_range = x_range, y_range, z_range
+
+        if scale <= 0:
+            raise ValueError("scale value must be positive. default value is 10.")
+        elif float(scale).is_integer() is False:
+            scale = round(scale)
+
+        velo_gen = self.velo_file
+        if velo_gen is None:
+            raise ValueError("Velo data is not included in this class")
+        for points in velo_gen:
+            res = self.__topview(points, scale)
+            yield res
+
+    def velo_2_topview_frame(self, h_fov=None, v_fov=None, x_range=None, y_range=None, z_range=None, scale=10):
+        """ Top-view(Bird's eye view) image for one frame """
+        self.__v_fov, self.__h_fov = v_fov, h_fov
+        self.__x_range, self.__y_range, self.__z_range = x_range, y_range, z_range
+
+        if scale <= 0:
+            raise ValueError("scale value must be positive. default value is 10.")
+        elif float(scale).is_integer() is False:
+            scale = round(scale)
+
+        velo_gen = self.velo_file
+        if velo_gen is None:
+            raise ValueError("Velo data is not included in this class")
+        res = self.__topview(velo_gen, scale)
+        return res
+
+    def velo_projection(self, h_fov=None, v_fov=None, x_range=None, y_range=None, z_range=None):
+        """ print velodyne 3D points corresponding to camera 2D image """
+
+        self.__v_fov, self.__h_fov = v_fov, h_fov
+        self.__x_range, self.__y_range, self.__z_range = x_range, y_range, z_range
+        velo_gen, cam_gen = self.velo_file, self.camera_file
+
+        if velo_gen is None:
+            raise ValueError("Velo data is not included in this class")
+        if cam_gen is None:
+            raise ValueError("Cam data is not included in this class")
+        for frame, points in zip(cam_gen, velo_gen):
+            res, c_ = self.__velo_2_img_projection(points)
+            yield [frame, res, c_]
+
+    def velo_projection_frame(self, h_fov=None, v_fov=None, x_range=None, y_range=None, z_range=None):
+        """ print velodyne 3D points corresponding to camera 2D image """
+
+        self.__v_fov, self.__h_fov = v_fov, h_fov
+        self.__x_range, self.__y_range, self.__z_range = x_range, y_range, z_range
+        velo_gen, cam_gen = self.velo_file, self.camera_file
+
+        if velo_gen is None:
+            raise ValueError("Velo data is not included in this class")
+        if cam_gen is None:
+            raise ValueError("Cam data is not included in this class")
+        res, c_ = self.__velo_2_img_projection(velo_gen)
+        return cam_gen, res, c_
+
+    def __del__(self):
+        pass
+ 
+def print_projection_cv2(points, color, image):
+    """ project converted velodyne points into camera image """
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    for i in range(points.shape[1]):
+        cv2.circle(hsv_image, (np.int32(points[0][i]), np.int32(points[1][i])), 2, (np.int(color[i]), 255, 255), -1)
+
+    return cv2.cvtColor(hsv_image, cv2.COLOR_HSV2BGR)
+
+def print_projection_plt(points, color, image):
+    """ project converted velodyne points into camera image """
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    for i in range(points.shape[1]):
+        cv2.circle(hsv_image, (int(points[0][i]), int(points[1][i])), 2, (int(color[i]), 255, 255), -1)
+
+    return cv2.cvtColor(hsv_image, cv2.COLOR_HSV2RGB)
+
+def pano_example1():
+    """ save one frame image about velodyne dataset converted to panoramic image  """
+    velo_path = './velodyne_points/data'
+    v_fov, h_fov = (-10.5, 2.0), (-60, 80)
+    velo = Kitti_util(frame=89, velo_path=velo_path)
+
+    frame = velo.velo_2_pano_frame(h_fov, v_fov, depth=False)
+
+    cv2.imshow('panoramic result', frame)
+    cv2.waitKey(0)
+
+def pano_example2():
+    """ save video about velodyne dataset converted to panoramic image  """
+    velo_path = './velodyne_points/data'
+    v_fov, h_fov = (-24.9, 2.0), (-180, 160)
+
+    velo2 = Kitti_util(frame='all', velo_path=velo_path)
+    pano = velo2.velo_2_pano(h_fov, v_fov, depth=False)
+
+    velo = Kitti_util(frame=0, velo_path=velo_path)
+    velo.velo_2_pano_frame(h_fov, v_fov, depth=False)
+    size = velo.surround_size
+
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    vid = cv2.VideoWriter('pano_result.avi', fourcc, 25.0, size, False)
+
+    for frame in pano:
+        vid.write(frame)
+
+    print('video saved')
+    vid.release()
+
+def topview_example1():
+    """ save one frame image about velodyne dataset converted to topview image  """
+    velo_path = './velodyne_points/data'
+    x_range, y_range, z_range = (-15, 15), (-10, 10), (-2, 2)
+    velo = Kitti_util(frame=89, velo_path=velo_path)
+
+    frame = velo.velo_2_topview_frame(x_range=x_range, y_range=y_range, z_range=z_range)
+
+    cv2.imshow('panoramic result', frame)
+    cv2.waitKey(0)
+
+def topview_example2():
+    """ save video about velodyne dataset converted to topview image  """
+    velo_path = './velodyne_points/data'
+    x_range, y_range, z_range, scale = (-20, 20), (-20, 20), (-2, 2), 10
+    size = (int((max(y_range) - min(y_range)) * scale), int((max(x_range) - min(x_range)) * scale))
+
+    velo2 = Kitti_util(frame='all', velo_path=velo_path)
+    topview = velo2.velo_2_topview(x_range=x_range, y_range=y_range, z_range=z_range, scale=scale)
+
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    vid = cv2.VideoWriter('topview_result.avi', fourcc, 25.0, size, False)
+
+    for frame in topview:
+        vid.write(frame)
+
+    print('video saved')
+    vid.release()
+
+def projection_example1():
+    """ save one frame about projecting velodyne points into camera image """
+    image_type = 'gray'  # 'gray' or 'color' image
+    mode = '00' if image_type == 'gray' else '02'  # image_00 = 'graye image' , image_02 = 'color image'
+
+    image_path = 'image_' + mode + '/data'
+    velo_path = './velodyne_points/data'
+
+    v_fov, h_fov = (-24.9, 2.0), (-90, 90)
+
+    v2c_filepath = './calib_velo_to_cam.txt'
+    c2c_filepath = './calib_cam_to_cam.txt'
+
+    res = Kitti_util(frame=89, camera_path=image_path, velo_path=velo_path, \
+                    v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+
+    img, pnt, c_ = res.velo_projection_frame(v_fov=v_fov, h_fov=h_fov)
+
+    result = print_projection_cv2(pnt, c_, img)
+
+    cv2.imshow('projection result', result)
+    cv2.waitKey(0)
+
+def projection_example2():
+    """ save video about projecting velodyne points into camera image """
+    image_type = 'gray'  # 'gray' or 'color' image
+    mode = '00' if image_type == 'gray' else '02'  # image_00 = 'graye image' , image_02 = 'color image'
+
+    image_path = 'image_' + mode + '/data'
+
+    velo_path = './velodyne_points/data'
+    v_fov, h_fov = (-24.9, 2.0), (-90, 90)
+
+    v2c_filepath = './calib_velo_to_cam.txt'
+    c2c_filepath = './calib_cam_to_cam.txt'
+
+    temp = Kitti(frame=0, camera_path=image_path)
+    img = temp.camera_file
+    size = (img.shape[1], img.shape[0])
+
+    """ save result video """
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    vid = cv2.VideoWriter('projection_result.avi', fourcc, 25.0, size)
+    test = Kitti_util(frame='all', camera_path=image_path, velo_path=velo_path, \
+                      v2c_path=v2c_filepath, c2c_path=c2c_filepath)
+
+    res = test.velo_projection(v_fov=v_fov, h_fov=h_fov)
+
+    for frame, point, cc in res:
+        image = print_projection_cv2(point, cc, frame)
+        vid.write(image)
+
+    print('video saved')
+    vid.release()
+
+def xml_example():
+
+    xml_path = "./tracklet_labels.xml"
+    xml_check = Kitti_util(xml_path=xml_path)
+
+    tracklet_, type_ = xml_check.tracklet_info
+    print(tracklet_[0])
+
+if __name__ == "__main__":
+
+    # pano_example1()
+    # pano_example2()
+    topview_example1()
+    # topview_example2()
+    # projection_example1()
+    # projection_example2()
+\end{lstlisting}
+\item kod \lstinline[language=bash]!parseTrackletXML.py!, dedykowany do
+oczytu etykiet oznaczonych obiektów:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+#!/usr/bin/env python
+"""
+parse XML files containing tracklet info for kitti data base (raw data section)
+(http://cvlibs.net/datasets/kitti/raw_data.php)
+
+No guarantees that this code is correct, usage is at your own risk!
+
+created by Christian Herdtweck, Max Planck Institute for Biological Cybernetics
+  (christian.herdtweck@tuebingen.mpg.de)
+
+requires numpy!
+
+example usage:
+  import parseTrackletXML as xmlParser
+  kittiDir = '/path/to/kitti/data'
+  drive = '2011_09_26_drive_0001'
+  xmlParser.example(kittiDir, drive)
+or simply on command line:
+  python parseTrackletXML.py
+"""
+
+# Version History:
+# 4/7/12 Christian Herdtweck: seems to work with a few random test xml tracklet files; 
+#   converts file contents to ElementTree and then to list of Tracklet objects; 
+#   Tracklet objects have str and iter functions
+# 5/7/12 ch: added constants for state, occlusion, truncation and added consistency checks
+# 30/1/14 ch: create example function from example code
+
+from sys import argv as cmdLineArgs
+from xml.etree.ElementTree import ElementTree
+import numpy as np
+import itertools
+from warnings import warn
+
+STATE_UNSET = 0
+STATE_INTERP = 1
+STATE_LABELED = 2
+stateFromText = {'0':STATE_UNSET, '1':STATE_INTERP, '2':STATE_LABELED}
+
+OCC_UNSET = 255  # -1 as uint8
+OCC_VISIBLE = 0
+OCC_PARTLY = 1
+OCC_FULLY = 2
+occFromText = {'-1':OCC_UNSET, '0':OCC_VISIBLE, '1':OCC_PARTLY, '2':OCC_FULLY}
+
+TRUNC_UNSET = 255  # -1 as uint8, but in xml files the value '99' is used!
+TRUNC_IN_IMAGE = 0
+TRUNC_TRUNCATED = 1
+TRUNC_OUT_IMAGE = 2
+TRUNC_BEHIND_IMAGE = 3
+truncFromText = {'99':TRUNC_UNSET, '0':TRUNC_IN_IMAGE, '1':TRUNC_TRUNCATED, \
+                  '2':TRUNC_OUT_IMAGE, '3': TRUNC_BEHIND_IMAGE}
+
+
+class Tracklet(object):
+  r""" representation an annotated object track 
+  
+  Tracklets are created in function parseXML and can most conveniently used as follows:
+
+  for trackletObj in parseXML(trackletFile):
+    for translation, rotation, state, occlusion, truncation, amtOcclusion, amtBorders, absoluteFrameNumber in trackletObj:
+      ... your code here ...
+    #end: for all frames
+  #end: for all tracklets
+
+  absoluteFrameNumber is in range [firstFrame, firstFrame+nFrames[
+  amtOcclusion and amtBorders could be None
+
+  You can of course also directly access the fields objType (string), size (len-3 ndarray), firstFrame/nFrames (int), 
+    trans/rots (nFrames x 3 float ndarrays), states/truncs (len-nFrames uint8 ndarrays), occs (nFrames x 2 uint8 ndarray),
+    and for some tracklets amtOccs (nFrames x 2 float ndarray) and amtBorders (nFrames x 3 float ndarray). The last two
+    can be None if the xml file did not include these fields in poses
+  """
+
+  objectType = None
+  size = None  # len-3 float array: (height, width, length)
+  firstFrame = None
+  trans = None   # n x 3 float array (x,y,z)
+  rots = None    # n x 3 float array (x,y,z)
+  states = None  # len-n uint8 array of states
+  occs = None    # n x 2 uint8 array  (occlusion, occlusion_kf)
+  truncs = None  # len-n uint8 array of truncation
+  amtOccs = None    # None or (n x 2) float array  (amt_occlusion, amt_occlusion_kf)
+  amtBorders = None    # None (n x 3) float array  (amt_border_l / _r / _kf)
+  nFrames = None
+
+  def __init__(self):
+    r""" create Tracklet with no info set """
+    self.size = np.nan*np.ones(3, dtype=float)
+
+  def __str__(self):
+    r""" return human-readable string representation of tracklet object
+
+    called implicitly in 
+    print trackletObj
+    or in 
+    text = str(trackletObj)
+    """
+    return '[Tracklet over {0} frames for {1}]'.format(self.nFrames, self.objectType)
+
+  def __iter__(self):
+    r""" returns an iterator that yields tuple of all the available data for each frame 
+    
+    called whenever code iterates over a tracklet object, e.g. in 
+    for translation, rotation, state, occlusion, truncation, amtOcclusion, amtBorders, absoluteFrameNumber in trackletObj:
+      ...do something ...
+    or
+    trackDataIter = iter(trackletObj)
+    """
+    if self.amtOccs is None:
+      return zip(self.trans, self.rots, self.states, self.occs, self.truncs, \
+          itertools.repeat(None), itertools.repeat(None), range(self.firstFrame, self.firstFrame+self.nFrames))
+    else:
+      return zip(self.trans, self.rots, self.states, self.occs, self.truncs, \
+          self.amtOccs, self.amtBorders, range(self.firstFrame, self.firstFrame+self.nFrames))
+#end: class Tracklet
+
+
+def parseXML(trackletFile):
+  r""" parse tracklet xml file and convert results to list of Tracklet objects
+  
+  :param trackletFile: name of a tracklet xml file
+  :returns: list of Tracklet objects read from xml file
+  """
+
+  # convert tracklet XML data to a tree structure
+  eTree = ElementTree()
+  print ('parsing tracklet file', trackletFile)
+  with open(trackletFile) as f:
+    eTree.parse(f)
+
+  # now convert output to list of Tracklet objects
+  trackletsElem = eTree.find('tracklets')
+  tracklets = []
+  trackletIdx = 0
+  nTracklets = None
+  for trackletElem in trackletsElem:
+    #print 'track:', trackletElem.tag
+    if trackletElem.tag == 'count':
+      nTracklets = int(trackletElem.text)
+      print ('file contains', nTracklets, 'tracklets')
+    elif trackletElem.tag == 'item_version':
+      pass
+    elif trackletElem.tag == 'item':
+      #print 'tracklet {0} of {1}'.format(trackletIdx, nTracklets)
+      # a tracklet
+      newTrack = Tracklet()
+      isFinished = False
+      hasAmt = False
+      frameIdx = None
+      for info in trackletElem:
+        #print 'trackInfo:', info.tag
+        if isFinished:
+          raise ValueError('more info on element after finished!')
+        if info.tag == 'objectType':
+          newTrack.objectType = info.text
+        elif info.tag == 'h':
+          newTrack.size[0] = float(info.text)
+        elif info.tag == 'w':
+          newTrack.size[1] = float(info.text)
+        elif info.tag == 'l':
+          newTrack.size[2] = float(info.text)
+        elif info.tag == 'first_frame':
+          newTrack.firstFrame = int(info.text)
+        elif info.tag == 'poses':
+          # this info is the possibly long list of poses
+          for pose in info:
+            #print 'trackInfoPose:', pose.tag
+            if pose.tag == 'count':   # this should come before the others
+              if newTrack.nFrames is not None:
+                raise ValueError('there are several pose lists for a single track!')
+              elif frameIdx is not None:
+                raise ValueError('?!')
+              newTrack.nFrames = int(pose.text)
+              newTrack.trans  = np.nan * np.ones((newTrack.nFrames, 3), dtype=float)
+              newTrack.rots   = np.nan * np.ones((newTrack.nFrames, 3), dtype=float)
+              newTrack.states = np.nan * np.ones(newTrack.nFrames, dtype='uint8')
+              newTrack.occs   = np.nan * np.ones((newTrack.nFrames, 2), dtype='uint8')
+              newTrack.truncs = np.nan * np.ones(newTrack.nFrames, dtype='uint8')
+              newTrack.amtOccs = np.nan * np.ones((newTrack.nFrames, 2), dtype=float)
+              newTrack.amtBorders = np.nan * np.ones((newTrack.nFrames, 3), dtype=float)
+              frameIdx = 0
+            elif pose.tag == 'item_version':
+              pass
+            elif pose.tag == 'item':
+              # pose in one frame
+              if frameIdx is None:
+                raise ValueError('pose item came before number of poses!')
+              for poseInfo in pose:
+                #print 'trackInfoPoseInfo:', poseInfo.tag
+                if poseInfo.tag == 'tx':
+                  newTrack.trans[frameIdx, 0] = float(poseInfo.text)
+                elif poseInfo.tag == 'ty':
+                  newTrack.trans[frameIdx, 1] = float(poseInfo.text)
+                elif poseInfo.tag == 'tz':
+                  newTrack.trans[frameIdx, 2] = float(poseInfo.text)
+                elif poseInfo.tag == 'rx':
+                  newTrack.rots[frameIdx, 0] = float(poseInfo.text)
+                elif poseInfo.tag == 'ry':
+                  newTrack.rots[frameIdx, 1] = float(poseInfo.text)
+                elif poseInfo.tag == 'rz':
+                  newTrack.rots[frameIdx, 2] = float(poseInfo.text)
+                elif poseInfo.tag == 'state':
+                  newTrack.states[frameIdx] = stateFromText[poseInfo.text]
+                elif poseInfo.tag == 'occlusion':
+                  newTrack.occs[frameIdx, 0] = occFromText[poseInfo.text]
+                elif poseInfo.tag == 'occlusion_kf':
+                  newTrack.occs[frameIdx, 1] = occFromText[poseInfo.text]
+                elif poseInfo.tag == 'truncation':
+                  newTrack.truncs[frameIdx] = truncFromText[poseInfo.text]
+                elif poseInfo.tag == 'amt_occlusion':
+                  newTrack.amtOccs[frameIdx,0] = float(poseInfo.text)
+                  hasAmt = True
+                elif poseInfo.tag == 'amt_occlusion_kf':
+                  newTrack.amtOccs[frameIdx,1] = float(poseInfo.text)
+                  hasAmt = True
+                elif poseInfo.tag == 'amt_border_l':
+                  newTrack.amtBorders[frameIdx,0] = float(poseInfo.text)
+                  hasAmt = True
+                elif poseInfo.tag == 'amt_border_r':
+                  newTrack.amtBorders[frameIdx,1] = float(poseInfo.text)
+                  hasAmt = True
+                elif poseInfo.tag == 'amt_border_kf':
+                  newTrack.amtBorders[frameIdx,2] = float(poseInfo.text)
+                  hasAmt = True
+                else:
+                  raise ValueError('unexpected tag in poses item: {0}!'.format(poseInfo.tag))
+              frameIdx += 1
+            else:
+              raise ValueError('unexpected pose info: {0}!'.format(pose.tag))
+        elif info.tag == 'finished':
+          isFinished = True
+        else:
+          raise ValueError('unexpected tag in tracklets: {0}!'.format(info.tag))
+      #end: for all fields in current tracklet
+
+      # some final consistency checks on new tracklet
+      if not isFinished:
+        warn('tracklet {0} was not finished!'.format(trackletIdx))
+      if newTrack.nFrames is None:
+        warn('tracklet {0} contains no information!'.format(trackletIdx))
+      elif frameIdx != newTrack.nFrames:
+        warn('tracklet {0} is supposed to have {1} frames, but perser found {1}!'.format(\
+            trackletIdx, newTrack.nFrames, frameIdx))
+      if np.abs(newTrack.rots[:,:2]).sum() > 1e-16:
+        warn('track contains rotation other than yaw!')
+
+      # if amtOccs / amtBorders are not set, set them to None
+      if not hasAmt:
+        newTrack.amtOccs = None
+        newTrack.amtBorders = None
+
+      # add new tracklet to list
+      tracklets.append(newTrack)
+      trackletIdx += 1
+
+    else:
+      raise ValueError('unexpected tracklet info')
+  #end: for tracklet list items
+
+  print ('loaded', trackletIdx, 'tracklets')
+
+  # final consistency check
+  if trackletIdx != nTracklets:
+    warn('according to xml information the file has {0} tracklets, but parser found {1}!'.format(nTracklets, trackletIdx))
+
+  return tracklets
+#end: function parseXML
+
+
+def example(kittiDir=None, drive=None):
+
+  from os.path import join, expanduser
+  import readline    # makes raw_input behave more fancy
+  # from xmlParser import parseXML, TRUNC_IN_IMAGE, TRUNC_TRUNCATED
+
+  DEFAULT_DRIVE = '2011_09_26_drive_0001'
+  twoPi = 2.*np.pi
+
+  # get dir names
+  if kittiDir is None:
+    kittiDir = expanduser(raw_input('please enter kitti base dir (e.g. ~/path/to/kitti): ').strip())
+  if drive is None:
+    drive    = raw_input('please enter drive name (default {0}): '.format(DEFAULT_DRIVE)).strip()
+    if len(drive) == 0:
+      drive = DEFAULT_DRIVE
+
+  # read tracklets from file
+  myTrackletFile = join(kittiDir, drive, 'tracklet_labels.xml')
+  tracklets = parseXML(myTrackletFile)
+
+  # loop over tracklets
+  for iTracklet, tracklet in enumerate(tracklets):
+    print ('tracklet {0: 3d}: {1}'.format(iTracklet, tracklet))
+
+    # this part is inspired by kitti object development kit matlab code: computeBox3D
+    h,w,l = tracklet.size
+    trackletBox = np.array([ # in velodyne coordinates around zero point and without orientation yet\
+        [-l/2, -l/2,  l/2, l/2, -l/2, -l/2,  l/2, l/2], \
+        [ w/2, -w/2, -w/2, w/2,  w/2, -w/2, -w/2, w/2], \
+        [ 0.0,  0.0,  0.0, 0.0,    h,     h,   h,   h]])
+
+    # loop over all data in tracklet
+    for translation, rotation, state, occlusion, truncation, amtOcclusion, amtBorders, absoluteFrameNumber \
+        in tracklet:
+
+      # determine if object is in the image; otherwise continue
+      if truncation not in (TRUNC_IN_IMAGE, TRUNC_TRUNCATED):
+        continue
+
+      # re-create 3D bounding box in velodyne coordinate system
+      yaw = rotation[2]   # other rotations are 0 in all xml files I checked
+      assert np.abs(rotation[:2]).sum() == 0, 'object rotations other than yaw given!'
+      rotMat = np.array([\
+          [np.cos(yaw), -np.sin(yaw), 0.0], \
+          [np.sin(yaw),  np.cos(yaw), 0.0], \
+          [        0.0,          0.0, 1.0]])
+      cornerPosInVelo = np.dot(rotMat, trackletBox) + np.tile(translation, (8,1)).T
+
+      # calc yaw as seen from the camera (i.e. 0 degree = facing away from cam), as opposed to 
+      #   car-centered yaw (i.e. 0 degree = same orientation as car).
+      #   makes quite a difference for objects in periphery!
+      # Result is in [0, 2pi]
+      x, y, z = translation
+      yawVisual = ( yaw - np.arctan2(y, x) ) % twoPi
+      
+    #end: for all frames in track
+  #end: for all tracks
+#end: function example
+
+# when somebody runs this file as a script: 
+#   run example if no arg or only 'example' was given as arg
+#   otherwise run parseXML
+if __name__ == "__main__":
+  # cmdLineArgs[0] is 'parseTrackletXML.py'
+  if len(cmdLineArgs) < 2:
+    example()
+  elif (len(cmdLineArgs) == 2) and (cmdLineArgs[1] == 'example'):
+    example()
+  else:
+    parseXML(*cmdLineArgs[1:])
+
+# (created using vim - the world's best text editor)
+\end{lstlisting}
+\item program \lstinline[language=bash]!kitti_util.py!, zawieraj±cy funkcjonalno¶ci
+u¿yteczne do pracy przy zbiorze \href{https://www.cvlibs.net/datasets/kitti/eval_object.php?obj_benchmark=3d}{3D Object Detection Evaluation 2017}:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+""" Helper methods for loading and parsing KITTI data.
+
+Author: Charles R. Qi, Kui Xu
+Date: September 2017/2018
+Taken from https://github.com/kuangliu/kitti-utils
+"""
+from __future__ import print_function
+
+import numpy as np
+import cv2
+import os, math
+from scipy.optimize import leastsq
+from PIL import Image
+
+TOP_Y_MIN = -30
+TOP_Y_MAX = +30
+TOP_X_MIN = 0
+TOP_X_MAX = 100
+TOP_Z_MIN = -3.5
+TOP_Z_MAX = 0.6
+
+TOP_X_DIVISION = 0.2
+TOP_Y_DIVISION = 0.2
+TOP_Z_DIVISION = 0.3
+
+cbox = np.array([[0, 70.4], [-40, 40], [-3, 2]])
+
+
+class Object2d(object):
+    """ 2d object label """
+
+    def __init__(self, label_file_line):
+        data = label_file_line.split(" ")
+
+        # extract label, truncation, occlusion
+        self.img_name = int(data[0])  # 'Car', 'Pedestrian', ...
+        self.typeid = int(data[1])  # truncated pixel ratio [0..1]
+        self.prob = float(data[2])
+        self.box2d = np.array([int(data[3]), int(data[4]), int(data[5]), int(data[6])])
+
+    def print_object(self):
+        print(
+            "img_name, typeid, prob: %s, %d, %f"
+            % (self.img_name, self.typeid, self.prob)
+        )
+        print(
+            "2d bbox (x0,y0,x1,y1): %d, %d, %d, %d"
+            % (self.box2d[0], self.box2d[1], self.box2d[2], self.box2d[3])
+        )
+
+
+class Object3d(object):
+    """ 3d object label """
+
+    def __init__(self, label_file_line):
+        data = label_file_line.split(" ")
+        data[1:] = [float(x) for x in data[1:]]
+
+        # extract label, truncation, occlusion
+        self.type = data[0]  # 'Car', 'Pedestrian', ...
+        self.truncation = data[1]  # truncated pixel ratio [0..1]
+        self.occlusion = int(
+            data[2]
+        )  # 0=visible, 1=partly occluded, 2=fully occluded, 3=unknown
+        self.alpha = data[3]  # object observation angle [-pi..pi]
+
+        # extract 2d bounding box in 0-based coordinates
+        self.xmin = data[4]  # left
+        self.ymin = data[5]  # top
+        self.xmax = data[6]  # right
+        self.ymax = data[7]  # bottom
+        self.box2d = np.array([self.xmin, self.ymin, self.xmax, self.ymax])
+
+        # extract 3d bounding box information
+        self.h = data[8]  # box height
+        self.w = data[9]  # box width
+        self.l = data[10]  # box length (in meters)
+        self.t = (data[11], data[12], data[13])  # location (x,y,z) in camera coord.
+        self.ry = data[14]  # yaw angle (around Y-axis in camera coordinates) [-pi..pi]
+
+    def estimate_diffculty(self):
+        """ Function that estimate difficulty to detect the object as defined in kitti website"""
+        # height of the bounding box
+        bb_height = np.abs(self.xmax - self.xmin)
+
+        if bb_height >= 40 and self.occlusion == 0 and self.truncation <= 0.15:
+            return "Easy"
+        elif bb_height >= 25 and self.occlusion in [0, 1] and self.truncation <= 0.30:
+            return "Moderate"
+        elif (
+            bb_height >= 25 and self.occlusion in [0, 1, 2] and self.truncation <= 0.50
+        ):
+            return "Hard"
+        else:
+            return "Unknown"
+
+    def print_object(self):
+        print(
+            "Type, truncation, occlusion, alpha: %s, %d, %d, %f"
+            % (self.type, self.truncation, self.occlusion, self.alpha)
+        )
+        print(
+            "2d bbox (x0,y0,x1,y1): %f, %f, %f, %f"
+            % (self.xmin, self.ymin, self.xmax, self.ymax)
+        )
+        print("3d bbox h,w,l: %f, %f, %f" % (self.h, self.w, self.l))
+        print(
+            "3d bbox location, ry: (%f, %f, %f), %f"
+            % (self.t[0], self.t[1], self.t[2], self.ry)
+        )
+        print("Difficulty of estimation: {}".format(self.estimate_diffculty()))
+
+
+class Calibration(object):
+    """ Calibration matrices and utils
+        3d XYZ in <label>.txt are in rect camera coord.
+        2d box xy are in image2 coord
+        Points in <lidar>.bin are in Velodyne coord.
+
+        y_image2 = P^2_rect * x_rect
+        y_image2 = P^2_rect * R0_rect * Tr_velo_to_cam * x_velo
+        x_ref = Tr_velo_to_cam * x_velo
+        x_rect = R0_rect * x_ref
+
+        P^2_rect = [f^2_u,  0,      c^2_u,  -f^2_u b^2_x;
+                    0,      f^2_v,  c^2_v,  -f^2_v b^2_y;
+                    0,      0,      1,      0]
+                 = K * [1|t]
+
+        image2 coord:
+         ----> x-axis (u)
+        |
+        |
+        v y-axis (v)
+
+        velodyne coord:
+        front x, left y, up z
+
+        rect/ref camera coord:
+        right x, down y, front z
+
+        Ref (KITTI paper): http://www.cvlibs.net/publications/Geiger2013IJRR.pdf
+
+        TODO(rqi): do matrix multiplication only once for each projection.
+    """
+
+    def __init__(self, calib_filepath, from_video=False):
+        if from_video:
+            calibs = self.read_calib_from_video(calib_filepath)
+        else:
+            calibs = self.read_calib_file(calib_filepath)
+        # Projection matrix from rect camera coord to image2 coord
+        self.P = calibs["P2"]
+        self.P = np.reshape(self.P, [3, 4])
+        # Rigid transform from Velodyne coord to reference camera coord
+        self.V2C = calibs["Tr_velo_cam"]
+        self.V2C = np.reshape(self.V2C, [3, 4])
+        self.C2V = inverse_rigid_trans(self.V2C)
+        # Rotation from reference camera coord to rect camera coord
+        self.R0 = calibs["R_rect"]
+        self.R0 = np.reshape(self.R0, [3, 3])
+
+        # Camera intrinsics and extrinsics
+        self.c_u = self.P[0, 2]
+        self.c_v = self.P[1, 2]
+        self.f_u = self.P[0, 0]
+        self.f_v = self.P[1, 1]
+        self.b_x = self.P[0, 3] / (-self.f_u)  # relative
+        self.b_y = self.P[1, 3] / (-self.f_v)
+
+    def read_calib_file(self, filepath):
+        """ Read in a calibration file and parse into a dictionary.
+        Ref: https://github.com/utiasSTARS/pykitti/blob/master/pykitti/utils.py
+        """
+        import numpy as np
+        
+        data = {}
+
+        with open(filepath, 'r') as f:
+            for line in f.readlines():
+                try:
+                    key, value = line.split(':', 1)
+                except ValueError:
+                    key, value = line.split(' ', 1)
+                # The only non-float values in these files are dates, which
+                # we don't care about anyway
+                try:
+                    data[key] = np.array([float(x) for x in value.split()])
+                except ValueError:
+                    pass
+
+        return data
+
+    def read_calib_from_video(self, calib_root_dir):
+        """ Read calibration for camera 2 from video calib files.
+            there are calib_cam_to_cam and calib_velo_to_cam under the calib_root_dir
+        """
+        data = {}
+        cam2cam = self.read_calib_file(
+            os.path.join(calib_root_dir, "calib_cam_to_cam.txt")
+        )
+        velo2cam = self.read_calib_file(
+            os.path.join(calib_root_dir, "calib_velo_to_cam.txt")
+        )
+        Tr_velo_to_cam = np.zeros((3, 4))
+        Tr_velo_to_cam[0:3, 0:3] = np.reshape(velo2cam["R"], [3, 3])
+        Tr_velo_to_cam[:, 3] = velo2cam["T"]
+        data["Tr_velo_cam"] = np.reshape(Tr_velo_to_cam, [12])
+        data["R_rect"] = cam2cam["R_rect_00"]
+        data["P2"] = cam2cam["P_rect_02"]
+        return data
+
+    def cart2hom(self, pts_3d):
+        """ Input: nx3 points in Cartesian
+            Oupput: nx4 points in Homogeneous by pending 1
+        """
+        n = pts_3d.shape[0]
+        pts_3d_hom = np.hstack((pts_3d, np.ones((n, 1))))
+        return pts_3d_hom
+
+    # ===========================
+    # ------- 3d to 3d ----------
+    # ===========================
+    def project_velo_to_ref(self, pts_3d_velo):
+        pts_3d_velo = self.cart2hom(pts_3d_velo)  # nx4
+        return np.dot(pts_3d_velo, np.transpose(self.V2C))
+
+    def project_ref_to_velo(self, pts_3d_ref):
+        pts_3d_ref = self.cart2hom(pts_3d_ref)  # nx4
+        return np.dot(pts_3d_ref, np.transpose(self.C2V))
+
+    def project_rect_to_ref(self, pts_3d_rect):
+        """ Input and Output are nx3 points """
+        return np.transpose(np.dot(np.linalg.inv(self.R0), np.transpose(pts_3d_rect)))
+
+    def project_ref_to_rect(self, pts_3d_ref):
+        """ Input and Output are nx3 points """
+        return np.transpose(np.dot(self.R0, np.transpose(pts_3d_ref)))
+
+    def project_rect_to_velo(self, pts_3d_rect):
+        """ Input: nx3 points in rect camera coord.
+            Output: nx3 points in velodyne coord.
+        """
+        pts_3d_ref = self.project_rect_to_ref(pts_3d_rect)
+        return self.project_ref_to_velo(pts_3d_ref)
+
+    def project_velo_to_rect(self, pts_3d_velo):
+        pts_3d_ref = self.project_velo_to_ref(pts_3d_velo)
+        return self.project_ref_to_rect(pts_3d_ref)
+
+    # ===========================
+    # ------- 3d to 2d ----------
+    # ===========================
+    def project_rect_to_image(self, pts_3d_rect):
+        """ Input: nx3 points in rect camera coord.
+            Output: nx2 points in image2 coord.
+        """
+        pts_3d_rect = self.cart2hom(pts_3d_rect)
+        pts_2d = np.dot(pts_3d_rect, np.transpose(self.P))  # nx3
+        pts_2d[:, 0] /= pts_2d[:, 2]
+        pts_2d[:, 1] /= pts_2d[:, 2]
+        return pts_2d[:, 0:2]
+
+    def project_velo_to_image(self, pts_3d_velo):
+        """ Input: nx3 points in velodyne coord.
+            Output: nx2 points in image2 coord.
+        """
+        pts_3d_rect = self.project_velo_to_rect(pts_3d_velo)
+        return self.project_rect_to_image(pts_3d_rect)
+
+    def project_8p_to_4p(self, pts_2d):
+        x0 = np.min(pts_2d[:, 0])
+        x1 = np.max(pts_2d[:, 0])
+        y0 = np.min(pts_2d[:, 1])
+        y1 = np.max(pts_2d[:, 1])
+        x0 = max(0, x0)
+        # x1 = min(x1, proj.image_width)
+        y0 = max(0, y0)
+        # y1 = min(y1, proj.image_height)
+        return np.array([x0, y0, x1, y1])
+
+    def project_velo_to_4p(self, pts_3d_velo):
+        """ Input: nx3 points in velodyne coord.
+            Output: 4 points in image2 coord.
+        """
+        pts_2d_velo = self.project_velo_to_image(pts_3d_velo)
+        return self.project_8p_to_4p(pts_2d_velo)
+
+    # ===========================
+    # ------- 2d to 3d ----------
+    # ===========================
+    def project_image_to_rect(self, uv_depth):
+        """ Input: nx3 first two channels are uv, 3rd channel
+                   is depth in rect camera coord.
+            Output: nx3 points in rect camera coord.
+        """
+        n = uv_depth.shape[0]
+        x = ((uv_depth[:, 0] - self.c_u) * uv_depth[:, 2]) / self.f_u + self.b_x
+        y = ((uv_depth[:, 1] - self.c_v) * uv_depth[:, 2]) / self.f_v + self.b_y
+        pts_3d_rect = np.zeros((n, 3))
+        pts_3d_rect[:, 0] = x
+        pts_3d_rect[:, 1] = y
+        pts_3d_rect[:, 2] = uv_depth[:, 2]
+        return pts_3d_rect
+
+    def project_image_to_velo(self, uv_depth):
+        pts_3d_rect = self.project_image_to_rect(uv_depth)
+        return self.project_rect_to_velo(pts_3d_rect)
+
+    def project_depth_to_velo(self, depth, constraint_box=True):
+        depth_pt3d = get_depth_pt3d(depth)
+        depth_UVDepth = np.zeros_like(depth_pt3d)
+        depth_UVDepth[:, 0] = depth_pt3d[:, 1]
+        depth_UVDepth[:, 1] = depth_pt3d[:, 0]
+        depth_UVDepth[:, 2] = depth_pt3d[:, 2]
+        # print("depth_pt3d:",depth_UVDepth.shape)
+        depth_pc_velo = self.project_image_to_velo(depth_UVDepth)
+        # print("dep_pc_velo:",depth_pc_velo.shape)
+        if constraint_box:
+            depth_box_fov_inds = (
+                (depth_pc_velo[:, 0] < cbox[0][1])
+                & (depth_pc_velo[:, 0] >= cbox[0][0])
+                & (depth_pc_velo[:, 1] < cbox[1][1])
+                & (depth_pc_velo[:, 1] >= cbox[1][0])
+                & (depth_pc_velo[:, 2] < cbox[2][1])
+                & (depth_pc_velo[:, 2] >= cbox[2][0])
+            )
+            depth_pc_velo = depth_pc_velo[depth_box_fov_inds]
+        return depth_pc_velo
+
+
+def get_depth_pt3d(depth):
+    pt3d = []
+    for i in range(depth.shape[0]):
+        for j in range(depth.shape[1]):
+            pt3d.append([i, j, depth[i, j]])
+    return np.array(pt3d)
+
+
+def rotx(t):
+    """ 3D Rotation about the x-axis. """
+    c = np.cos(t)
+    s = np.sin(t)
+    return np.array([[1, 0, 0], [0, c, -s], [0, s, c]])
+
+
+def roty(t):
+    """ Rotation about the y-axis. """
+    c = np.cos(t)
+    s = np.sin(t)
+    return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
+
+
+def rotz(t):
+    """ Rotation about the z-axis. """
+    c = np.cos(t)
+    s = np.sin(t)
+    return np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]])
+
+
+def transform_from_rot_trans(R, t):
+    """ Transforation matrix from rotation matrix and translation vector. """
+    R = R.reshape(3, 3)
+    t = t.reshape(3, 1)
+    return np.vstack((np.hstack([R, t]), [0, 0, 0, 1]))
+
+
+def inverse_rigid_trans(Tr):
+    """ Inverse a rigid body transform matrix (3x4 as [R|t])
+        [R'|-R't; 0|1]
+    """
+    inv_Tr = np.zeros_like(Tr)  # 3x4
+    inv_Tr[0:3, 0:3] = np.transpose(Tr[0:3, 0:3])
+    inv_Tr[0:3, 3] = np.dot(-np.transpose(Tr[0:3, 0:3]), Tr[0:3, 3])
+    return inv_Tr
+
+
+def read_label(label_filename):
+    lines = [line.rstrip() for line in open(label_filename)]
+    objects = [Object3d(line) for line in lines]
+    return objects
+
+
+def load_image(img_filename):
+    return cv2.imread(img_filename)
+
+
+def load_depth_v(img_filename):
+    # return cv2.imread(img_filename)
+    disp_img = cv2.imread(img_filename, cv2.IMREAD_UNCHANGED)
+    disp_img = disp_img.astype(np.float)
+    return disp_img / 256.0
+
+
+def load_depth0(img_filename):
+    # return cv2.imread(img_filename)
+    depth_img = np.array(Image.open(img_filename), dtype=int)
+
+    depth_img = depth_img.astype(np.float) / 256.0
+
+    return depth_img
+
+
+def load_depth(img_filename):
+    isexist = True
+    disp_img = cv2.imread(img_filename, cv2.IMREAD_UNCHANGED)
+    if disp_img is None:
+        isexist = False
+        disp_img = np.zeros((370, 1224))
+    else:
+        disp_img = disp_img.astype(np.float)
+    return disp_img / 256.0, isexist
+
+
+def load_velo_scan(velo_filename, dtype=np.float32, n_vec=4):
+    scan = np.fromfile(velo_filename, dtype=dtype)
+    scan = scan.reshape((-1, n_vec))
+    return scan
+
+
+def lidar_to_top_coords(x, y):
+    # print("TOP_X_MAX-TOP_X_MIN:",TOP_X_MAX,TOP_X_MIN)
+    Xn = int((TOP_X_MAX - TOP_X_MIN) // TOP_X_DIVISION) + 1
+    Yn = int((TOP_Y_MAX - TOP_Y_MIN) // TOP_Y_DIVISION) + 1
+    xx = Yn - int((y - TOP_Y_MIN) // TOP_Y_DIVISION)
+    yy = Xn - int((x - TOP_X_MIN) // TOP_X_DIVISION)
+
+    return xx, yy
+
+
+def lidar_to_top(lidar):
+
+    idx = np.where(lidar[:, 0] > TOP_X_MIN)
+    lidar = lidar[idx]
+    idx = np.where(lidar[:, 0] < TOP_X_MAX)
+    lidar = lidar[idx]
+
+    idx = np.where(lidar[:, 1] > TOP_Y_MIN)
+    lidar = lidar[idx]
+    idx = np.where(lidar[:, 1] < TOP_Y_MAX)
+    lidar = lidar[idx]
+
+    idx = np.where(lidar[:, 2] > TOP_Z_MIN)
+    lidar = lidar[idx]
+    idx = np.where(lidar[:, 2] < TOP_Z_MAX)
+    lidar = lidar[idx]
+
+    pxs = lidar[:, 0]
+    pys = lidar[:, 1]
+    pzs = lidar[:, 2]
+    prs = lidar[:, 3]
+    qxs = ((pxs - TOP_X_MIN) // TOP_X_DIVISION).astype(np.int32)
+    qys = ((pys - TOP_Y_MIN) // TOP_Y_DIVISION).astype(np.int32)
+    # qzs=((pzs-TOP_Z_MIN)//TOP_Z_DIVISION).astype(np.int32)
+    qzs = (pzs - TOP_Z_MIN) / TOP_Z_DIVISION
+    quantized = np.dstack((qxs, qys, qzs, prs)).squeeze()
+
+    X0, Xn = 0, int((TOP_X_MAX - TOP_X_MIN) // TOP_X_DIVISION) + 1
+    Y0, Yn = 0, int((TOP_Y_MAX - TOP_Y_MIN) // TOP_Y_DIVISION) + 1
+    Z0, Zn = 0, int((TOP_Z_MAX - TOP_Z_MIN) / TOP_Z_DIVISION)
+    height = Xn - X0
+    width = Yn - Y0
+    channel = Zn - Z0 + 2
+    # print('height,width,channel=%d,%d,%d'%(height,width,channel))
+    top = np.zeros(shape=(height, width, channel), dtype=np.float32)
+
+    # histogram = Bin(channel, 0, Zn, "z", Bin(height, 0, Yn, "y", Bin(width, 0, Xn, "x", Maximize("intensity"))))
+    # histogram.fill.numpy({"x": qxs, "y": qys, "z": qzs, "intensity": prs})
+
+    if 1:  # new method
+        for x in range(Xn):
+            ix = np.where(quantized[:, 0] == x)
+            quantized_x = quantized[ix]
+            if len(quantized_x) == 0:
+                continue
+            yy = -x
+
+            for y in range(Yn):
+                iy = np.where(quantized_x[:, 1] == y)
+                quantized_xy = quantized_x[iy]
+                count = len(quantized_xy)
+                if count == 0:
+                    continue
+                xx = -y
+
+                top[yy, xx, Zn + 1] = min(1, np.log(count + 1) / math.log(32))
+                max_height_point = np.argmax(quantized_xy[:, 2])
+                top[yy, xx, Zn] = quantized_xy[max_height_point, 3]
+
+                for z in range(Zn):
+                    iz = np.where(
+                        (quantized_xy[:, 2] >= z) & (quantized_xy[:, 2] <= z + 1)
+                    )
+                    quantized_xyz = quantized_xy[iz]
+                    if len(quantized_xyz) == 0:
+                        continue
+                    zz = z
+
+                    # height per slice
+                    max_height = max(0, np.max(quantized_xyz[:, 2]) - z)
+                    top[yy, xx, zz] = max_height
+
+    # if 0: #unprocess
+    #     top_image = np.zeros((height,width,3),dtype=np.float32)
+    #
+    #     num = len(lidar)
+    #     for n in range(num):
+    #         x,y = qxs[n],qys[n]
+    #         if x>=0 and x <width and y>0 and y<height:
+    #             top_image[y,x,:] += 1
+    #
+    #     max_value=np.max(np.log(top_image+0.001))
+    #     top_image = top_image/max_value *255
+    #     top_image=top_image.astype(dtype=np.uint8)
+
+    return top
+
+
+MATRIX_Mt = np.array(
+    [
+        [2.34773698e-04, 1.04494074e-02, 9.99945389e-01, 0.00000000e00],
+        [-9.99944155e-01, 1.05653536e-02, 1.24365378e-04, 0.00000000e00],
+        [-1.05634778e-02, -9.99889574e-01, 1.04513030e-02, 0.00000000e00],
+        [5.93721868e-02, -7.51087914e-02, -2.72132796e-01, 1.00000000e00],
+    ]
+)
+
+MATRIX_Kt = np.array(
+    [[721.5377, 0.0, 0.0], [0.0, 721.5377, 0.0], [609.5593, 172.854, 1.0]]
+)
+
+
+def box3d_to_rgb_box00(box3d):
+
+    # box3d = boxes3d[n]
+    Ps = np.hstack((box3d, np.ones((8, 1))))
+    Qs = np.matmul(Ps, MATRIX_Mt)
+    Qs = Qs[:, 0:3]
+    qs = np.matmul(Qs, MATRIX_Kt)
+    zs = qs[:, 2].reshape(8, 1)
+    qs = qs / zs
+
+    return qs[:, 0:2]
+
+
+def box3d_to_rgb_box0000(boxes3d, Mt=None, Kt=None):
+    # if (cfg.DATA_SETS_TYPE == 'kitti'):
+    if Mt is None:
+        Mt = np.array(MATRIX_Mt)
+    if Kt is None:
+        Kt = np.array(MATRIX_Kt)
+
+    num = len(boxes3d)
+    projections = np.zeros((num, 8, 2), dtype=np.int32)
+    for n in range(num):
+        box3d = boxes3d[n]
+        Ps = np.hstack((box3d, np.ones((8, 1))))
+        Qs = np.matmul(Ps, Mt)
+        Qs = Qs[:, 0:3]
+        qs = np.matmul(Qs, Kt)
+        zs = qs[:, 2].reshape(8, 1)
+        qs = qs / zs
+        # pts_3d=project_to_image(qs[:,0:2], P)
+        projections[n] = qs[:, 0:2]
+        # projections[n] = proj3d_to_2d(qs[:,0:2])
+        # projections[n] = pts_3d
+    return projections
+
+
+def proj3d_to_2d(rgbpoint):
+    x0 = np.min(rgbpoint[:, 0])
+    x1 = np.max(rgbpoint[:, 0])
+    y0 = np.min(rgbpoint[:, 1])
+    y1 = np.max(rgbpoint[:, 1])
+    # x0 = max(0,x0)
+    # x1 = min(x1, proj.image_width)
+    # y0 = max(0,y0)
+    # y1 = min(y1, proj.image_height)
+    return np.array([x0, y0, x1, y1])
+
+
+def project_to_image(pts_3d, P):
+    """ Project 3d points to image plane.
+
+    Usage: pts_2d = projectToImage(pts_3d, P)
+      input: pts_3d: nx3 matrix
+             P:      3x4 projection matrix
+      output: pts_2d: nx2 matrix
+
+      P(3x4) dot pts_3d_extended(4xn) = projected_pts_2d(3xn)
+      => normalize projected_pts_2d(2xn)
+
+      <=> pts_3d_extended(nx4) dot P'(4x3) = projected_pts_2d(nx3)
+          => normalize projected_pts_2d(nx2)
+    """
+    n = pts_3d.shape[0]
+    pts_3d_extend = np.hstack((pts_3d, np.ones((n, 1))))
+    # print(('pts_3d_extend shape: ', pts_3d_extend.shape))
+    pts_2d = np.dot(pts_3d_extend, np.transpose(P))  # nx3
+    pts_2d[:, 0] /= pts_2d[:, 2]
+    pts_2d[:, 1] /= pts_2d[:, 2]
+    return pts_2d[:, 0:2]
+
+
+def compute_box_3d(obj, P):
+    """ Takes an object and a projection matrix (P) and projects the 3d
+        bounding box into the image plane.
+        Returns:
+            corners_2d: (8,2) array in left image coord.
+            corners_3d: (8,3) array in in rect camera coord.
+    """
+    # compute rotational matrix around yaw axis
+    R = roty(obj.ry)
+
+    # 3d bounding box dimensions
+    l = obj.l
+    w = obj.w
+    h = obj.h
+
+    # 3d bounding box corners
+    x_corners = [l / 2, l / 2, -l / 2, -l / 2, l / 2, l / 2, -l / 2, -l / 2]
+    y_corners = [0, 0, 0, 0, -h, -h, -h, -h]
+    z_corners = [w / 2, -w / 2, -w / 2, w / 2, w / 2, -w / 2, -w / 2, w / 2]
+
+    # rotate and translate 3d bounding box
+    corners_3d = np.dot(R, np.vstack([x_corners, y_corners, z_corners]))
+    # print corners_3d.shape
+    corners_3d[0, :] = corners_3d[0, :] + obj.t[0]
+    corners_3d[1, :] = corners_3d[1, :] + obj.t[1]
+    corners_3d[2, :] = corners_3d[2, :] + obj.t[2]
+    # print 'cornsers_3d: ', corners_3d
+    # only draw 3d bounding box for objs in front of the camera
+    if np.any(corners_3d[2, :] < 0.1):
+        corners_2d = None
+        return corners_2d, np.transpose(corners_3d)
+
+    # project the 3d bounding box into the image plane
+    corners_2d = project_to_image(np.transpose(corners_3d), P)
+    # print 'corners_2d: ', corners_2d
+    return corners_2d, np.transpose(corners_3d)
+
+
+def compute_orientation_3d(obj, P):
+    """ Takes an object and a projection matrix (P) and projects the 3d
+        object orientation vector into the image plane.
+        Returns:
+            orientation_2d: (2,2) array in left image coord.
+            orientation_3d: (2,3) array in in rect camera coord.
+    """
+
+    # compute rotational matrix around yaw axis
+    R = roty(obj.ry)
+
+    # orientation in object coordinate system
+    orientation_3d = np.array([[0.0, obj.l], [0, 0], [0, 0]])
+
+    # rotate and translate in camera coordinate system, project in image
+    orientation_3d = np.dot(R, orientation_3d)
+    orientation_3d[0, :] = orientation_3d[0, :] + obj.t[0]
+    orientation_3d[1, :] = orientation_3d[1, :] + obj.t[1]
+    orientation_3d[2, :] = orientation_3d[2, :] + obj.t[2]
+
+    # vector behind image plane?
+    if np.any(orientation_3d[2, :] < 0.1):
+        orientation_2d = None
+        return orientation_2d, np.transpose(orientation_3d)
+
+    # project orientation into the image plane
+    orientation_2d = project_to_image(np.transpose(orientation_3d), P)
+    return orientation_2d, np.transpose(orientation_3d)
+
+
+def draw_projected_box3d(image, qs, color=(0, 255, 0), thickness=2):
+    """ Draw 3d bounding box in image
+        qs: (8,3) array of vertices for the 3d box in following order:
+            1 -------- 0
+           /|         /|
+          2 -------- 3 .
+          | |        | |
+          . 5 -------- 4
+          |/         |/
+          6 -------- 7
+    """
+    qs = qs.astype(np.int32)
+    for k in range(0, 4):
+        # Ref: http://docs.enthought.com/mayavi/mayavi/auto/mlab_helper_functions.html
+        i, j = k, (k + 1) % 4
+        # use LINE_AA for opencv3
+        # cv2.line(image, (qs[i,0],qs[i,1]), (qs[j,0],qs[j,1]), color, thickness, cv2.CV_AA)
+        cv2.line(image, (qs[i, 0], qs[i, 1]), (qs[j, 0], qs[j, 1]), color, thickness)
+        i, j = k + 4, (k + 1) % 4 + 4
+        cv2.line(image, (qs[i, 0], qs[i, 1]), (qs[j, 0], qs[j, 1]), color, thickness)
+
+        i, j = k, k + 4
+        cv2.line(image, (qs[i, 0], qs[i, 1]), (qs[j, 0], qs[j, 1]), color, thickness)
+    return image
+
+
+def draw_top_image(lidar_top):
+    top_image = np.sum(lidar_top, axis=2)
+    top_image = top_image - np.min(top_image)
+    divisor = np.max(top_image) - np.min(top_image)
+    top_image = top_image / divisor * 255
+    top_image = np.dstack((top_image, top_image, top_image)).astype(np.uint8)
+    return top_image
+
+
+def draw_box3d_on_top(
+    image,
+    boxes3d,
+    color=(255, 255, 255),
+    thickness=1,
+    scores=None,
+    text_lables=[],
+    is_gt=False,
+):
+
+    # if scores is not None and scores.shape[0] >0:
+    # print(scores.shape)
+    # scores=scores[:,0]
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    img = image.copy()
+    num = len(boxes3d)
+    startx = 5
+    for n in range(num):
+        b = boxes3d[n]
+        x0 = b[0, 0]
+        y0 = b[0, 1]
+        x1 = b[1, 0]
+        y1 = b[1, 1]
+        x2 = b[2, 0]
+        y2 = b[2, 1]
+        x3 = b[3, 0]
+        y3 = b[3, 1]
+        u0, v0 = lidar_to_top_coords(x0, y0)
+        u1, v1 = lidar_to_top_coords(x1, y1)
+        u2, v2 = lidar_to_top_coords(x2, y2)
+        u3, v3 = lidar_to_top_coords(x3, y3)
+        if is_gt:
+            color = (0, 255, 0)
+            startx = 5
+        else:
+            color = heat_map_rgb(0.0, 1.0, scores[n]) if scores is not None else 255
+            startx = 85
+        cv2.line(img, (u0, v0), (u1, v1), color, thickness, cv2.LINE_AA)
+        cv2.line(img, (u1, v1), (u2, v2), color, thickness, cv2.LINE_AA)
+        cv2.line(img, (u2, v2), (u3, v3), color, thickness, cv2.LINE_AA)
+        cv2.line(img, (u3, v3), (u0, v0), color, thickness, cv2.LINE_AA)
+    for n in range(len(text_lables)):
+        text_pos = (startx, 25 * (n + 1))
+        cv2.putText(img, text_lables[n], text_pos, font, 0.5, color, 0, cv2.LINE_AA)
+    return img
+
+
+# hypothesis function
+def hypothesis_func(w, x):
+    w1, w0 = w
+    return w1 * x + w0
+
+
+# error function
+def error_func(w, train_x, train_y):
+    return hypothesis_func(w, train_x) - train_y
+
+
+def dump_fit_func(w_fit):
+    w1, w0 = w_fit
+    print("fitting line=", str(w1) + "*x + " + str(w0))
+    return
+
+
+# square error
+def dump_fit_cost(w_fit, train_x, train_y):
+    error = error_func(w_fit, train_x, train_y)
+    square_error = sum(e * e for e in error)
+    print("fitting cost:", str(square_error))
+    return square_error
+
+
+def linear_regression(train_x, train_y, test_x):
+    # train set
+    # train_x = np.array([8.19,2.72,6.39,8.71,4.7,2.66,3.78])
+    # train_y = np.array([7.01,2.78,6.47,6.71,4.1,4.23,4.05])
+
+    # linear regression by leastsq
+    # msg = "invoke scipy leastsq"
+    w_init = [20, 1]  # weight factor init
+    fit_ret = leastsq(error_func, w_init, args=(train_x, train_y))
+    w_fit = fit_ret[0]
+
+    # dump fit result
+    dump_fit_func(w_fit)
+    dump_fit_cost(w_fit, train_x, train_y)
+
+    # test set
+    # test_x = np.array(np.arange(train_x.min(), train_x.max(), 1.0))
+    test_y = hypothesis_func(w_fit, test_x)
+    test_y0 = hypothesis_func(w_fit, train_x)
+    return test_y, test_y0
+\end{lstlisting}
+\item kod \lstinline[language=bash]!lidar.py!, implementuj±cy odczyt i
+konwersjê plików z danymi lidarowymi do formatu zgodnego z danymi
+z kamery:\\
+\begin{lstlisting}[language=Python,numbers=left,breaklines=true,tabsize=4,extendedchars=true]
+"""
+Lidar-related helper functions
+Adapted from https://github.com/kuangliu/kitti-utils
+"""
+
+def get_lidar(
+        dir='../datasets/KITTI/training/velodyne/0000',
+        filename='000000.bin',
+        point_cloud_only=False,
+        distance_only=False
+    ):
+    """
+    Read a lidar file
+
+    The format is (x,y,z,r)
+    """
+    import os
+    import numpy as np
+    
+    file = os.path.join(dir, filename)
+    # assert os.path.isfile(file)
+    if not os.path.isfile(file):
+        print(file,' missing!')
+        return np.array([])
+    if point_cloud_only: # reads only the (x,y,z) coordinates
+        return np.fromfile(file, dtype=np.float32).reshape(-1, 4)[:, :3]
+    elif distance_only: # reads only the (r) coordinate
+        return np.fromfile(file, dtype=np.float32).reshape(-1, 4)[:, 3]
+    else: # entire data is read
+        return np.fromfile(file, dtype=np.float32).reshape(-1, 4)
+    
+def show_lidar_on_image(pc_velo, img, calib, img_width, img_height):
+    """ Project lidar points to a monochromatic image """
+    import cv2
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    img =  np.copy(img)
+    imgfov_pc_velo, pts_2d, fov_inds = get_lidar_in_image_fov(
+        pc_velo, calib, 0, 0, img_width, img_height, True
+    )
+    imgfov_pts_2d = pts_2d[fov_inds, :]
+    imgfov_pc_rect = calib.project_velo_to_rect(imgfov_pc_velo)
+
+    cmap = plt.cm.get_cmap("hsv", 256)
+    cmap = np.array([cmap(i) for i in range(256)])[:, :3] * 255
+
+    # draw the points:
+    for i in range(imgfov_pts_2d.shape[0]):
+        depth = imgfov_pc_rect[i, 2]
+        color = cmap[np.clip(int(640.0 / depth),0,255), :] # we norm the lidar depth to the used colormap
+        cv2.circle(
+            img,
+            (int(np.round(imgfov_pts_2d[i, 0])), int(np.round(imgfov_pts_2d[i, 1]))),
+            1,
+            color=tuple(color),
+            thickness=-1,
+        )
+
+    return img
+
+def get_lidar_in_image_fov(
+        pc_velo, calib, xmin, ymin, xmax, ymax, return_more=False, clip_distance=2.0
+    ):
+    """ Filter lidar points, keeping those in image FOV """
+    pts_2d = calib.project_velo_to_image(pc_velo)
+    fov_inds = (
+        (pts_2d[:, 0] < xmax)
+        & (pts_2d[:, 0] >= xmin)
+        & (pts_2d[:, 1] < ymax)
+        & (pts_2d[:, 1] >= ymin)
+    )
+    fov_inds = fov_inds & (pc_velo[:, 0] > clip_distance)
+    imgfov_pc_velo = pc_velo[fov_inds, :]
+    if return_more:
+        return imgfov_pc_velo, pts_2d, fov_inds
+    else:
+        return imgfov_pc_velo
+\end{lstlisting}
+\end{itemize}
+\printbibliography
+
+\end{document}
