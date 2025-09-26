@@ -144,7 +144,7 @@ while cap.isOpened():
 
     # save every n-th frame as jpg
     if i % args.every_nth == 0:
-        print("saving 15-th frame ...")
+        print(f"saving {args.every_nth}-th frame ...")
         cv2.imwrite(
             "output/frame_%d.jpg" % i, annotated_frame
         )  # save frame as JPEG file
