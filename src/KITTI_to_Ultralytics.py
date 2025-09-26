@@ -28,9 +28,7 @@ def lidar_to_images(
     # get the list of scenes:
     data_folder: str = kitti_dir + subset + "/image_02/"
 
-    scene_ids = [
-        fname[-4:] for fname in glob(data_folder + "*", recursive=True)
-    ]
+    scene_ids = [fname[-4:] for fname in glob(data_folder + "*", recursive=True)]
     scene_ids.sort()
 
     print(data_folder)
@@ -76,19 +74,18 @@ def lidar_to_images(
                     img_height=IMG_HEIGHT,
                 )
 
-                results_dir: str = "./datasets/KITTI_for_YOLO/" \
-                    + subset \
-                    + "/lidar/images/"
+                results_dir: str = (
+                    "./datasets/KITTI_for_YOLO/" + subset + "/lidar/images/"
+                )
 
                 from pathlib import Path
+
                 Path(results_dir).mkdir(parents=True, exist_ok=True)
                 # print(f"Ensured path created: {results_dir}")
-                
-                result_file_path: str = results_dir + "scene_" \
-                    + scene_id \
-                    + "_frame_" \
-                    + frame_id \
-                    + ".jpg"
+
+                result_file_path: str = (
+                    results_dir + "scene_" + scene_id + "_frame_" + frame_id + ".jpg"
+                )
 
                 print(f"Saving {result_file_path}")
 
