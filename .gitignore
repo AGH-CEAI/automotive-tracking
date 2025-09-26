@@ -3,5 +3,5 @@ models/
 output/
 examples/*pdf
 examples/runs
-utils/__pycache__
 *.DS_Store
+*__pycache__*
