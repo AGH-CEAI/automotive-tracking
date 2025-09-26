@@ -21,15 +21,20 @@ def lidar_to_images(
     import sys
 
     sys.path.append("../utils/")
-    import kitti_util as utils
-    import lidar
+    import utils.kitti_util as utils
+    import utils.lidar as lidar
     from glob import glob
 
     # get the list of scenes:
+    data_folder: str = kitti_dir + subset + "/image_02/"
+
     scene_ids = [
-        fname[-4:] for fname in glob(kitti_dir + subset + "/image_02/*", recursive=True)
+        fname[-4:] for fname in glob(data_folder + "*", recursive=True)
     ]
     scene_ids.sort()
+
+    print(data_folder)
+    print(scene_ids)
 
     for scene_id in scene_ids:
         print("Processing scene ", scene_id)
@@ -45,19 +50,19 @@ def lidar_to_images(
         for frame_id in frame_ids:
             # get the lidar points:
             lidar_point_cloud = lidar.get_lidar(
-                dir="../datasets/KITTI/training/velodyne/" + scene_id,
+                dir=f"{kitti_dir}/training/velodyne/" + scene_id,
                 filename=frame_id + ".bin",
                 point_cloud_only=True,
             )
             lidar_distance = lidar.get_lidar(
-                dir="../datasets/KITTI/training/velodyne/" + scene_id,
+                dir=f"{kitti_dir}/training/velodyne/" + scene_id,
                 filename=frame_id + ".bin",
                 distance_only=True,
             )
             if lidar_point_cloud.size > 0:
                 # get the calibration:
                 calibration = utils.Calibration(
-                    "../datasets/KITTI/training/calib/" + scene_id + ".txt"
+                    f"{kitti_dir}/training/calib/" + scene_id + ".txt"
                 )
 
                 # project the lidar points onto an image:
@@ -71,15 +76,25 @@ def lidar_to_images(
                     img_height=IMG_HEIGHT,
                 )
 
+                results_dir: str = "./datasets/KITTI_for_YOLO/" \
+                    + subset \
+                    + "/lidar/images/"
+
+                from pathlib import Path
+                Path(results_dir).mkdir(parents=True, exist_ok=True)
+                # print(f"Ensured path created: {results_dir}")
+                
+                result_file_path: str = results_dir + "scene_" \
+                    + scene_id \
+                    + "_frame_" \
+                    + frame_id \
+                    + ".jpg"
+
+                print(f"Saving {result_file_path}")
+
                 # save the image:
                 cv2.imwrite(
-                    "../datasets/KITTI_for_YOLO/"
-                    + subset
-                    + "/lidar/images/scene_"
-                    + scene_id
-                    + "_frame_"
-                    + frame_id
-                    + ".jpg",
+                    result_file_path,
                     img_lidar,
                 )
 
