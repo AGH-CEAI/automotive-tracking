@@ -11,6 +11,19 @@ from collections import defaultdict
 from cap_from_youtube import cap_from_youtube
 import argparse
 import os
+from typing import List, Tuple
+from shapely.geometry import Polygon
+
+
+def get_coords_from_xywh(box) -> List[Tuple[float, float]]:
+    """TODO TR"""
+    coords: List[Tuple[int, int]] = [
+        (box[0], box[1]),
+        (box[0] + box[2], box[1]),
+        (box[0] + box[2], box[1] + box[3]),
+        (box[0], box[1] + box[3]),
+    ]
+    return coords
 
 
 # first we handle to arguments passed to the script:
@@ -96,6 +109,14 @@ while cap.isOpened():
 
     # Get the boxes and track IDs
     boxes = results[0].boxes.xywh.cpu()
+    polygons: List[Polygon] = []
+
+    for box in boxes:
+        # print(box)
+        # print(np.array(box))
+        polygons.append(Polygon(get_coords_from_xywh(box)))
+        # print(polygons[-1])
+
     track_ids = results[0].boxes.id.int().cpu().tolist()
 
     # Visualize the results on the frame
