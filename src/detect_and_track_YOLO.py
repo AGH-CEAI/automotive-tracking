@@ -14,6 +14,7 @@ import os
 from typing import List, Tuple
 from shapely.geometry import Polygon
 import dill
+import sys
 
 
 def get_coords_from_xywh(box) -> List[Tuple[float, float]]:
@@ -63,6 +64,59 @@ print(args)
 print("loading the YOLO model ...")
 model = YOLO("models/yolov8n.pt")
 
+# Initialize empty track history
+track_history = defaultdict(lambda: [])
+
+if args.video_filename[0].endswith(".jpg") or args.video_filename[0].endswith(".png"):
+    # TODO TR:  This is terribly redundant and should be refactored at some point.
+    print(f"Analyzing image: {args.video_filename[0]}")
+    
+    frame = cv2.imread(args.video_filename[0])
+    
+    results = model.track(
+        frame
+    )
+
+    # Get the boxes and track IDs
+    boxes = results[0].boxes.xywh.cpu()
+    polygons: List[Polygon] = []
+
+    for box in boxes:
+        polygons.append(Polygon(get_coords_from_xywh(box)))
+
+    track_ids = results[0].boxes.id.int().cpu().tolist()
+
+    # Visualize the results on the frame
+    annotated_frame = results[0].plot()
+
+    # Plot the tracks
+    for box, track_id in zip(boxes, track_ids):
+        x, y, w, h = box
+        track = track_history[track_id]
+        track.append((float(x), float(y)))  # x, y center point
+        if len(track) > 30:  # retain 90 tracks for 90 frames
+            track.pop(0)
+
+        # Draw the tracking lines
+        points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+        cv2.polylines(
+            annotated_frame, [points], isClosed=False, color=(255, 0, 0), thickness=10
+        )
+
+    # Display the annotated frame (requires X-forwarding ...)
+    # cv2.imshow("YOLOv8 Tracking", annotated_frame)
+    
+    print(f"saving annoted frame and boxes from image...")
+    f_name: str = args.video_filename[0].split("/")[-1].replace(".jpg", "")
+    cv2.imwrite(
+        f"output/YOLO_{f_name}.jpg", annotated_frame
+    )  # save frame as JPEG file
+
+    with open(f"output/YOLO_{f_name}_boxes.dil", "wb") as dill_file:
+        dill.dump(polygons, dill_file)
+    
+    sys.exit(0)
+
 # Open the video file
 if "youtu" in args.video_filename[0]:
     print("Opening a video from YouTube ... ")
@@ -73,10 +127,6 @@ else:
     path = "".join(args.video_filename)
     fname = os.path.split(path)[-1]
     cap = cv2.VideoCapture(path)
-
-
-# Initialize empty track history
-track_history = defaultdict(lambda: [])
 
 
 # Define the output file
