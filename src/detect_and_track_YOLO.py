@@ -13,6 +13,7 @@ import argparse
 import os
 from typing import List, Tuple
 from shapely.geometry import Polygon
+import dill
 
 
 def get_coords_from_xywh(box) -> List[Tuple[float, float]]:
@@ -112,10 +113,7 @@ while cap.isOpened():
     polygons: List[Polygon] = []
 
     for box in boxes:
-        # print(box)
-        # print(np.array(box))
         polygons.append(Polygon(get_coords_from_xywh(box)))
-        # print(polygons[-1])
 
     track_ids = results[0].boxes.id.int().cpu().tolist()
 
@@ -148,6 +146,9 @@ while cap.isOpened():
         cv2.imwrite(
             "output/frame_%d.jpg" % i, annotated_frame
         )  # save frame as JPEG file
+
+        with open(f"output/boxes_{i}.dil", "wb") as dill_file:
+            dill.dump(polygons, dill_file)
 
     if (i == args.max_frames) & (args.max_frames > 0):
         print("ok, that's enough ...")
