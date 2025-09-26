@@ -1,9 +1,10 @@
-""" Helper methods for loading and parsing KITTI data.
+"""Helper methods for loading and parsing KITTI data.
 
 Author: Charles R. Qi, Kui Xu
 Date: September 2017/2018
 Taken from https://github.com/kuangliu/kitti-utils
 """
+
 from __future__ import print_function
 
 import numpy as np
@@ -27,7 +28,7 @@ cbox = np.array([[0, 70.4], [-40, 40], [-3, 2]])
 
 
 class Object2d(object):
-    """ 2d object label """
+    """2d object label"""
 
     def __init__(self, label_file_line):
         data = label_file_line.split(" ")
@@ -50,7 +51,7 @@ class Object2d(object):
 
 
 class Object3d(object):
-    """ 3d object label """
+    """3d object label"""
 
     def __init__(self, label_file_line):
         data = label_file_line.split(" ")
@@ -79,7 +80,7 @@ class Object3d(object):
         self.ry = data[14]  # yaw angle (around Y-axis in camera coordinates) [-pi..pi]
 
     def estimate_diffculty(self):
-        """ Function that estimate difficulty to detect the object as defined in kitti website"""
+        """Function that estimate difficulty to detect the object as defined in kitti website"""
         # height of the bounding box
         bb_height = np.abs(self.xmax - self.xmin)
 
@@ -112,36 +113,36 @@ class Object3d(object):
 
 
 class Calibration(object):
-    """ Calibration matrices and utils
-        3d XYZ in <label>.txt are in rect camera coord.
-        2d box xy are in image2 coord
-        Points in <lidar>.bin are in Velodyne coord.
+    """Calibration matrices and utils
+    3d XYZ in <label>.txt are in rect camera coord.
+    2d box xy are in image2 coord
+    Points in <lidar>.bin are in Velodyne coord.
 
-        y_image2 = P^2_rect * x_rect
-        y_image2 = P^2_rect * R0_rect * Tr_velo_to_cam * x_velo
-        x_ref = Tr_velo_to_cam * x_velo
-        x_rect = R0_rect * x_ref
+    y_image2 = P^2_rect * x_rect
+    y_image2 = P^2_rect * R0_rect * Tr_velo_to_cam * x_velo
+    x_ref = Tr_velo_to_cam * x_velo
+    x_rect = R0_rect * x_ref
 
-        P^2_rect = [f^2_u,  0,      c^2_u,  -f^2_u b^2_x;
-                    0,      f^2_v,  c^2_v,  -f^2_v b^2_y;
-                    0,      0,      1,      0]
-                 = K * [1|t]
+    P^2_rect = [f^2_u,  0,      c^2_u,  -f^2_u b^2_x;
+                0,      f^2_v,  c^2_v,  -f^2_v b^2_y;
+                0,      0,      1,      0]
+             = K * [1|t]
 
-        image2 coord:
-         ----> x-axis (u)
-        |
-        |
-        v y-axis (v)
+    image2 coord:
+     ----> x-axis (u)
+    |
+    |
+    v y-axis (v)
 
-        velodyne coord:
-        front x, left y, up z
+    velodyne coord:
+    front x, left y, up z
 
-        rect/ref camera coord:
-        right x, down y, front z
+    rect/ref camera coord:
+    right x, down y, front z
 
-        Ref (KITTI paper): http://www.cvlibs.net/publications/Geiger2013IJRR.pdf
+    Ref (KITTI paper): http://www.cvlibs.net/publications/Geiger2013IJRR.pdf
 
-        TODO(rqi): do matrix multiplication only once for each projection.
+    TODO(rqi): do matrix multiplication only once for each projection.
     """
 
     def __init__(self, calib_filepath, from_video=False):
@@ -169,19 +170,19 @@ class Calibration(object):
         self.b_y = self.P[1, 3] / (-self.f_v)
 
     def read_calib_file(self, filepath):
-        """ Read in a calibration file and parse into a dictionary.
+        """Read in a calibration file and parse into a dictionary.
         Ref: https://github.com/utiasSTARS/pykitti/blob/master/pykitti/utils.py
         """
         import numpy as np
-        
+
         data = {}
 
-        with open(filepath, 'r') as f:
+        with open(filepath, "r") as f:
             for line in f.readlines():
                 try:
-                    key, value = line.split(':', 1)
+                    key, value = line.split(":", 1)
                 except ValueError:
-                    key, value = line.split(' ', 1)
+                    key, value = line.split(" ", 1)
                 # The only non-float values in these files are dates, which
                 # we don't care about anyway
                 try:
@@ -192,8 +193,8 @@ class Calibration(object):
         return data
 
     def read_calib_from_video(self, calib_root_dir):
-        """ Read calibration for camera 2 from video calib files.
-            there are calib_cam_to_cam and calib_velo_to_cam under the calib_root_dir
+        """Read calibration for camera 2 from video calib files.
+        there are calib_cam_to_cam and calib_velo_to_cam under the calib_root_dir
         """
         data = {}
         cam2cam = self.read_calib_file(
@@ -211,8 +212,8 @@ class Calibration(object):
         return data
 
     def cart2hom(self, pts_3d):
-        """ Input: nx3 points in Cartesian
-            Oupput: nx4 points in Homogeneous by pending 1
+        """Input: nx3 points in Cartesian
+        Oupput: nx4 points in Homogeneous by pending 1
         """
         n = pts_3d.shape[0]
         pts_3d_hom = np.hstack((pts_3d, np.ones((n, 1))))
@@ -230,16 +231,16 @@ class Calibration(object):
         return np.dot(pts_3d_ref, np.transpose(self.C2V))
 
     def project_rect_to_ref(self, pts_3d_rect):
-        """ Input and Output are nx3 points """
+        """Input and Output are nx3 points"""
         return np.transpose(np.dot(np.linalg.inv(self.R0), np.transpose(pts_3d_rect)))
 
     def project_ref_to_rect(self, pts_3d_ref):
-        """ Input and Output are nx3 points """
+        """Input and Output are nx3 points"""
         return np.transpose(np.dot(self.R0, np.transpose(pts_3d_ref)))
 
     def project_rect_to_velo(self, pts_3d_rect):
-        """ Input: nx3 points in rect camera coord.
-            Output: nx3 points in velodyne coord.
+        """Input: nx3 points in rect camera coord.
+        Output: nx3 points in velodyne coord.
         """
         pts_3d_ref = self.project_rect_to_ref(pts_3d_rect)
         return self.project_ref_to_velo(pts_3d_ref)
@@ -252,8 +253,8 @@ class Calibration(object):
     # ------- 3d to 2d ----------
     # ===========================
     def project_rect_to_image(self, pts_3d_rect):
-        """ Input: nx3 points in rect camera coord.
-            Output: nx2 points in image2 coord.
+        """Input: nx3 points in rect camera coord.
+        Output: nx2 points in image2 coord.
         """
         pts_3d_rect = self.cart2hom(pts_3d_rect)
         pts_2d = np.dot(pts_3d_rect, np.transpose(self.P))  # nx3
@@ -262,8 +263,8 @@ class Calibration(object):
         return pts_2d[:, 0:2]
 
     def project_velo_to_image(self, pts_3d_velo):
-        """ Input: nx3 points in velodyne coord.
-            Output: nx2 points in image2 coord.
+        """Input: nx3 points in velodyne coord.
+        Output: nx2 points in image2 coord.
         """
         pts_3d_rect = self.project_velo_to_rect(pts_3d_velo)
         return self.project_rect_to_image(pts_3d_rect)
@@ -280,8 +281,8 @@ class Calibration(object):
         return np.array([x0, y0, x1, y1])
 
     def project_velo_to_4p(self, pts_3d_velo):
-        """ Input: nx3 points in velodyne coord.
-            Output: 4 points in image2 coord.
+        """Input: nx3 points in velodyne coord.
+        Output: 4 points in image2 coord.
         """
         pts_2d_velo = self.project_velo_to_image(pts_3d_velo)
         return self.project_8p_to_4p(pts_2d_velo)
@@ -290,9 +291,9 @@ class Calibration(object):
     # ------- 2d to 3d ----------
     # ===========================
     def project_image_to_rect(self, uv_depth):
-        """ Input: nx3 first two channels are uv, 3rd channel
-                   is depth in rect camera coord.
-            Output: nx3 points in rect camera coord.
+        """Input: nx3 first two channels are uv, 3rd channel
+               is depth in rect camera coord.
+        Output: nx3 points in rect camera coord.
         """
         n = uv_depth.shape[0]
         x = ((uv_depth[:, 0] - self.c_u) * uv_depth[:, 2]) / self.f_u + self.b_x
@@ -338,36 +339,36 @@ def get_depth_pt3d(depth):
 
 
 def rotx(t):
-    """ 3D Rotation about the x-axis. """
+    """3D Rotation about the x-axis."""
     c = np.cos(t)
     s = np.sin(t)
     return np.array([[1, 0, 0], [0, c, -s], [0, s, c]])
 
 
 def roty(t):
-    """ Rotation about the y-axis. """
+    """Rotation about the y-axis."""
     c = np.cos(t)
     s = np.sin(t)
     return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
 
 
 def rotz(t):
-    """ Rotation about the z-axis. """
+    """Rotation about the z-axis."""
     c = np.cos(t)
     s = np.sin(t)
     return np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]])
 
 
 def transform_from_rot_trans(R, t):
-    """ Transforation matrix from rotation matrix and translation vector. """
+    """Transforation matrix from rotation matrix and translation vector."""
     R = R.reshape(3, 3)
     t = t.reshape(3, 1)
     return np.vstack((np.hstack([R, t]), [0, 0, 0, 1]))
 
 
 def inverse_rigid_trans(Tr):
-    """ Inverse a rigid body transform matrix (3x4 as [R|t])
-        [R'|-R't; 0|1]
+    """Inverse a rigid body transform matrix (3x4 as [R|t])
+    [R'|-R't; 0|1]
     """
     inv_Tr = np.zeros_like(Tr)  # 3x4
     inv_Tr[0:3, 0:3] = np.transpose(Tr[0:3, 0:3])
@@ -429,7 +430,6 @@ def lidar_to_top_coords(x, y):
 
 
 def lidar_to_top(lidar):
-
     idx = np.where(lidar[:, 0] > TOP_X_MIN)
     lidar = lidar[idx]
     idx = np.where(lidar[:, 0] < TOP_X_MAX)
@@ -531,7 +531,6 @@ MATRIX_Kt = np.array(
 
 
 def box3d_to_rgb_box00(box3d):
-
     # box3d = boxes3d[n]
     Ps = np.hstack((box3d, np.ones((8, 1))))
     Qs = np.matmul(Ps, MATRIX_Mt)
@@ -580,7 +579,7 @@ def proj3d_to_2d(rgbpoint):
 
 
 def project_to_image(pts_3d, P):
-    """ Project 3d points to image plane.
+    """Project 3d points to image plane.
 
     Usage: pts_2d = projectToImage(pts_3d, P)
       input: pts_3d: nx3 matrix
@@ -603,11 +602,11 @@ def project_to_image(pts_3d, P):
 
 
 def compute_box_3d(obj, P):
-    """ Takes an object and a projection matrix (P) and projects the 3d
-        bounding box into the image plane.
-        Returns:
-            corners_2d: (8,2) array in left image coord.
-            corners_3d: (8,3) array in in rect camera coord.
+    """Takes an object and a projection matrix (P) and projects the 3d
+    bounding box into the image plane.
+    Returns:
+        corners_2d: (8,2) array in left image coord.
+        corners_3d: (8,3) array in in rect camera coord.
     """
     # compute rotational matrix around yaw axis
     R = roty(obj.ry)
@@ -641,11 +640,11 @@ def compute_box_3d(obj, P):
 
 
 def compute_orientation_3d(obj, P):
-    """ Takes an object and a projection matrix (P) and projects the 3d
-        object orientation vector into the image plane.
-        Returns:
-            orientation_2d: (2,2) array in left image coord.
-            orientation_3d: (2,3) array in in rect camera coord.
+    """Takes an object and a projection matrix (P) and projects the 3d
+    object orientation vector into the image plane.
+    Returns:
+        orientation_2d: (2,2) array in left image coord.
+        orientation_3d: (2,3) array in in rect camera coord.
     """
 
     # compute rotational matrix around yaw axis
@@ -671,15 +670,15 @@ def compute_orientation_3d(obj, P):
 
 
 def draw_projected_box3d(image, qs, color=(0, 255, 0), thickness=2):
-    """ Draw 3d bounding box in image
-        qs: (8,3) array of vertices for the 3d box in following order:
-            1 -------- 0
-           /|         /|
-          2 -------- 3 .
-          | |        | |
-          . 5 -------- 4
-          |/         |/
-          6 -------- 7
+    """Draw 3d bounding box in image
+    qs: (8,3) array of vertices for the 3d box in following order:
+        1 -------- 0
+       /|         /|
+      2 -------- 3 .
+      | |        | |
+      . 5 -------- 4
+      |/         |/
+      6 -------- 7
     """
     qs = qs.astype(np.int32)
     for k in range(0, 4):
@@ -714,7 +713,6 @@ def draw_box3d_on_top(
     text_lables=[],
     is_gt=False,
 ):
-
     # if scores is not None and scores.shape[0] >0:
     # print(scores.shape)
     # scores=scores[:,0]

@@ -3,12 +3,13 @@ Lidar-related helper functions
 Adapted from https://github.com/kuangliu/kitti-utils
 """
 
+
 def get_lidar(
-        dir='../datasets/KITTI/training/velodyne/0000',
-        filename='000000.bin',
-        point_cloud_only=False,
-        distance_only=False
-    ):
+    dir="../datasets/KITTI/training/velodyne/0000",
+    filename="000000.bin",
+    point_cloud_only=False,
+    distance_only=False,
+):
     """
     Read a lidar file
 
@@ -16,26 +17,27 @@ def get_lidar(
     """
     import os
     import numpy as np
-    
+
     file = os.path.join(dir, filename)
     # assert os.path.isfile(file)
     if not os.path.isfile(file):
-        print(file,' missing!')
+        print(file, " missing!")
         return np.array([])
-    if point_cloud_only: # reads only the (x,y,z) coordinates
+    if point_cloud_only:  # reads only the (x,y,z) coordinates
         return np.fromfile(file, dtype=np.float32).reshape(-1, 4)[:, :3]
-    elif distance_only: # reads only the (r) coordinate
+    elif distance_only:  # reads only the (r) coordinate
         return np.fromfile(file, dtype=np.float32).reshape(-1, 4)[:, 3]
-    else: # entire data is read
+    else:  # entire data is read
         return np.fromfile(file, dtype=np.float32).reshape(-1, 4)
-    
+
+
 def show_lidar_on_image(pc_velo, img, calib, img_width, img_height):
-    """ Project lidar points to a monochromatic image """
+    """Project lidar points to a monochromatic image"""
     import cv2
     import numpy as np
     import matplotlib.pyplot as plt
-    
-    img =  np.copy(img)
+
+    img = np.copy(img)
     imgfov_pc_velo, pts_2d, fov_inds = get_lidar_in_image_fov(
         pc_velo, calib, 0, 0, img_width, img_height, True
     )
@@ -48,7 +50,9 @@ def show_lidar_on_image(pc_velo, img, calib, img_width, img_height):
     # draw the points:
     for i in range(imgfov_pts_2d.shape[0]):
         depth = imgfov_pc_rect[i, 2]
-        color = cmap[np.clip(int(640.0 / depth),0,255), :] # we norm the lidar depth to the used colormap
+        color = cmap[
+            np.clip(int(640.0 / depth), 0, 255), :
+        ]  # we norm the lidar depth to the used colormap
         cv2.circle(
             img,
             (int(np.round(imgfov_pts_2d[i, 0])), int(np.round(imgfov_pts_2d[i, 1]))),
@@ -59,10 +63,11 @@ def show_lidar_on_image(pc_velo, img, calib, img_width, img_height):
 
     return img
 
+
 def get_lidar_in_image_fov(
-        pc_velo, calib, xmin, ymin, xmax, ymax, return_more=False, clip_distance=2.0
-    ):
-    """ Filter lidar points, keeping those in image FOV """
+    pc_velo, calib, xmin, ymin, xmax, ymax, return_more=False, clip_distance=2.0
+):
+    """Filter lidar points, keeping those in image FOV"""
     pts_2d = calib.project_velo_to_image(pc_velo)
     fov_inds = (
         (pts_2d[:, 0] < xmax)
