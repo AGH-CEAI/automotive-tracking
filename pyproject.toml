@@ -1,0 +1,16 @@
+[project]
+name = "automotive-tracking"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "cap-from-youtube>=0.2.0",
+    "jupyter>=1.1.1",
+    "lap>=0.5.12",
+    "matplotlib>=3.10.6",
+    "moviepy>=2.2.1",
+    "opencv-python>=4.11.0.86",
+    "pandas>=2.3.2",
+    "ultralytics>=8.3.203",
+]
