@@ -25,7 +25,7 @@ parser.add_argument('--max-frames', dest='max_frames',
                     default=0, type=int,
                     help='maximal number of frames to be processed')
 parser.add_argument('--every-nth', dest='every_nth',
-                    default=0, type=int,
+                    default=15, type=int,
                     help='saves every nth frame to a .jpg')
 
 args = parser.parse_args()
@@ -37,10 +37,10 @@ print('loading the YOLO model ...')
 model = YOLO('models/yolov8n.pt')
 
 # Open the video file
-if "youtu" in args.video_filename:
+if "youtu" in args.video_filename[0]:
     print("Opening a video from YouTube ... ")
     fname="from_yt"
-    cap = cap_from_youtube(args.video_filename, '720p')
+    cap = cap_from_youtube(args.video_filename[0], '720p')
 else:
     print("Opening a local video file ... ")
     path=''.join(args.video_filename)
