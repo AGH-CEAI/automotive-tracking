@@ -18,7 +18,7 @@ There will be two steps:
     - [X] Folder structure preparation
     - [X] Move images
     - [X] Labels preparation
-    - [ ] Yaml preparation
+    - [X] Yaml preparation
 2) Lidar data preparation:
     - [X] Folder structure preparation
     - [ ] Images preparation 
@@ -271,7 +271,7 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
         yaml_content += f"names:\n"
 
         for k in self._class_name_to_id.keys():
-            yaml_content += f'  {k}: {self._class_name_to_id[k]}\n'
+            yaml_content += f'  {self._class_name_to_id[k]}: {k}\n'
 
         with open(self._root + "yolo_kitti.yaml", "w") as f:
             f.write(yaml_content)
