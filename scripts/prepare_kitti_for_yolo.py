@@ -17,7 +17,7 @@ There will be two steps:
 1) Original data preparation:
     - [X] Folder structure preparation
     - [X] Move images
-    - [ ] Labels preparation
+    - [X] Labels preparation
     - [ ] Yaml preparation
 2) Lidar data preparation:
     - [X] Folder structure preparation
@@ -29,10 +29,12 @@ How to use:
     Run the script from the parent folder of the project.
 """
 import os
+import pandas as pd
 from abc import ABC, abstractmethod
 from pathlib import Path
 from enum import StrEnum
-
+from glob import glob
+from typing import List, Dict
 
 
 class DataPurpose(StrEnum):
@@ -107,6 +109,50 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
         """ TODO """
         super().__init__(root, include_test)
 
+        # For labels creation.
+        self._KITTI_labels_col_names: List[str] = [
+            "frame",
+            "track_id",
+            "type",
+            "truncated",
+            "occluded",
+            "alpha",
+            "bbox_left",
+            "bbox_top",
+            "bbox_right",
+            "bbox_bottom",
+            "obj_height",
+            "obj_width",
+            "obj_length",
+            "obj_x",
+            "obj_y",
+            "obj_z",
+            "rotation_y",
+            "score",
+        ]
+
+        self._ultra_colnames: List[str] = [
+            "class", "x_center", "y_center", "width", "height"
+        ]
+
+        # Convert class names to integer IDs (matching KITTI.yaml):
+        self._class_name_to_id: Dict[str, int] = {
+            "Car": 0,
+            "Pedestrian": 1,
+            "Van": 2,
+            "Cyclist": 3,
+            "Truck": 4,
+            "Misc": 5,
+            "Tram": 6,
+            "Person_sitting": 7,
+            "Person": 7,
+            "DontCare": 8,
+        }
+
+        # Fixed size of KITTI images. For labels generation.
+        self.IMG_WIDTH: int = 1242
+        self.IMG_HEIGHT: int = 375
+
     def _move_images(self, purpose: DataPurpose, data_subfolder: str) -> None:
         """
         Move images from the raw KITTI folders, to preprepared folders
@@ -129,7 +175,163 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
                 scene: str = subdir.split("/")[-1]
                 target_path: str = f"{self._root}/images/{purpose}/{scene}_{file}"
                 os.replace(source_path, target_path) 
+
+    def _process_label_file(self, file_path: str) -> None:
+        """
+        Creates YOLO-ready labels from the raw KITTI label file.
+
+        :note:
+            The main point of this function is to reduce nesting in the
+            `_prepare_labels` 
+
+        :args:
+            file_path (str):
+                Path to the label file.
+        """
+        print(f"\tProcessing: {file_path}")
+        scene_id: str = file_path.split("/")[-1].split(".")[0]
+
+        labels: pd.DataFrame = pd.read_csv(
+            file_path,
+            sep=" ",
+            header=None,
+            names=self._KITTI_labels_col_names,
+        )[["frame", "type", "bbox_left", "bbox_bottom", "bbox_right", "bbox_top"]]
+
+        for frame in labels["frame"].unique():
+            slc = labels["frame"] == frame
+
+            # convert to ultralytics format:
+            ultra_df = pd.DataFrame(columns=self._ultra_colnames)
+            ultra_df["class"] = labels[slc]["type"]
+
+            # We need to norm to (0,1) by the image size:
+            ultra_df["x_center"] = (
+                0.5 * (labels[slc]["bbox_left"] + labels[slc]["bbox_right"]) / self.IMG_WIDTH
+            )
+            ultra_df["y_center"] = (
+                0.5
+                * (labels[slc]["bbox_top"] + labels[slc]["bbox_bottom"])
+                / self.IMG_HEIGHT
+            )
             
+            ultra_df["width"] = (
+                labels[slc]["bbox_right"] - labels[slc]["bbox_left"]
+            ) / self.IMG_WIDTH
+            
+            ultra_df["height"] = (
+                labels[slc]["bbox_bottom"] - labels[slc]["bbox_top"]
+            ) / self.IMG_HEIGHT
+
+            ultra_df["class"] = [self._class_name_to_id[c] for c in ultra_df["class"]]
+            
+            output_filename: str = f"{scene_id}_{str(frame).zfill(6)}.txt"                
+            out_file_path: str = f"{self._root}labels/train/{output_filename}"
+
+            ultra_df.to_csv(
+                out_file_path,
+                sep=" ",
+                index=None,
+                float_format="%.6f",
+                header=None,
+            )
+
+        print(f"\t{file_path} processed")
+
+
+
+    def _prepare_labels(self) -> None:
+        """
+        Converts a single KITTI-formatted label file to multiple corresponding
+        files in Ultralytics format.
+
+        :note:
+            KITTI only provides the labels for training data.
+        """
+        print("Preparing YOLO labels.")
+        images_root: str = f"./datasets/KITTI/training/label_02/"
+        for subdir, dirs, files in os.walk(images_root):
+            for file in files:
+                source_path: str = subdir + os.sep + file
+                self._process_label_file(source_path)
+        print("YOLO labels ready.")
+
+        return 
+
+        for scene_id in scene_ids:
+            
+            for frame in labels["frame"].unique():
+                slc = labels["frame"] == frame
+
+                # convert to ultralytics format:
+                ultra_df = pd.DataFrame(columns=ultra_colnames)
+
+                ultra_df["class"] = labels[slc]["type"]
+
+                # We need to norm to (0,1) by the image size:
+                ultra_df["x_center"] = (
+                    0.5 * (labels[slc]["bbox_left"] + labels[slc]["bbox_right"]) / IMG_WIDTH
+                )
+                
+                ultra_df["y_center"] = (
+                    0.5
+                    * (labels[slc]["bbox_top"] + labels[slc]["bbox_bottom"])
+                    / IMG_HEIGHT
+                )
+                
+                ultra_df["width"] = (
+                    labels[slc]["bbox_right"] - labels[slc]["bbox_left"]
+                ) / IMG_WIDTH
+                
+                ultra_df["height"] = (
+                    labels[slc]["bbox_bottom"] - labels[slc]["bbox_top"]
+                ) / IMG_HEIGHT
+
+                # convert class names to integer IDs (matching KITTI.yaml):
+                class_name_to_id = {
+                    "Car": 0,
+                    "Pedestrian": 1,
+                    "Van": 2,
+                    "Cyclist": 3,
+                    "Truck": 4,
+                    "Misc": 5,
+                    "Tram": 6,
+                    "Person_sitting": 7,
+                    "Person": 7,
+                    "DontCare": 8,
+                }
+                
+                # print(scene_id,frame,ultra_df['class'].unique())
+                ultra_df["class"] = [class_name_to_id[c] for c in ultra_df["class"]]
+
+                # prepare the filename to write to:
+                
+                output_filename = (
+                    "scene_" + scene_id + "_frame_" + str(frame).zfill(6) + ".txt"
+                )  # list of output files
+                # print(output_filename)
+            
+                ultra_df.to_csv(
+                    "../datasets/KITTI_for_YOLO/"
+                    + subset
+                    + "/camera_2/labels/"
+                    + output_filename,
+                    sep=" ",
+                    index=None,
+                    float_format="%.6f",
+                    header=None,
+                )
+                ultra_df.to_csv(
+                    "../datasets/KITTI_for_YOLO/"
+                    + subset
+                    + "/lidar/labels/"
+                    + output_filename,
+                    sep=" ",
+                    index=None,
+                    float_format="%.6f",
+                    header=None,
+                )
+
     def prepare_yolo_dataset(self) -> None:
         """ Creates YOLO-ready version of KITTI dataset. """
         self.prepare_yolo_dataset_folder_structure(self._root, self._include_test)
@@ -144,6 +346,8 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
             DataPurpose.VAL,
             "data_tracking_image_2/testing/image_02"
         )
+
+        self._prepare_labels()
 
 
 def prepare_KITTI_YOLO() -> None:
