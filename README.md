@@ -21,6 +21,7 @@ Recommended environment can be installed on Unix systems via:
   conda activate automotive
   pip install ultralytics opencv-python cap_from_youtube moviepy jupyter matplotlib pandas
   ```
+  Note that when asked about `lidar` package, the script expects local `utils.lidar` not `pypi` one.
 
 ### Obtaining the data
 
