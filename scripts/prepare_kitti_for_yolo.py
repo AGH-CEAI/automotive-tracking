@@ -31,14 +31,23 @@ How to use:
     uv run scripts/prepare_kitti_for_yolo.py
     ```
 """
+
 import os
+import cv2
+import sys
+import shutil
+import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod
 from pathlib import Path
 from enum import StrEnum
 from glob import glob
-from typing import List, Dict
-import shutil
+from typing import List, Dict, Any
+
+# TODO: Messy, but working. Refactor!
+sys.path.append("./")
+import utils.lidar as lidar
+import utils.kitti_util as utils
 
 
 class DataPurpose(StrEnum):
@@ -175,15 +184,16 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
 
         :args:
             purpose (DataPurpose):
-                ...
+                What is the purpose of the data in YOLO training.
+                Needed for paths setting.
             data_subfolder (str):
-                ...
+                Where are the data. Needed for paths setting.
         """
         images_root: str = f"./datasets/KITTI/{data_subfolder}/"
         for subdir, dirs, files in os.walk(images_root):
             for file in files:
                 source_path: str = subdir + os.sep + file
-                
+
                 scene: str = subdir.split("/")[-1]
                 target_path: str = f"{self._root}/images/{purpose}/{scene}_{file}"
                 os.replace(source_path, target_path) 
@@ -314,7 +324,7 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
     A class for KITTI lidar dataset preparation for YOLO. 
 
     :note:
-        This assumes that KITTI camera dataset is already YOLO-prepared.
+        This assumes that KITTI camera dataset is already YOLO-prepared.    
     """
     
     def __init__(self, root: str, include_test: bool = False) -> None:
@@ -345,6 +355,110 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
             "DontCare": 8,
         }
 
+        # Fixed size of KITTI images. For labels generation.
+        # Used during lidar files conversion to images.
+        # TODO: This data is the same as in KITTI. Refactor?
+        self._IMG_WIDTH: int = 1242
+        self._IMG_HEIGHT: int = 375
+
+    def _get_lidar_calibration(self, purpose: DataPurpose, scene: str) -> Any:
+        """
+        Loads lidar calibration data for a given scene.
+
+        :args:
+            purpose (DataPurpose):
+                What is the purpose of the data in YOLO training.
+                Needed for paths setting.
+            scene (str):
+                Scene id. Needed for paths setting.
+        
+        :returns:
+            Loaded calibration object.
+            TODO: Typehint calibration object.
+        """
+        calibration_subfolder: str
+
+        if purpose == DataPurpose.TRAIN:
+            calibration_subfolder = "training"
+        else:  # KITTI data has only TRAIN or VAL
+            calibration_subfolder = "testing"
+
+        calibration = utils.Calibration(
+            f"./datasets/KITTI/data_tracking_calib/{calibration_subfolder}/calib/" + scene + ".txt"
+        )
+        
+        return calibration
+        
+    def _prepare_lidar_images(self, purpose: DataPurpose, data_subfolder: str) -> None:
+        """
+        Using KITTI lidar data, prepare YOLO-ready KITTI lidar images.
+
+        :note:
+        We assume KITTI zips were unpacked to ./datasets/KITTI.
+
+        :args:
+            purpose (DataPurpose):
+                What is the purpose of the data in YOLO training.
+                Needed for paths setting.
+            data_subfolder (str):
+                Where are the data. Needed for paths setting.
+        """
+        print("Preparing YOLO-ready KITTI lidar images.")
+
+        images_root: str = f"./datasets/KITTI/{data_subfolder}/"
+        for subdir, dirs, files in os.walk(images_root):
+            for file in files:
+                source_path: str = subdir + os.sep + file
+
+                lidar_point_cloud = lidar.get_lidar(
+                    dir=subdir + os.sep,
+                    filename=file,
+                    point_cloud_only=True,
+                )
+
+                # Skip image if faulty.
+                if lidar_point_cloud.size <= 0:
+                    print(f"\tSkipping {source_path}.")
+                    continue
+
+                print(f"\t Processing {source_path}.")
+                scene: str = subdir.split("/")[-1]
+
+                # TODO: This could be called less times, but shouldn't take long.
+                #       Refactor at some point.
+                print(f"\t\tLoading scene {scene} lidar calibration data.")
+                calibration = self._get_lidar_calibration(purpose, scene)
+                print(f"\t\tCalibration data loaded.")
+
+                print("\tCreating lidar image...")
+                # project the lidar points onto an image:
+                img_lidar = lidar.show_lidar_on_image(
+                    pc_velo=lidar_point_cloud,
+                    img=np.zeros(
+                        (self._IMG_HEIGHT, self._IMG_WIDTH)
+                    ),  # we just use a blank background
+                    calib=calibration,
+                    img_width=self._IMG_WIDTH,
+                    img_height=self._IMG_HEIGHT,
+                )
+
+                target_path: str = f"{self._root}images/{purpose}/{scene}_{file}"
+                target_path, _ = os.path.splitext(target_path)
+                target_path += ".png"
+
+                print(f"\tSaving {target_path}...")
+
+                # save the image:
+                cv2.imwrite(
+                    target_path,
+                    img_lidar,
+                )
+
+
+
+        print("Images ready.")
+
+    
     def _copy_labels_from_KITTI(self) -> None:
         """
         Copies labes from YOLO-ready KITTI dataset to YOLO-ready KITTI lidar dataset.
@@ -383,6 +497,17 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
     def prepare_yolo_dataset(self) -> None:
         """ Creates YOLO-ready version of KITTI lidar dataset. """
         self.prepare_yolo_dataset_folder_structure(self._root, self._include_test)
+
+        
+        self._prepare_lidar_images(
+            purpose = DataPurpose.TRAIN,
+            data_subfolder="data_tracking_velodyne/training/velodyne"
+        )
+
+        self._prepare_lidar_images(
+            purpose = DataPurpose.VAL,
+            data_subfolder="data_tracking_velodyne/testing/velodyne"
+        )
 
         self._copy_labels_from_KITTI()
         self._create_yaml()
