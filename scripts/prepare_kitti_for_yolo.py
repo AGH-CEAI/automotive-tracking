@@ -2,7 +2,7 @@
 The idea of this script is to prepare raw KITTI dataset data, i.e.:
 - images,
 - labels,
-for Ultralytics YOLO training. 
+for Ultralytics YOLO training.
 
 We will understand raw data as the one downloaded via either
 `get_files_KITTI.sh` or `get_files_KITTI_curl.sh` script
@@ -21,7 +21,7 @@ There will be two steps:
     - [X] Yaml preparation
 2) Lidar data preparation:
     - [X] Folder structure preparation
-    - [ ] Images preparation 
+    - [ ] Images preparation
     - [X] Labels copying
     - [X] Yaml preparation
 
@@ -51,25 +51,26 @@ import utils.kitti_util as utils
 
 
 class DataPurpose(StrEnum):
-    """ 
+    """
     Purpose of the data in YOLO.
 
     :note:
         Used e.g. during KITTI images moving.
     """
+
     TRAIN: str = "train"
     VAL: str = "val"
     TEST: str = "test"
 
 
 class YOLODatasetPreparator(ABC):
-    """ An boilerplate class for YOLO-ready datasets preparation. """
+    """An boilerplate class for YOLO-ready datasets preparation."""
 
     def __init__(self, root: str, include_test: bool = False) -> None:
         """
         YOLODatasetPreparator constructor. Gathers the universally
         used data (at least that's the idea).
-        
+
         :args:
             root (str):
                 Parent folder of the dataset.
@@ -78,10 +79,11 @@ class YOLODatasetPreparator(ABC):
         """
         self._root: str = root
         self._include_test: bool = include_test
-        
 
     @staticmethod
-    def prepare_yolo_dataset_folder_structure(root: str, include_test: bool = False) -> None:
+    def prepare_yolo_dataset_folder_structure(
+        root: str, include_test: bool = False
+    ) -> None:
         """
         Prepares YOLO dataset structure according to:
         https://docs.ultralytics.com/datasets/detect/#ultralytics-yolo-format.
@@ -91,36 +93,36 @@ class YOLODatasetPreparator(ABC):
                 Parent folder of the dataset.
             include_test (bool):
                 Flag indicating whether to create test folders.
-            
+
             :note:
                 Not used for KITTI, but makes the method reusable
                 in the broader context.
         """
         print("Prepare folder structure.")
         Path(root).mkdir(parents=True, exist_ok=True)
-        Path(root+"/images/train/").mkdir(parents=True, exist_ok=True)
-        Path(root+"/images/val/").mkdir(parents=True, exist_ok=True)
-        
-        Path(root+"/labels/train/").mkdir(parents=True, exist_ok=True)
-        Path(root+"/labels/val/").mkdir(parents=True, exist_ok=True)
-        
+        Path(root + "/images/train/").mkdir(parents=True, exist_ok=True)
+        Path(root + "/images/val/").mkdir(parents=True, exist_ok=True)
+
+        Path(root + "/labels/train/").mkdir(parents=True, exist_ok=True)
+        Path(root + "/labels/val/").mkdir(parents=True, exist_ok=True)
+
         if include_test:
-            Path(root+"/images/test/").mkdir(parents=True, exist_ok=True)
-            Path(root+"/labels/test/").mkdir(parents=True, exist_ok=True)
+            Path(root + "/images/test/").mkdir(parents=True, exist_ok=True)
+            Path(root + "/labels/test/").mkdir(parents=True, exist_ok=True)
         print(f"Dataset folder structure created in: {root}")
 
     @abstractmethod
     def prepare_yolo_dataset(self) -> None:
-        """ Abstract method for dataset preparation. """
+        """Abstract method for dataset preparation."""
         raise NotImplementedError
 
 
 class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
-    """ A class for KITTI dataset preparation for YOLO. """
+    """A class for KITTI dataset preparation for YOLO."""
 
     def __init__(self, root: str, include_test: bool = False) -> None:
         """
-        YOLOKITTIDatasetPreparator constructor. 
+        YOLOKITTIDatasetPreparator constructor.
 
         :args:
             root (str):
@@ -153,7 +155,11 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
         ]
 
         self._ultra_colnames: List[str] = [
-            "class", "x_center", "y_center", "width", "height"
+            "class",
+            "x_center",
+            "y_center",
+            "width",
+            "height",
         ]
 
         # Convert class names to integer IDs (matching KITTI.yaml):
@@ -196,7 +202,7 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
 
                 scene: str = subdir.split("/")[-1]
                 target_path: str = f"{self._root}/images/{purpose}/{scene}_{file}"
-                os.replace(source_path, target_path) 
+                os.replace(source_path, target_path)
 
     def _process_label_file(self, file_path: str) -> None:
         """
@@ -204,7 +210,7 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
 
         :note:
             The main point of this function is to reduce nesting in the
-            `_prepare_labels` 
+            `_prepare_labels`
 
         :args:
             file_path (str):
@@ -229,25 +235,27 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
 
             # We need to norm to (0,1) by the image size:
             ultra_df["x_center"] = (
-                0.5 * (labels[slc]["bbox_left"] + labels[slc]["bbox_right"]) / self.IMG_WIDTH
+                0.5
+                * (labels[slc]["bbox_left"] + labels[slc]["bbox_right"])
+                / self.IMG_WIDTH
             )
             ultra_df["y_center"] = (
                 0.5
                 * (labels[slc]["bbox_top"] + labels[slc]["bbox_bottom"])
                 / self.IMG_HEIGHT
             )
-            
+
             ultra_df["width"] = (
                 labels[slc]["bbox_right"] - labels[slc]["bbox_left"]
             ) / self.IMG_WIDTH
-            
+
             ultra_df["height"] = (
                 labels[slc]["bbox_bottom"] - labels[slc]["bbox_top"]
             ) / self.IMG_HEIGHT
 
             ultra_df["class"] = [self._class_name_to_id[c] for c in ultra_df["class"]]
-            
-            output_filename: str = f"{scene_id}_{str(frame).zfill(6)}.txt"                
+
+            output_filename: str = f"{scene_id}_{str(frame).zfill(6)}.txt"
             out_file_path: str = f"{self._root}labels/train/{output_filename}"
 
             ultra_df.to_csv(
@@ -282,18 +290,20 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
         """
         print("Creating YOLO training YAML for KITTI dataset.")
 
-        yaml_content: str = "# This file was autogenerated and assumes folder structure similar to:\n"
+        yaml_content: str = (
+            "# This file was autogenerated and assumes folder structure similar to:\n"
+        )
         yaml_content += "# https://docs.ultralytics.com/datasets/detect/#ultralytics-yolo-format\n\n"
-        
+
         yaml_content += f"path: {self._root}\n"
         yaml_content += f"train: images/train\n"
         yaml_content += f"val: images/val\n"
         yaml_content += f"test: # KITTI has no test images\n\n"
-        
+
         yaml_content += f"names:\n"
 
         for k in self._class_name_to_id.keys():
-            yaml_content += f'  {self._class_name_to_id[k]}: {k}\n'
+            yaml_content += f"  {self._class_name_to_id[k]}: {k}\n"
 
         with open(self._root + "yolo_kitti.yaml", "w") as f:
             f.write(yaml_content)
@@ -301,19 +311,13 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
         print("YAML created.")
 
     def prepare_yolo_dataset(self) -> None:
-        """ Creates YOLO-ready version of KITTI dataset. """
+        """Creates YOLO-ready version of KITTI dataset."""
         self.prepare_yolo_dataset_folder_structure(self._root, self._include_test)
-        
-        # Move data
-        self._move_images(
-            DataPurpose.TRAIN,
-            "data_tracking_image_2/training/image_02"
-        )
 
-        self._move_images(
-            DataPurpose.VAL,
-            "data_tracking_image_2/testing/image_02"
-        )
+        # Move data
+        self._move_images(DataPurpose.TRAIN, "data_tracking_image_2/training/image_02")
+
+        self._move_images(DataPurpose.VAL, "data_tracking_image_2/testing/image_02")
 
         self._prepare_labels()
         self._create_yaml()
@@ -321,15 +325,15 @@ class YOLOKITTIDatasetPreparator(YOLODatasetPreparator):
 
 class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
     """
-    A class for KITTI lidar dataset preparation for YOLO. 
+    A class for KITTI lidar dataset preparation for YOLO.
 
     :note:
-        This assumes that KITTI camera dataset is already YOLO-prepared.    
+        This assumes that KITTI camera dataset is already YOLO-prepared.
     """
-    
+
     def __init__(self, root: str, include_test: bool = False) -> None:
         """
-        YOLOKITTILidarDatasetPreparator constructor. 
+        YOLOKITTILidarDatasetPreparator constructor.
 
         :args:
             root (str):
@@ -371,7 +375,7 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
                 Needed for paths setting.
             scene (str):
                 Scene id. Needed for paths setting.
-        
+
         :returns:
             Loaded calibration object.
             TODO: Typehint calibration object.
@@ -384,11 +388,13 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
             calibration_subfolder = "testing"
 
         calibration = utils.Calibration(
-            f"./datasets/KITTI/data_tracking_calib/{calibration_subfolder}/calib/" + scene + ".txt"
+            f"./datasets/KITTI/data_tracking_calib/{calibration_subfolder}/calib/"
+            + scene
+            + ".txt"
         )
-        
+
         return calibration
-        
+
     def _prepare_lidar_images(self, purpose: DataPurpose, data_subfolder: str) -> None:
         """
         Using KITTI lidar data, prepare YOLO-ready KITTI lidar images.
@@ -454,17 +460,16 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
                     img_lidar,
                 )
 
-
-
         print("Images ready.")
 
-    
     def _copy_labels_from_KITTI(self) -> None:
         """
         Copies labes from YOLO-ready KITTI dataset to YOLO-ready KITTI lidar dataset.
         """
         print("Copying labels from YOLO-ready camera KITTI.")
-        shutil.copytree("./datasets/YOLO_KITTI/labels/", f"{self._root}/labels/", dirs_exist_ok=True)
+        shutil.copytree(
+            "./datasets/YOLO_KITTI/labels/", f"{self._root}/labels/", dirs_exist_ok=True
+        )
         print("Labels copied.")
 
     def _create_yaml(self) -> None:
@@ -476,18 +481,20 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
         """
         print("Creating YOLO training YAML for KITTI lidar dataset.")
 
-        yaml_content: str = "# This file was autogenerated and assumes folder structure similar to:\n"
+        yaml_content: str = (
+            "# This file was autogenerated and assumes folder structure similar to:\n"
+        )
         yaml_content += "# https://docs.ultralytics.com/datasets/detect/#ultralytics-yolo-format\n\n"
-        
+
         yaml_content += f"path: {self._root}\n"
         yaml_content += f"train: images/train\n"
         yaml_content += f"val: images/val\n"
         yaml_content += f"test: # KITTI has no test images\n\n"
-        
+
         yaml_content += f"names:\n"
 
         for k in self._class_name_to_id.keys():
-            yaml_content += f'  {self._class_name_to_id[k]}: {k}\n'
+            yaml_content += f"  {self._class_name_to_id[k]}: {k}\n"
 
         with open(self._root + "yolo_kitti_lidar.yaml", "w") as f:
             f.write(yaml_content)
@@ -495,24 +502,22 @@ class YOLOKITTILidarDatasetPreparator(YOLODatasetPreparator):
         print("YAML created.")
 
     def prepare_yolo_dataset(self) -> None:
-        """ Creates YOLO-ready version of KITTI lidar dataset. """
+        """Creates YOLO-ready version of KITTI lidar dataset."""
         self.prepare_yolo_dataset_folder_structure(self._root, self._include_test)
 
-        
         self._prepare_lidar_images(
-            purpose = DataPurpose.TRAIN,
-            data_subfolder="data_tracking_velodyne/training/velodyne"
+            purpose=DataPurpose.TRAIN,
+            data_subfolder="data_tracking_velodyne/training/velodyne",
         )
 
         self._prepare_lidar_images(
-            purpose = DataPurpose.VAL,
-            data_subfolder="data_tracking_velodyne/testing/velodyne"
+            purpose=DataPurpose.VAL,
+            data_subfolder="data_tracking_velodyne/testing/velodyne",
         )
 
         self._copy_labels_from_KITTI()
         self._create_yaml()
 
-    
 
 def prepare_KITTI_YOLO() -> None:
     """
@@ -524,6 +529,7 @@ def prepare_KITTI_YOLO() -> None:
     )
     preparator.prepare_yolo_dataset()
     print("KITTI dataset is YOLO-ready.")
+
 
 def prepare_KITTI_lidar_YOLO() -> None:
     """
@@ -540,9 +546,6 @@ def prepare_KITTI_lidar_YOLO() -> None:
     preparator.prepare_yolo_dataset()
 
     print("KITTI lidar dataset is YOLO-ready.")
-
-
-
 
 
 if __name__ == "__main__":

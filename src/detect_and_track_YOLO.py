@@ -70,12 +70,10 @@ track_history = defaultdict(lambda: [])
 if args.video_filename[0].endswith(".jpg") or args.video_filename[0].endswith(".png"):
     # TODO TR:  This is terribly redundant and should be refactored at some point.
     print(f"Analyzing image: {args.video_filename[0]}")
-    
+
     frame = cv2.imread(args.video_filename[0])
-    
-    results = model.track(
-        frame
-    )
+
+    results = model.track(frame)
 
     # Get the boxes and track IDs
     boxes = results[0].boxes.xywh.cpu()
@@ -105,16 +103,14 @@ if args.video_filename[0].endswith(".jpg") or args.video_filename[0].endswith(".
 
     # Display the annotated frame (requires X-forwarding ...)
     # cv2.imshow("YOLOv8 Tracking", annotated_frame)
-    
+
     print(f"saving annoted frame and boxes from image...")
     f_name: str = args.video_filename[0].split("/")[-1].replace(".jpg", "")
-    cv2.imwrite(
-        f"output/YOLO_{f_name}.jpg", annotated_frame
-    )  # save frame as JPEG file
+    cv2.imwrite(f"output/YOLO_{f_name}.jpg", annotated_frame)  # save frame as JPEG file
 
     with open(f"output/YOLO_{f_name}_boxes.dil", "wb") as dill_file:
         dill.dump(polygons, dill_file)
-    
+
     sys.exit(0)
 
 # Open the video file
