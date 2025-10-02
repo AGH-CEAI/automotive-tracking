@@ -33,21 +33,22 @@ How to use:
 """
 
 import os
-import cv2
-import sys
 import shutil
-import numpy as np
-import pandas as pd
+import sys
 from abc import ABC, abstractmethod
-from pathlib import Path
 from enum import StrEnum
 from glob import glob
-from typing import List, Dict, Any
+from pathlib import Path
+from typing import Any, Dict, List
+
+import cv2
+import numpy as np
+import pandas as pd
 
 # TODO: Messy, but working. Refactor!
 sys.path.append("./")
-import utils.lidar as lidar
 import utils.kitti_util as utils
+import utils.lidar as lidar
 
 
 class DataPurpose(StrEnum):

@@ -26,11 +26,12 @@ or simply on command line:
 # 5/7/12 ch: added constants for state, occlusion, truncation and added consistency checks
 # 30/1/14 ch: create example function from example code
 
-from sys import argv as cmdLineArgs
-from xml.etree.ElementTree import ElementTree
-import numpy as np
 import itertools
+from sys import argv as cmdLineArgs
 from warnings import warn
+from xml.etree.ElementTree import ElementTree
+
+import numpy as np
 
 STATE_UNSET = 0
 STATE_INTERP = 1
@@ -343,8 +344,9 @@ def parseXML(trackletFile):
 
 
 def example(kittiDir=None, drive=None):
-    from os.path import join, expanduser
     import readline  # makes raw_input behave more fancy
+    from os.path import expanduser, join
+
     # from xmlParser import parseXML, TRUNC_IN_IMAGE, TRUNC_TRUNCATED
 
     DEFAULT_DRIVE = "2011_09_26_drive_0001"

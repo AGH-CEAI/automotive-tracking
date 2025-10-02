@@ -7,11 +7,13 @@ Taken from https://github.com/kuangliu/kitti-utils
 
 from __future__ import print_function
 
-import numpy as np
+import math
+import os
+
 import cv2
-import os, math
-from scipy.optimize import leastsq
+import numpy as np
 from PIL import Image
+from scipy.optimize import leastsq
 
 TOP_Y_MIN = -30
 TOP_Y_MAX = +30

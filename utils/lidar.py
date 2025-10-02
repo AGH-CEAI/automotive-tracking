@@ -16,6 +16,7 @@ def get_lidar(
     The format is (x,y,z,r)
     """
     import os
+
     import numpy as np
 
     file = os.path.join(dir, filename)
@@ -34,8 +35,8 @@ def get_lidar(
 def show_lidar_on_image(pc_velo, img, calib, img_width, img_height):
     """Project lidar points to a monochromatic image"""
     import cv2
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
 
     img = np.copy(img)
     imgfov_pc_velo, pts_2d, fov_inds = get_lidar_in_image_fov(

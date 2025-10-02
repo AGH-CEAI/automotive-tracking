@@ -16,14 +16,16 @@ def lidar_to_images(
     """
     converts the KITTI velodyne lidar point clouds to RBG images and saves them
     """
-    import cv2
-    import numpy as np
     import sys
 
+    import cv2
+    import numpy as np
+
     sys.path.append("../utils/")
+    from glob import glob
+
     import utils.kitti_util as utils
     import utils.lidar as lidar
-    from glob import glob
 
     # get the list of scenes:
     data_folder: str = kitti_dir + subset + "/image_02/"
@@ -103,8 +105,9 @@ def kitti_to_ultra_labels(
     """
     converts a single KITTI-formatted label file to multiple corresponding files in ultralytics format
     """
-    import pandas as pd
     from glob import glob
+
+    import pandas as pd
 
     if subset == "training":
         print("Converting the KITTI labels ...")
@@ -247,8 +250,9 @@ def split_train_test(
     """
     import os
     from glob import glob
-    from PIL import Image  # needed for .png -> .jpg conversion
+
     import numpy as np
+    from PIL import Image  # needed for .png -> .jpg conversion
 
     if mode == "simple":
         # get the list of scenes:

@@ -4,15 +4,16 @@
 The script was adapted from https://github.com/li-xl/nuscenes-download
 """
 
-import requests
-import os
-import hashlib
-from tqdm import tqdm
-import tarfile
-import gzip
-import json
 import argparse
+import gzip
+import hashlib
+import json
+import os
 import shlex
+import tarfile
+
+import requests
+from tqdm import tqdm
 
 # Read the arguments:
 parser = argparse.ArgumentParser()

@@ -3,9 +3,10 @@ made by changsub Bae
 github.com/windowsub0406
 """
 
-import numpy as np
 import glob
+
 import cv2
+import numpy as np
 import parseTrackletXML as pt_XML
 
 

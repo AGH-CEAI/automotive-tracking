@@ -3,18 +3,29 @@
 # script, which downloads the videos needed for running the code
 # --------------------------------------------------------------
 
-# imports
-from ultralytics import YOLO
-import cv2
-import numpy as np
-from collections import defaultdict
-from cap_from_youtube import cap_from_youtube
 import argparse
 import os
-from typing import List, Tuple
-from shapely.geometry import Polygon
-import dill
 import sys
+from collections import defaultdict
+from typing import List, Tuple
+
+import cv2
+import dill
+import numpy as np
+from cap_from_youtube import cap_from_youtube
+from path import Path
+from shapely.geometry import Polygon
+
+# imports
+from ultralytics import YOLO
+
+
+def extract_model_name(model_name: str) -> None:
+    """
+    Get model name from the model.
+    It will be used as a folder name for results saving.
+    """
+    pass
 
 
 def get_coords_from_xywh(box) -> List[Tuple[float, float]]:
@@ -62,7 +73,9 @@ print(args)
 
 # Load the model
 print("loading the YOLO model ...")
-model = YOLO("models/yolov8n.pt")
+# model = YOLO("models/yolov8n.pt")
+# model: YOLO = YOLO("models/yolo8n_kitti_camera.pt")
+model: YOLO = YOLO("models/yolo8n_kitti_lidar.pt")
 
 # Initialize empty track history
 track_history = defaultdict(lambda: [])
