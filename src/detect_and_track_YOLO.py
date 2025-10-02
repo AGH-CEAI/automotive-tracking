@@ -13,20 +13,11 @@ import cv2
 import dill
 import numpy as np
 from cap_from_youtube import cap_from_youtube
-from path import Path
+from pathlib import Path
 from shapely.geometry import Polygon
 
 # imports
 from ultralytics import YOLO
-
-
-def extract_model_name(model_name: str) -> None:
-    """
-    Get model name from the model.
-    It will be used as a folder name for results saving.
-    """
-    pass
-
 
 def get_coords_from_xywh(box) -> List[Tuple[float, float]]:
     """TODO TR"""
@@ -69,13 +60,14 @@ parser.add_argument(
 
 args = parser.parse_args()
 print(args)
-
+model_name: str 
+# model_name = "yolov8n"
+model_name = "yolov8n_kitti_camera"
+# model_name = "yolov8n_kitti_lidar"
 
 # Load the model
 print("loading the YOLO model ...")
-# model = YOLO("models/yolov8n.pt")
-# model: YOLO = YOLO("models/yolo8n_kitti_camera.pt")
-model: YOLO = YOLO("models/yolo8n_kitti_lidar.pt")
+model: YOLO = YOLO(f"models/{model_name}.pt")
 
 # Initialize empty track history
 track_history = defaultdict(lambda: [])
@@ -119,9 +111,13 @@ if args.video_filename[0].endswith(".jpg") or args.video_filename[0].endswith(".
 
     print(f"saving annoted frame and boxes from image...")
     f_name: str = args.video_filename[0].split("/")[-1].replace(".jpg", "")
-    cv2.imwrite(f"output/YOLO_{f_name}.jpg", annotated_frame)  # save frame as JPEG file
+    
+    output_root: str = f"output/{model_name}/"
+    Path(output_root).mkdir(parents=True, exist_ok=True)
 
-    with open(f"output/YOLO_{f_name}_boxes.dil", "wb") as dill_file:
+    cv2.imwrite(f"{output_root}/YOLO_{f_name}.jpg", annotated_frame)  # save frame as JPEG file
+
+    with open(f"{output_root}/YOLO_{f_name}_boxes.dil", "wb") as dill_file:
         dill.dump(polygons, dill_file)
 
     sys.exit(0)
